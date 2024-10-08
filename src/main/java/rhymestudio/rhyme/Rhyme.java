@@ -12,7 +12,7 @@ import rhymestudio.rhyme.registry.ModEntities;
 import rhymestudio.rhyme.registry.ModItems;
 import rhymestudio.rhyme.registry.ModTabs;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings("removal")
 @Mod(Rhyme.MODID)
 public class Rhyme {
     public static final String MODID = "rhyme";

@@ -13,9 +13,8 @@ public class ModRenderEvent {
     static int time = 0;
     @SubscribeEvent
     public static void RenderGuiEvent(RenderGuiEvent.Post event) {
-        CardHUD.render(event.getGuiGraphics());
-
-
+        CardHUD hud = CardHUD.getInstance();
+        hud.render(event.getGuiGraphics());
 
     }
 }

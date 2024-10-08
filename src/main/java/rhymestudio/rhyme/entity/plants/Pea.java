@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -12,7 +13,6 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.goal.shootGoal;
 import rhymestudio.rhyme.registry.ModEntities;
-import rhymestudio.rhyme.utils.computer;
 
 public class Pea extends AbstractPlant {
     static final int internalTime = 1*20;
@@ -32,7 +32,8 @@ public class Pea extends AbstractPlant {
         this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Monster.class, 20.0F));
         this.goalSelector.addGoal(0,new shootGoal(this, internalTime,()->new Arrow(level(), position().x, position().y+1, position().z)));
 
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Monster.class, false));
+        this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Slime.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Monster.class, true));
     }
 
     public void tick() {
@@ -41,7 +42,7 @@ public class Pea extends AbstractPlant {
         if(!level().isClientSide()){
             if(getTarget()==null) return;
             lookAt(getTarget(),30,85);
-            
+
 
             /*
             if(--internalTime <= 0){

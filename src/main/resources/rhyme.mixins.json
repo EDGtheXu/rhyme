@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "rhyme.refmap.json",
   "mixins": [
+    "MonsterMixin"
   ],
   "client": [
   ],

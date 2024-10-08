@@ -4,29 +4,40 @@ package rhymestudio.rhyme.client.hud;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.network.chat.Style;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.registry.ModItems;
-import rhymestudio.rhyme.utils.computer;
+import rhymestudio.rhyme.utils.Computer;
 
+import javax.smartcardio.Card;
 import java.awt.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CardHUD {
-
 
     //阳光位置
     static int x = 20;
     static int y = 5;
 
-    public static Minecraft mc = Minecraft.getInstance();
-    public static Player player = mc.player;
+    public Minecraft mc;
+    public Player player;
 
 
-    public static void render(GuiGraphics guiGraphics) {
+    public CardHUD(Minecraft mc,Player player) {
+        this.mc = mc;
+        this.player = player;
+    }
+
+    private static CardHUD instance;
+    public static CardHUD getInstance() {
+        if(instance == null || instance.player!= Minecraft.getInstance().player){
+            instance = new CardHUD(Minecraft.getInstance(),Minecraft.getInstance().player);
+        }
+        return instance;
+    }
+
+    public void render(GuiGraphics guiGraphics) {
 
         guiGraphics.pose().pushPose();
 
@@ -90,14 +101,14 @@ public class CardHUD {
         guiGraphics.blit(Rhyme.space(icon),x, y, 0, 0, w, h, w, h);
     }
 
-    public static void drawSunCard(GuiGraphics guiGraphics, int x, int y,int w,int h){
+    public void drawSunCard(GuiGraphics guiGraphics, int x, int y,int w,int h){
         drawIcon(guiGraphics,"textures/item/sun.png",0, 0, w, h);
-        int count = computer.getInventoryItemCount(player, ModItems.SUN_ITEM.get());
+        int count = Computer.getInventoryItemCount(player, ModItems.SUN_ITEM.get());
         String countStr =String.valueOf(count) ;
         guiGraphics.drawString(mc.font,countStr,w/2-3,h+2, Color.yellow.getRGB());
     }
 
-    public static void drawCard(GuiGraphics guiGraphics, Item item, int x, int y, float scale){
+    public void drawCard(GuiGraphics guiGraphics, Item item, int x, int y, float scale){
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(scale,scale,scale);
         guiGraphics.renderItem(item.getDefaultInstance(),x, y);
