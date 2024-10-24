@@ -23,7 +23,7 @@ public class ModItems {
 
     //注册植物
     public static final RegistryObject<AbstructCardItem> SUN_FLOWER = registerPlant("sun_flower", SunFlower.class, 2);
-    public static final RegistryObject<AbstructCardItem> PEA = registerPlant("pea", Pea.class,4);
+    public static final RegistryObject<AbstructCardItem> PEA = registerPlant("pea_shooter", Pea.class,4);
 
 
 

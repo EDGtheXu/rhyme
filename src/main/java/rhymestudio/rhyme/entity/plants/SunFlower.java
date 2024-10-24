@@ -10,6 +10,11 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.SunItemEntity;
 import rhymestudio.rhyme.registry.ModEntities;
 import rhymestudio.rhyme.registry.ModItems;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
 
 public class SunFlower extends AbstractPlant {
     int age = 7*20;
@@ -38,8 +43,13 @@ public class SunFlower extends AbstractPlant {
     }
 
 
+    RawAnimation idle = RawAnimation.begin().thenPlay("idle");
     @Override
-    public ResourceLocation getTexture() {
-        return Rhyme.space("textures/item/plant_card/sun_flower.png");
+    public void registerControllers(AnimatableManager.ControllerRegistrar controller) {
+        controller.add(new AnimationController<GeoAnimatable>(this,"body",20, state->{
+            state.setAnimation(idle);
+
+            return PlayState.CONTINUE;
+        }));
     }
 }

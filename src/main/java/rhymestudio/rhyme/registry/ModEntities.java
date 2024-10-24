@@ -2,10 +2,8 @@ package rhymestudio.rhyme.registry;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -26,7 +24,7 @@ public class ModEntities {
 
 
     public static final RegistryObject<EntityType<SunFlower>> SUN_FLOWER = registerPlants("sun_flower", SunFlower::new);
-    public static final RegistryObject<EntityType<Pea>> PEA = registerPlants("pea", Pea::new);
+    public static final RegistryObject<EntityType<Pea>> PEA_SHOOTER = registerPlants("peashooter_new", Pea::new);
 
 
 
@@ -52,7 +50,7 @@ public class ModEntities {
 
 
         event.put(ModEntities.SUN_FLOWER.get(), genericPlant.build());
-        event.put(ModEntities.PEA.get(), genericPlant.build());
+        event.put(ModEntities.PEA_SHOOTER.get(), genericPlant.build());
 
     }
 
