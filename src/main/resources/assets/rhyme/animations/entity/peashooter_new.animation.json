@@ -113,7 +113,7 @@
 			}
 		},
 		"idle_eyes_closed_1": {
-			"loop": true,
+			"loop": false,
 			"animation_length": 3,
 			"bones": {
 				"Genh": {
@@ -252,7 +252,7 @@
 			}
 		},
 		"idle_eyes_closed_2": {
-			"loop": true,
+			"loop": false,
 			"animation_length": 3,
 			"bones": {
 				"Genh": {
@@ -391,7 +391,7 @@
 			}
 		},
 		"idle_eyes_closed_3": {
-			"loop": true,
+			"loop": false,
 			"animation_length": 3,
 			"bones": {
 				"Genh": {

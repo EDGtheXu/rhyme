@@ -33,7 +33,7 @@ public class ModEntities {
 
 
     public static <T extends AbstractPlant>RegistryObject<EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).build("rhyme:entity."+name));
+        return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(1,1f).build("rhyme:entity."+name));
     }
 
 
