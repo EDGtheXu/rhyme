@@ -16,36 +16,41 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.goal.shootGoal;
 import rhymestudio.rhyme.registry.ModEntities;
+import software.bernie.geckolib.animatable.GeoAnimatable;
+import software.bernie.geckolib.animation.AnimatableManager;
+import software.bernie.geckolib.animation.AnimationController;
+import software.bernie.geckolib.animation.PlayState;
+import software.bernie.geckolib.animation.RawAnimation;
 import software.bernie.geckolib.constant.DefaultAnimations;
-import software.bernie.geckolib.core.animatable.GeoAnimatable;
-import software.bernie.geckolib.core.animation.AnimatableManager;
-import software.bernie.geckolib.core.animation.AnimationController;
-import software.bernie.geckolib.core.animation.RawAnimation;
-import software.bernie.geckolib.core.object.PlayState;
+
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class Pea extends AbstractPlant {
     int lastAttackTime = -20;
-    int attackAnimTick = 20;
-    static final int internalTime = 40;
+    int attackAnimTick = 80;
+
+    public int internalAttackTime = 100;
+    public int _internalAttackTime = 100;
     int state = 0;
 
     Queue<Tuple> attackProps = new LinkedList<>();
     private static final EntityDataAccessor<Integer> DATA_STATE = SynchedEntityData.defineId(Pea.class, EntityDataSerializers.INT);
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        entityData.define(DATA_STATE, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_STATE, 0);
 
     }
 
@@ -64,12 +69,9 @@ public class Pea extends AbstractPlant {
 
     public void registerGoals(){
 //        this.goalSelector.addGoal(0, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(0, new shootGoal(this, internalTime,
-                a->{
-                    attackProps.add(new Tuple(this.tickCount+attackAnimTick,getTarget().getEyePosition()));
-                    }));
+        this.goalSelector.addGoal(0, new shootGoal(this,
+            a->{attackProps.add(new Tuple(this.tickCount, getTarget().getEyePosition()));}));
         this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, Monster.class, 20.0F));
-
 
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, Monster.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Slime.class, true));
@@ -77,8 +79,10 @@ public class Pea extends AbstractPlant {
 
     public void tick() {
         super.tick();
-
+        internalAttackTime--;
         if(!level().isClientSide){
+            if(inFiring()) entityData.set(DATA_STATE, 1);
+            else entityData.set(DATA_STATE, 0);
 
             var tp =attackProps.peek();
             if(tp!=null && tp.time-attackAnimTick <= this.tickCount ){
@@ -86,18 +90,16 @@ public class Pea extends AbstractPlant {
                 doAttack(tp.dir);
                 lastAttackTime = tickCount;
             }
-            if(inFiring()) entityData.set(DATA_STATE, 1);
-            else entityData.set(DATA_STATE, 0);
 
         }
     }
 
     public boolean inFiring() {
-        return lastAttackTime > this.tickCount - attackAnimTick;
+        return lastAttackTime >= this.tickCount - attackAnimTick;
     }
 
     public void doAttack(Vec3 tar){
-        Projectile arrow = new Arrow(level(), position().x, position().y+1, position().z);
+        Projectile arrow = new Arrow(level(), this, Items.ARROW.getDefaultInstance(), Items.ARROW.getDefaultInstance());
         arrow.setOwner(this);
         Vec3 dir = tar.subtract(getEyePosition());
         arrow.shoot(dir.x, dir.y, dir.z, 2F, 1.0F);
@@ -115,10 +117,12 @@ public class Pea extends AbstractPlant {
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controller) {
 
-        controller.add(new AnimationController<GeoAnimatable>(this,"body",20,state->{
+        controller.add(new AnimationController<GeoAnimatable>(this,"body",20, state->{
             int st = entityData.get(DATA_STATE);
+            System.out.println(st);
             if(state.isCurrentAnimation(idle)){
                 if(st == 1){
+                    state.resetCurrentAnimation();
                     state.setAnimation(attack);
                     return PlayState.STOP;
                 }
@@ -127,6 +131,7 @@ public class Pea extends AbstractPlant {
             }
             else if(state.isCurrentAnimation(attack) ){
                 if(st == 0){
+                    state.resetCurrentAnimation();
                     state.setAnimation(idle);
                     return PlayState.STOP;
                 }

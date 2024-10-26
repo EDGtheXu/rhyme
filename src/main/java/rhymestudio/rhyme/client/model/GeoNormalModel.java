@@ -9,7 +9,7 @@ import software.bernie.geckolib.model.DefaultedEntityGeoModel;
 
 public class GeoNormalModel<T extends AbstractPlant> extends DefaultedEntityGeoModel<T> {
     public GeoNormalModel(String path) {
-        super(new ResourceLocation(Rhyme.MODID, path));
+        super(Rhyme.space(path));
     }
 
     @Override

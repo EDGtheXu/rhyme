@@ -1,7 +1,7 @@
 package rhymestudio.rhyme.datagen;
 
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.LanguageProvider;
 import rhymestudio.rhyme.Rhyme;
 
 public class ModEnglishProvider extends LanguageProvider {

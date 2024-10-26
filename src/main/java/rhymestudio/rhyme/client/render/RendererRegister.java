@@ -1,6 +1,6 @@
 package rhymestudio.rhyme.client.render;
 
-import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
 import rhymestudio.rhyme.client.render.entity.plant.PeaShooterRenderer;
 import rhymestudio.rhyme.client.render.entity.plant.SunflowerRenderer;
