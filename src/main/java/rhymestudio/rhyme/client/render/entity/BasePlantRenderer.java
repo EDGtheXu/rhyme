@@ -20,10 +20,7 @@ import software.bernie.geckolib.cache.object.BakedGeoModel;
 import software.bernie.geckolib.model.GeoModel;
 import software.bernie.geckolib.renderer.GeoEntityRenderer;
 
-import java.util.Map;
-
 public class BasePlantRenderer<T extends AbstractPlant> extends GeoEntityRenderer<T> {
-
     public BasePlantRenderer(EntityRendererProvider.Context renderManager, GeoModel<T> model) {
         super(renderManager, model);
     }
@@ -33,9 +30,8 @@ public class BasePlantRenderer<T extends AbstractPlant> extends GeoEntityRendere
         String s = "textures/entity/"+entity.namePath+".png";
         return Rhyme.space(s);
     }
-    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int color) {
+        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, color);
         poseStack.last().pose().rotate(Axis.YP.rotationDegrees( -90));
-
-
     }
 }

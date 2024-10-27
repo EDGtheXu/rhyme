@@ -6,14 +6,16 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.RegistryObject;
+
+import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+
+import java.util.function.Supplier;
 
 public class ModTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Rhyme.MODID);
 
-    public static final RegistryObject<CreativeModeTab> CARD = TABS.register("cards",
+    public static final Supplier<CreativeModeTab> CARD = TABS.register("cards",
             () -> CreativeModeTab.builder()
                     .icon(() -> ModItems.SUN_FLOWER.get().getDefaultInstance())
                     .title(Component.translatable("creativetab.rhyme.cards"))
