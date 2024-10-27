@@ -27,15 +27,27 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Rhyme.MODID);
 
 // 植物
-    public static final Supplier<EntityType<SunFlower>> SUN_FLOWER = registerPlants("sun_flower", SunFlower::new);
-    public static final DeferredHolder<EntityType<?>, EntityType<Pea>> PEA_SHOOTER = registerPlants("peashooter_new", Pea::new);
+    public static final Supplier<EntityType<SunFlower>> SUN_FLOWER = registerPlants("sun_flower", (type,level)->new SunFlower(level,new SunFlower
+        .Builder()
+        .setAnimSpeed(5)//动画倍速
+        .setAttackInternalTick(100)//产阳光间隔/tick
+
+        .setAttackTriggerTick(10)//攻击动画触发时间
+        .setAttackAnimTick(20)//攻击动画持续时间
+
+));
+    // 默认为豌豆的参数
+    public static final DeferredHolder<EntityType<?>, EntityType<Pea>> PEA_SHOOTER = registerPlants("peashooter_new", (type,level)->new Pea(level,new AbstractPlant.Builder()));
     public static final DeferredHolder<EntityType<?>, EntityType<Pea>> DOUBLE_PEA_SHOOTER = registerPlants("double_peashooter_new", (type,level)->new Pea(level,new Pea
             .Builder()
-            .setAttackDamage(5)
-            .setAttackAnimTime(20)
-            .setAttackInternalTime(20)
-            .setAttackTriggerTime(10))
-    );
+            .setAnimSpeed(2)
+            .setAttackDamage(5)//子弹伤害
+            .setAttackInternalTick(40)//发射子弹间隔
+
+            .setAttackTriggerTick(10)
+            .setAttackAnimTick(20)
+
+    ));
 
 
 

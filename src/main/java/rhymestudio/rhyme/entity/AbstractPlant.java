@@ -27,21 +27,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class AbstractPlant extends Mob implements GeoEntity {
-    /*
-    public AbstractPlant(EntityType<? extends LivingEntity> entityType, Level level) {
-        super(entityType, level);
-    }*/
+
     public String namePath;
     public Player owner;
     public void setOwner(Player player) {
         this.owner = player;
     }
+    public Builder builder;
 
     public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level) {
         super(tEntityType, level);
         this.namePath = getName().getString().split("\\.")[2];
 
     }
+
+
     public abstract void addSkills();
 
     public void registerGoals(){
@@ -52,6 +52,8 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
     }
     public void onAddedToLevel(){
         super.onAddedToLevel();
+        this.setHealth(builder.health);
+
         this.addSkills();
     }
 
@@ -137,7 +139,7 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
                 return PlayState.CONTINUE;
             }
             return PlayState.STOP;
-        }).setAnimationSpeed(2f));
+        }).setAnimationSpeed(builder.animSpeed));
     }
 
 
@@ -149,4 +151,58 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
     }
     public boolean canBeCollidedWith(){return false;}
     public boolean canCollideWith(Entity entity){return false;}
+
+
+
+    public static class Builder{
+        //默认参数（豌豆）
+        public  int health = 20;
+        public  float animSpeed = 1;
+
+        public  int attackTriggerTick = 20;
+        public  int attackAnimTick = 30;
+
+        public int attackInternalTick = 60;
+        public  int attackDamage = 1;
+        public  float projSpeed = 0.5f;
+
+
+
+        public Builder setAnimSpeed(int speed) {
+            this.animSpeed = speed;
+            return this;
+        }
+
+        public Builder setHealth(int health) {
+            this.health = health;
+            return this;
+        }
+        public Builder setProjSpeed(int speed) {
+            this.projSpeed = speed;
+            return this;
+        }
+
+        public Builder setAttackDamage(int damage) {
+            this.attackDamage = damage;
+            return this;
+        }
+
+        public Builder setAttackInternalTick(int attackInternalTick) {
+            this.attackInternalTick = attackInternalTick;
+            return this;
+        }
+
+        public Builder setAttackTriggerTick(int attackTriggerTick) {
+            this.attackTriggerTick = attackTriggerTick;
+            return this;
+        }
+
+        public Builder setAttackAnimTick(int attackAnimTick) {
+            this.attackAnimTick = attackAnimTick;
+            return this;
+        }
+
+
+
+    }
 }

@@ -18,7 +18,7 @@ import rhymestudio.rhyme.registry.ModItems;
 
 public class SunItemEntity extends ItemEntity {
     private boolean wasOnGround;
-    int age = 5*20;
+    int age = 20*20;
 
     public SunItemEntity(EntityType<SunItemEntity> entityType, Level level) {
         super(entityType, level);

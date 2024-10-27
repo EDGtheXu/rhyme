@@ -23,7 +23,7 @@ public class AbstructCardItem extends Item {
         this.clazz = clazz;
         this.consume = consume;
         try {
-            constructor = clazz.getDeclaredConstructor(Level.class);
+            constructor = clazz.getDeclaredConstructor(Level.class,AbstractPlant.Builder.class);
             constructor.setAccessible(true);
         }catch (Exception e) {
             throw new Error("No valid constructor found for " + clazz.getName());
@@ -38,7 +38,7 @@ public class AbstructCardItem extends Item {
                 return super.use(level, player, hand);
 
             try {
-                var entity = constructor.newInstance(level);
+                var entity = constructor.newInstance(level,new AbstractPlant.Builder());
                 entity.setOwner(player);
                 entity.setPos(player.position());
                 level.addFreshEntity(entity);

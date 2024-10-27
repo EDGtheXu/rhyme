@@ -1,10 +1,7 @@
 package rhymestudio.rhyme.entity.plants;
 
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.entity.AbstractPlant;
@@ -16,17 +13,6 @@ import software.bernie.geckolib.animation.RawAnimation;
 
 public class Pea extends AbstractPlant {
 
-    Builder builder = new Builder();
-
-    public Pea(EntityType<? extends Pea> tEntityType, Level level) {
-        super(tEntityType, level);
-        this.setHealth(builder.health);
-    }
-
-    public Pea(Level level) {
-        super(ModEntities.PEA_SHOOTER.get(), level);
-        //this.setPos(pos);
-    }
 
     public Pea(Level level,Builder builder) {
         super(ModEntities.PEA_SHOOTER.get(), level);
@@ -49,21 +35,27 @@ public class Pea extends AbstractPlant {
     Entity target;
     @Override
     public void addSkills() {
-        idle = new CircleSkill( "idle",  99999, builder.attackInternalTime,
+        //tip                                                  idle持续时间        触发攻击时间
+        idle = new CircleSkill( "idle",  builder.attackInternalTick *2, builder.attackInternalTick - builder.attackAnimTick,
+                // tip刚进入状态
                 a->{},
+                // tip进入状态触发时间
                 a-> {
                     if(getTarget() != null && getTarget().isAlive()
                             && Computer.angle(this.getForward(), getTarget().getEyePosition().subtract(this.getEyePosition())) < 10){
                         target = getTarget();
+                        //tip触发攻击，进入射击状态
                         skills.forceEnd();}
                     },
+                // tip结束状态
                 a->{}
         );
-
-        shoot = new CircleSkill( "shoot", builder.attackAnimTime, builder.attackTriggerTime,
+        // tip                                                攻击持续时间        射击触发时间
+        shoot = new CircleSkill( "shoot", builder.attackAnimTick, builder.attackTriggerTick,
                 a->{},
                 a->{
                     if(skills.canTrigger() && target!= null && target.isAlive()){
+                        //tip 触发射击，生成弹幕
                         doAttack(target.getEyePosition());
                     }
                 },
@@ -84,45 +76,6 @@ public class Pea extends AbstractPlant {
     }
 
 
-    public static class Builder{
-        int attackInternalTime = 60;
-        int attackTriggerTime = 20;
-        int attackAnimTime = 30;
-        int attackDamage = 1;
-        float projSpeed = 0.5f;
-        int health = 20;
 
-        public Builder setHealth(int health) {
-            this.health = health;
-            return this;
-        }
-        public Builder setSpeed(int speed) {
-            this.projSpeed = speed;
-            return this;
-        }
-
-        public Builder setAttackDamage(int damage) {
-            this.attackDamage = damage;
-            return this;
-        }
-
-        public Builder setAttackInternalTime(int attackInternalTime) {
-            this.attackInternalTime = attackInternalTime;
-            return this;
-        }
-
-        public Builder setAttackTriggerTime(int attackTriggerTime) {
-            this.attackTriggerTime = attackTriggerTime;
-            return this;
-        }
-
-        public Builder setAttackAnimTime(int attackAnimTime) {
-            this.attackAnimTime = attackAnimTime;
-            return this;
-        }
-
-
-
-    }
 
 }
