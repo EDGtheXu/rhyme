@@ -3,25 +3,22 @@ package rhymestudio.rhyme.entity.ai;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class CircleBossSkills<T extends AbstractPlant> {
+public class CircleSkills {
     public AbstractPlant owner;
-    protected final List<BossSkill> bossSkills = new ArrayList<>();
-    protected Map<String,Integer> stateIndexMap = new HashMap<>();
+    protected final List<CircleSkill> bossSkills = new ArrayList<>();
+
 
     public int tick = 0;
     public int index = 0;
     public boolean ifStateInit = false;
 
-    public CircleBossSkills(AbstractPlant owner){ this.owner = owner;}
+    public CircleSkills(AbstractPlant owner){ this.owner = owner;}
     public int count(){return bossSkills.size();};
 
-    public boolean pushSkill(BossSkill skill){
+    public boolean pushSkill(CircleSkill skill){
         bossSkills.add(skill);
-        stateIndexMap.put(skill.skillID,bossSkills.size()-1);
         if(bossSkills.size()==1) tick = 0;
         return true;
     }

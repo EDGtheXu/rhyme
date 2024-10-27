@@ -32,7 +32,7 @@ public class shootGoal extends Goal {
 
     public boolean canUse() {
         LivingEntity livingentity = mob.getTarget();
-        if(((Pea)mob).inFiring()) return false;
+
         if (livingentity != null && livingentity.isAlive()) {
             return true;
         }
@@ -53,10 +53,10 @@ public class shootGoal extends Goal {
             //mob.lookAt(livingentity,360,360);
             double d0 = mob.distanceToSqr(livingentity);
             if (d0 < 400.0D) {
-                if (((Pea)mob).internalAttackTime <= 0) {
-                    ((Pea)mob).internalAttackTime = (int) (((Pea)mob)._internalAttackTime + Math.random() * 5) - 5;
-                    recall.accept(mob);
-                } else mob.setTarget(null);
+//                if (((Pea)mob).internalAttackTime <= 0) {
+//                    ((Pea)mob).internalAttackTime = (int) (((Pea)mob)._internalAttackTime + Math.random() * 5) - 5;
+//                    recall.accept(mob);
+//                } else mob.setTarget(null);
                 super.tick();
             } else mob.setTarget(null);
         }

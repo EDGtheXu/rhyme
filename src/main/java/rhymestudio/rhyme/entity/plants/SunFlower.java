@@ -30,6 +30,11 @@ public class SunFlower extends AbstractPlant {
         this.setPos(pos);
     }
 
+    @Override
+    public void addSkills() {
+
+    }
+
     public void tick() {
         super.tick();
         if(!level().isClientSide()){
@@ -43,14 +48,6 @@ public class SunFlower extends AbstractPlant {
         }
     }
 
-
     RawAnimation idle = RawAnimation.begin().thenPlay("idle");
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controller) {
-        controller.add(new AnimationController<GeoAnimatable>(this,"body",20, state->{
-            state.setAnimation(idle);
 
-            return PlayState.CONTINUE;
-        }));
-    }
 }

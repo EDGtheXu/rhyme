@@ -30,8 +30,8 @@ public class BasePlantRenderer<T extends AbstractPlant> extends GeoEntityRendere
         String s = "textures/entity/"+entity.namePath+".png";
         return Rhyme.space(s);
     }
-    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-//        poseStack.last().pose().rotate(Axis.YP.rotationDegrees( -90));
-
+    public void preRender(PoseStack poseStack, T animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, int color) {
+        super.preRender(poseStack, animatable, model, bufferSource, buffer, isReRender, partialTick, packedLight, packedOverlay, color);
+        poseStack.last().pose().rotate(Axis.YP.rotationDegrees( -90));
     }
 }
