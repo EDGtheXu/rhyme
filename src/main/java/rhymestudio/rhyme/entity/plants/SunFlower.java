@@ -25,9 +25,8 @@ public class SunFlower extends AbstractPlant {
         super(entityType, level);
     }
 
-    public SunFlower(Vec3 pos, Level level) {
+    public SunFlower(Level level) {
         super(ModEntities.SUN_FLOWER.get(), level);
-        this.setPos(pos);
     }
 
     @Override

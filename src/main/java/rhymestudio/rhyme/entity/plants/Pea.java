@@ -14,15 +14,15 @@ import rhymestudio.rhyme.utils.Computer;
 import software.bernie.geckolib.animation.RawAnimation;
 
 public class Pea extends AbstractPlant {
-    public int _internalAttackTime = 100;
-    public int _attackTriggerTime = 60;
-    public int _attackAnimTime = 80;
+    public static int _internalAttackTime = 100;
+    public static int _attackTriggerTime = 40;
+    public static int _attackAnimTime = 60;
 
     public Pea(EntityType<? extends Pea> tEntityType, Level level) {super(tEntityType, level);}
 
-    public Pea(Vec3 pos, Level level) {
+    public Pea(Level level) {
         super(ModEntities.PEA_SHOOTER.get(), level);
-        this.setPos(pos);
+        //this.setPos(pos);
     }
 
     static RawAnimation idle_normal = RawAnimation.begin()

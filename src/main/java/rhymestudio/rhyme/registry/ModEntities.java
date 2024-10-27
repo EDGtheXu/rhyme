@@ -31,7 +31,7 @@ public class ModEntities {
 // 植物
     public static final Supplier<EntityType<SunFlower>> SUN_FLOWER = registerPlants("sun_flower", SunFlower::new);
     public static final DeferredHolder<EntityType<?>, EntityType<Pea>> PEA_SHOOTER = registerPlants("peashooter_new", Pea::new);
-    public static final DeferredHolder<EntityType<?>, EntityType<Pea>> DOUBLE_PEA_SHOOTER = registerPlants("peashooter_new", (type,level)->new Pea(new Vec3(0, 0, 0), level));
+    public static final DeferredHolder<EntityType<?>, EntityType<Pea>> DOUBLE_PEA_SHOOTER = registerPlants("double_peashooter_new", (type,level)->new Pea(level));
 
 
 

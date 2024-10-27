@@ -80,8 +80,8 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
             this.entityData.set(DATA_SKILL_TICK, skills.tick);
         }
         super.tick();
-        skills.tick();
-        if(this.getTarget()!=null){
+
+        if(this.getTarget()!=null && getTarget().isAlive()){
             this.lookControl.setLookAt(getTarget());
         }
     }

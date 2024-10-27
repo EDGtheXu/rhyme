@@ -12,7 +12,7 @@ public class RendererRegister {
 
         event.registerEntityRenderer(ModEntities.SUN_FLOWER.get(), SunflowerRenderer::new);
         event.registerEntityRenderer(ModEntities.PEA_SHOOTER.get(), PeaShooterRenderer::new);
-
+        event.registerEntityRenderer(ModEntities.DOUBLE_PEA_SHOOTER.get(), PeaShooterRenderer::new);
 
 
     }

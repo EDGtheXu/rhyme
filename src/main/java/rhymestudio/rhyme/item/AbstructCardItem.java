@@ -23,7 +23,7 @@ public class AbstructCardItem extends Item {
         this.clazz = clazz;
         this.consume = consume;
         try {
-            constructor = clazz.getDeclaredConstructor(Vec3.class, Level.class);
+            constructor = clazz.getDeclaredConstructor(Level.class);
             constructor.setAccessible(true);
         }catch (Exception e) {
             throw new Error("No valid constructor found for " + clazz.getName());
@@ -38,8 +38,9 @@ public class AbstructCardItem extends Item {
                 return super.use(level, player, hand);
 
             try {
-                var entity = constructor.newInstance(player.position(), level);
+                var entity = constructor.newInstance(level);
                 entity.setOwner(player);
+                entity.setPos(player.position());
                 level.addFreshEntity(entity);
             } catch (Exception e) {
                 throw new RuntimeException(e);
