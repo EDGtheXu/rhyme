@@ -40,7 +40,7 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
     public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level) {
         super(tEntityType, level);
         this.namePath = getName().getString().split("\\.")[2];
-        this.addSkills();
+
     }
     public abstract void addSkills();
 
@@ -50,7 +50,10 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,true, this::canAttack));
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Slime.class, true));
     }
-
+    public void onAddedToLevel(){
+        super.onAddedToLevel();
+        this.addSkills();
+    }
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
@@ -131,7 +134,7 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
                 return PlayState.CONTINUE;
             }
             return PlayState.STOP;
-        }));
+        }).setAnimationSpeed(2f));
     }
 
 

@@ -18,7 +18,7 @@ import java.util.Optional;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Rhyme.MODID);
 
-    public static final DeferredItem<Item> SUN_ITEM = ITEMS.register("sun", ()->new Item(new Item.Properties()));
+    public static final DeferredItem<Item> SUN_ITEM = ITEMS.register("sun_item", ()->new Item(new Item.Properties()));
 
 
 
@@ -34,7 +34,7 @@ public class ModItems {
 
     public static DeferredItem<AbstructCardItem> registerPlant(String name, Class<? extends AbstractPlant> clazz, int consumeSun) {
         DeferredItem<AbstructCardItem> item =  ITEMS.register("plant_card/"+name, () -> new AbstructCardItem(new Item.Properties(),clazz,consumeSun));
-        Optional.ofNullable(cardItems).ifPresent(list -> list.add((DeferredItem<AbstructCardItem>) item));
+        Optional.ofNullable(cardItems).ifPresent(list -> list.add(item));
         return item;
     }
 

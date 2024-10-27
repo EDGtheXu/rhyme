@@ -102,7 +102,7 @@ public class CardHUD {
     }
 
     public void drawSunCard(GuiGraphics guiGraphics, int x, int y,int w,int h){
-        drawIcon(guiGraphics,"textures/item/sun.png",0, 0, w, h);
+        drawIcon(guiGraphics,"textures/item/sun_item.png",0, 0, w, h);
         int count = Computer.getInventoryItemCount(player, ModItems.SUN_ITEM.get());
         String countStr =String.valueOf(count) ;
         guiGraphics.drawString(mc.font,countStr,w/2-3,h+2, Color.yellow.getRGB());
