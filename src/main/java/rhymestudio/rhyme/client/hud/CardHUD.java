@@ -19,6 +19,8 @@ public class CardHUD {
     //阳光位置
     static int x = 20;
     static int y = 5;
+    static int itemInternalX0 = 40;
+    static int itemInternalX = 40;
 
     public Minecraft mc;
     public Player player;
@@ -44,10 +46,10 @@ public class CardHUD {
         guiGraphics.pose().translate(x,y,0);
         drawSunCard(guiGraphics,0,0,20,20);
 
-        guiGraphics.pose().translate(30,0,0);
+        guiGraphics.pose().translate(itemInternalX0,0,0);
         drawCard(guiGraphics,ModItems.SUN_FLOWER.get(),0,0,2);
 
-        guiGraphics.pose().translate(20,0,0);
+        guiGraphics.pose().translate(itemInternalX,0,0);
         drawCard(guiGraphics,ModItems.PEA.get(),0,0,2);
 
 //        var bf =Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.gui());

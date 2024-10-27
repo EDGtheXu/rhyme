@@ -29,6 +29,9 @@ public class SunFlower extends AbstractPlant {
         super(ModEntities.SUN_FLOWER.get(), level);
     }
 
+
+    RawAnimation idle = RawAnimation.begin().thenPlay("idle");
+
     @Override
     public void addSkills() {
 
@@ -47,6 +50,5 @@ public class SunFlower extends AbstractPlant {
         }
     }
 
-    RawAnimation idle = RawAnimation.begin().thenPlay("idle");
 
 }

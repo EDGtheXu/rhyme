@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.client.render.entity;
+package rhymestudio.rhyme.entity;
 
 
 import net.minecraft.core.particles.ParticleOptions;
@@ -10,16 +10,22 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
-import rhymestudio.rhyme.registry.ModEntities;
 
 public abstract class BaseProj extends AbstractHurtingProjectile{
     public Vector3f initForward = new Vector3f();
+
+    //客户端数据交互
+    private final long starttime = System.currentTimeMillis();
+    private static final EntityDataAccessor<Vector3f> curRot = SynchedEntityData.defineId(BaseProj.class, EntityDataSerializers.VECTOR3);
+
+
     public abstract float damage();
     public abstract float waveDur();
 
@@ -31,10 +37,12 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     @Override
     public void tick() {
 
-        if(System.currentTimeMillis()-starttime > waveDur()) discard();
+
         if(level().isClientSide){
             initForward = this.getEntityData().get(curRot);
         }else{
+            if(System.currentTimeMillis()-starttime > waveDur()) discard();
+            /*
             //包围盒检测造成伤害
             var entities=level().getEntities(this,this.getBoundingBox());
             if(!entities.isEmpty()){
@@ -43,6 +51,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
                         e.hurt(this.damageSources().mobProjectile(this, getOwner() instanceof LivingEntity livingentity ? livingentity : null), damage());
                 }
             }
+            */
         }
         super.tick();
     }
@@ -64,6 +73,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
             Entity entity1 = pResult.getEntity();
             Entity entity = this.getOwner();
             entity1.hurt(this.damageSources().mobProjectile(this, entity instanceof LivingEntity livingentity ? livingentity : null), damage());
+            this.discard();
         }
         super.onHitEntity(pResult);
     }
@@ -71,12 +81,12 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     @Nullable
     @Override//设置粒子效果
     protected ParticleOptions getTrailParticle() {
-        return ParticleTypes.DOLPHIN;
+        return null;
     }
 
     @Override
     protected boolean canHitEntity(@NotNull Entity pTarget) {
-        return (pTarget != getOwner()) && super.canHitEntity(pTarget);
+        return (pTarget != getOwner()) && !(pTarget instanceof AbstractPlant) && !(pTarget instanceof Player) && super.canHitEntity(pTarget);
     }
 
     @Override//流体阻力
@@ -88,6 +98,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     protected boolean shouldBurn() {
         return false;
     }
+
     @Override
     public boolean isPickable() {
         return false;
@@ -100,9 +111,6 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
 
 
-    //客户端数据交互
-    private final long starttime = System.currentTimeMillis();
-    private static final EntityDataAccessor<Vector3f> curRot = SynchedEntityData.defineId(BaseProj.class, EntityDataSerializers.VECTOR3);
 
 
     //defineSynchedData()：该方法用于定义实体的同步数据，在该方法中，将COUNTER实体数据访问器初始化为0。

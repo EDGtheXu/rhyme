@@ -5,10 +5,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
-import rhymestudio.rhyme.client.render.entity.BaseProj;
+import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.registry.ModEntities;
 
 public class LineProj extends BaseProj {
+    private float damage;
+    private float speed;
 
     @Override
     public float damage() {
@@ -24,9 +26,11 @@ public class LineProj extends BaseProj {
         super(pEntityType, pLevel);
     }
 
-    public LineProj(Entity pOwner, Level pLevel) {
-        super(ModEntities.PEA_PROJ.get(),pLevel);
+    public LineProj(Entity pOwner,int damage, float speed) {
+        super(ModEntities.PEA_PROJ.get(),pOwner.level());
         this.setOwner(pOwner);
+        this.damage = damage;
+        this.speed = speed;
     }
 
 

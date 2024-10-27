@@ -57,7 +57,10 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
 
     @Override
     public boolean hurt(DamageSource source, float damage) {
-        return !(source.getEntity() instanceof Player) && !(source.getEntity() instanceof AbstractPlant);
+        if(source.getEntity() instanceof Player || source.getEntity() instanceof AbstractPlant){
+            return false;
+        }
+        return super.hurt(source, damage);
     }
 
     @Override
@@ -97,8 +100,6 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
     }
 
 
-
-
     public CircleSkills skills = new CircleSkills(this);
     private final Map<String, RawAnimation> skillMap = new HashMap<>();
     private int lastAnimIndex = -1;
@@ -123,14 +124,16 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
             String skillString = entity.skills.getCurSkill();
             if (skillString == null) return PlayState.STOP;
             RawAnimation skill = skillMap.get(skillString);
+
             if (skill != null) {
                 state.setAnimation(skill);
                 if (lastAnimIndex != skills.index) {
                     lastAnimIndex = skills.index;
                     state.resetCurrentAnimation();
-
                     return PlayState.STOP;
                 }
+                if(state.getController().hasAnimationFinished())
+                    state.resetCurrentAnimation();
                 return PlayState.CONTINUE;
             }
             return PlayState.STOP;

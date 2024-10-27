@@ -31,9 +31,9 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<Pea>> PEA_SHOOTER = registerPlants("peashooter_new", Pea::new);
     public static final DeferredHolder<EntityType<?>, EntityType<Pea>> DOUBLE_PEA_SHOOTER = registerPlants("double_peashooter_new", (type,level)->new Pea(level,new Pea
             .Builder()
-
+            .setAttackDamage(5)
             .setAttackAnimTime(20)
-            .setAttackInternalTime(40)
+            .setAttackInternalTime(20)
             .setAttackTriggerTime(10))
     );
 
@@ -42,7 +42,7 @@ public class ModEntities {
 
 
     // 弹幕
-    public static final Supplier<EntityType<LineProj>> PEA_PROJ = registerProj("pea_proj", LineProj::new);
+    public static final Supplier<EntityType<LineProj>> PEA_PROJ = registerProj("pea_proj", LineProj::new,0.2f,0.2f);
 
 
 
@@ -50,14 +50,15 @@ public class ModEntities {
     public static final Supplier<EntityType<SunItemEntity>> SUN_ITEM_ENTITY = ENTITIES.register("sun", () -> EntityType.Builder.<SunItemEntity>of(SunItemEntity::new, MobCategory.MISC).clientTrackingRange(16).updateInterval(20).build("rhyme:entity.sun"));
 
 
+
+
+
     public static <T extends AbstractPlant> DeferredHolder<EntityType<?>, EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(1,1f).build("rhyme:entity."+name));
     }
-
-    public static <T extends LineProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory) {
-        return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(1,1f).build("rhyme:entity.proj."+name));
+    public static <T extends LineProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory,float w,float h) {
+        return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(w,h).build("rhyme:entity.proj."+name));
     }
-
     @SubscribeEvent
     public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
 
