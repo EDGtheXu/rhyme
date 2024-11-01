@@ -17,7 +17,7 @@ public class ModTabs {
 
     public static final Supplier<CreativeModeTab> CARD = TABS.register("cards",
             () -> CreativeModeTab.builder()
-                    .icon(() -> ModItems.SUN_FLOWER.get().getDefaultInstance())
+                    .icon(() -> ModItems.SUN_ITEM.get().getDefaultInstance())
                     .title(Component.translatable("creativetab.rhyme.cards"))
                     .displayItems((parameters, output) -> {
                         ModItems.ITEMS.getEntries().forEach(item -> output.accept(item.get()));

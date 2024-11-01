@@ -7,8 +7,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.Pea;
-import rhymestudio.rhyme.entity.plants.SunFlower;
+import rhymestudio.rhyme.entity.plants.PeaNew;
 import rhymestudio.rhyme.item.AbstructCardItem;
 
 import java.util.ArrayList;
@@ -23,8 +22,8 @@ public class ModItems {
 
 
     //注册植物
-    public static final DeferredItem<AbstructCardItem> SUN_FLOWER = registerPlant("sun_flower", SunFlower.class, 2);
-    public static final DeferredItem<AbstructCardItem> PEA = registerPlant("pea_shooter", Pea.class,4);
+//    public static final DeferredItem<AbstructCardItem> SUN_FLOWER = registerPlant("sun_flower", SunFlower.class, 2);
+    public static final DeferredItem<AbstructCardItem> PEA = registerPlant("pea_shooter", PeaNew.class,4);
 
 
 

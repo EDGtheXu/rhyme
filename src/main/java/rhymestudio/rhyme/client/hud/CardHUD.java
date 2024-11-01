@@ -47,10 +47,10 @@ public class CardHUD {
         drawSunCard(guiGraphics,0,0,20,20);
 
         guiGraphics.pose().translate(itemInternalX0,0,0);
-        drawCard(guiGraphics,ModItems.SUN_FLOWER.get(),0,0,2);
+//        drawCard(guiGraphics,ModItems.SUN_FLOWER.get(),0,0,2);
 
         guiGraphics.pose().translate(itemInternalX,0,0);
-        drawCard(guiGraphics,ModItems.PEA.get(),0,0,2);
+//        drawCard(guiGraphics,ModItems.PEA.get(),0,0,2);
 
 //        var bf =Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(RenderType.gui());
 

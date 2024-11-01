@@ -1,12 +1,14 @@
 package rhymestudio.rhyme.entity.ai;
 
+import net.minecraft.world.entity.Mob;
+import rhymestudio.rhyme.client.render.entity.CafeEntity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CircleSkills {
-    public AbstractPlant owner;
+public class CircleSkills<T extends CafeEntity<? extends Mob>> {
+    public Mob owner;
     protected final List<CircleSkill> bossSkills = new ArrayList<>();
 
 
@@ -14,7 +16,9 @@ public class CircleSkills {
     public int index = 0;
     public boolean ifStateInit = false;
 
-    public CircleSkills(AbstractPlant owner){ this.owner = owner;}
+    public CircleSkills(Mob owner){ this.owner = owner;}
+    public CircleSkills(){}
+
     public int count(){return bossSkills.size();};
 
     public boolean pushSkill(CircleSkill skill){
@@ -47,6 +51,7 @@ public class CircleSkills {
 
         //初次进入状态
         if(bossSkills.get(index).stateInit!=null) bossSkills.get(index).stateInit.accept(owner);
+        ((CafeEntity<? extends Mob>)owner).cafePlayAnimation(bossSkills.get(index).skill,owner.tickCount);
     }
     /** 强制跳转状态 **/
     public void forceStartIndex(int index){

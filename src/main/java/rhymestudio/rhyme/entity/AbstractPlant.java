@@ -12,21 +12,11 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
+import rhymestudio.rhyme.client.render.entity.CafeEntity;
 import rhymestudio.rhyme.entity.ai.CircleSkills;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
-import software.bernie.geckolib.animatable.GeoEntity;
-import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
-import software.bernie.geckolib.animation.AnimatableManager;
-import software.bernie.geckolib.animation.AnimationController;
-import software.bernie.geckolib.animation.PlayState;
-import software.bernie.geckolib.animation.RawAnimation;
-import software.bernie.geckolib.constant.DataTickets;
-import software.bernie.geckolib.util.GeckoLibUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public abstract class AbstractPlant extends Mob implements GeoEntity {
+public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPlant> {
 
     public String namePath;
     public Player owner;
@@ -38,23 +28,20 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
     public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level) {
         super(tEntityType, level);
         this.namePath = getName().getString().split("\\.")[2];
-
+        this.cafeDefineAnimations();
     }
-
-
-    public abstract void addSkills();
 
     public void registerGoals(){
         //this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 20.0F));
-
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,true, this::canAttack));
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Slime.class, true));
     }
     public void onAddedToLevel(){
-        super.onAddedToLevel();
         this.setHealth(builder.health);
-
-        this.addSkills();
+        skills.owner = this;
+        addSkills();
+        cafePlayAnimation(skills.getCurSkill(),tickCount);
+        super.onAddedToLevel();
     }
 
     @Override
@@ -73,6 +60,7 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
                         || (target instanceof NeutralMob  && !(target instanceof IronGolem))
                 )
         ) return true;
+//        if(!target.isAlive()) {setTarget(null);return false;}
         if(target instanceof AbstractPlant || target instanceof Player)return false;
         return false;
     }
@@ -87,24 +75,20 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
             this.entityData.set(DATA_SKILL_INDEX, skills.index);
             this.entityData.set(DATA_SKILL_TICK, skills.tick);
         }
-        super.tick();
 
+        super.tick();
         if(this.getTarget()!=null && getTarget().isAlive()){
             this.lookControl.setLookAt(getTarget());
+            this.lookAt(getTarget(),360,85);
+            this.setYBodyRot(this.yHeadRot);
         }
-    }
-    public void addSkill(CircleSkill bossSkill, RawAnimation anim) {
-        this.skills.pushSkill(bossSkill);
-        skillMap.put(bossSkill.skill, anim);
-    }
-    public void addSkillNoAnim(CircleSkill bossSkill) {
-        this.skills.pushSkill(bossSkill);
+
+
     }
 
 
-    public CircleSkills skills = new CircleSkills(this);
-    private final Map<String, RawAnimation> skillMap = new HashMap<>();
-    private int lastAnimIndex = -1;
+
+    private static final EntityDataAccessor<String> DATA_CAFE_POSE_NAME = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> DATA_SKILL_INDEX = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_SKILL_TICK = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Vector3f> DATA_ROTATE = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.VECTOR3);
@@ -115,44 +99,20 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
         builder.define(DATA_SKILL_INDEX, 0);
         builder.define(DATA_SKILL_TICK, 0);
         builder.define(DATA_ROTATE, new Vector3f());
-    }
-
-    @Override
-    public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(new AnimationController<>(this, 20, state -> {
-            AbstractPlant entity = (AbstractPlant) state.getData(DataTickets.ENTITY);
-            if (!entity.isAlive()) return PlayState.STOP;
-            if (skills.count() == 0) return PlayState.STOP;
-            String skillString = entity.skills.getCurSkill();
-            if (skillString == null) return PlayState.STOP;
-            RawAnimation skill = skillMap.get(skillString);
-
-            if (skill != null) {
-                state.setAnimation(skill);
-                if (lastAnimIndex != skills.index) {
-                    lastAnimIndex = skills.index;
-                    state.resetCurrentAnimation();
-                    return PlayState.STOP;
-                }
-                if(state.getController().hasAnimationFinished())
-                    state.resetCurrentAnimation();
-                return PlayState.CONTINUE;
-            }
-            return PlayState.STOP;
-        }).setAnimationSpeed(builder.animSpeed));
+        builder.define(DATA_CAFE_POSE_NAME, "idle");
     }
 
 
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+        if (this.level().isClientSide() && DATA_CAFE_POSE_NAME.equals(key)) {
+            this.cafeResetPose();
 
-    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
-    @Override
-    public AnimatableInstanceCache getAnimatableInstanceCache() {
-        return cache;
+            String name = this.cafeGetPoseName();
+            this.cafePlayAnimation(name,this.tickCount);
+
+        }
+        super.onSyncedDataUpdated(key);
     }
-    public boolean canBeCollidedWith(){return false;}
-    public boolean canCollideWith(Entity entity){return false;}
-
-
 
     public static class Builder{
         //默认参数（豌豆）
@@ -205,4 +165,25 @@ public abstract class AbstractPlant extends Mob implements GeoEntity {
 
 
     }
+
+
+    public String cafeGetPoseName(){
+        return skills.getCurSkill();
+    }
+
+    public CircleSkills<? extends CafeEntity<? extends Mob>> skills = new CircleSkills<>();
+
+
+    public void addSkill(CircleSkill bossSkill) {
+        skills.pushSkill(bossSkill);
+    }
+
+    public void addSkillNoAnim(CircleSkill bossSkill) {
+        skills.pushSkill(bossSkill);
+    }
+
+    public double getEyeY(){
+        return this.getY() + 0.5;
+    }
+
 }

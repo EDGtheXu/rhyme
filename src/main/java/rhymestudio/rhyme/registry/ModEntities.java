@@ -13,11 +13,11 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.entity.plants.PeaNew;
 import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.SunItemEntity;
-import rhymestudio.rhyme.entity.plants.Pea;
-import rhymestudio.rhyme.entity.plants.SunFlower;
+
 
 import java.util.function.Supplier;
 
@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 
 public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Rhyme.MODID);
-
+/*
 // 植物
     public static final Supplier<EntityType<SunFlower>> SUN_FLOWER = registerPlants("sun_flower", (type,level)->new SunFlower(level,new SunFlower
         .Builder()
@@ -48,9 +48,18 @@ public class ModEntities {
             .setAttackAnimTick(20)
 
     ));
+*/
 
+    public static final DeferredHolder<EntityType<?>, EntityType<PeaNew>> PEA_NEW = registerPlants("peanew",(type,level)->new PeaNew(level,new PeaNew
+            .Builder()
+            .setAnimSpeed(2)
+            .setAttackDamage(5)//子弹伤害
+            .setAttackInternalTick(60)//发射子弹间隔
 
+            .setAttackTriggerTick(15)
+            .setAttackAnimTick(40)
 
+    ));
 
 
     // 弹幕
@@ -79,12 +88,14 @@ public class ModEntities {
                 .add(Attributes.MAX_HEALTH, 20)
                 .add(Attributes.MOVEMENT_SPEED, 0f)
                 .add(Attributes.ATTACK_DAMAGE, 5)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 20)
+
                 .add(Attributes.ATTACK_KNOCKBACK, 0.1);
 
 
-        event.put(ModEntities.SUN_FLOWER.get(), genericPlant.build());
-        event.put(ModEntities.PEA_SHOOTER.get(), genericPlant.build());
-
+//        event.put(ModEntities.SUN_FLOWER.get(), genericPlant.build());
+//        event.put(ModEntities.PEA_SHOOTER.get(), genericPlant.build());
+        event.put(ModEntities.PEA_NEW.get(), genericPlant.build());
     }
 
 

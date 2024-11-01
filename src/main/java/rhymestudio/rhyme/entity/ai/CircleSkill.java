@@ -1,5 +1,9 @@
 package rhymestudio.rhyme.entity.ai;
 
+import net.minecraft.world.entity.Mob;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import rhymestudio.rhyme.client.render.entity.CafeEntity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
 import java.util.function.Consumer;
@@ -7,13 +11,14 @@ import java.util.function.Consumer;
 public class CircleSkill {
 
 
+    private static final Logger log = LoggerFactory.getLogger(CircleSkill.class);
     public String skill;
     public int timeContinue;
     public int timeTrigger;
 
-    public Consumer<AbstractPlant> stateInit;
-    public Consumer<AbstractPlant> stateTick;
-    public Consumer<AbstractPlant> stateOver;
+    public Consumer<Mob> stateInit;
+    public Consumer<Mob> stateTick;
+    public Consumer<Mob> stateOver;
 
     /**
      * @param skill 动画名称
@@ -28,9 +33,9 @@ public class CircleSkill {
     }
 
     public CircleSkill(String animName, int timeContinue, int timeTrigger,
-                       Consumer<AbstractPlant> stateInit,
-                       Consumer<AbstractPlant> stateTick,
-                       Consumer<AbstractPlant> stateOver
+                       Consumer<Mob> stateInit,
+                       Consumer<Mob> stateTick,
+                       Consumer<Mob> stateOver
     ){
         this.skill = animName;
         this.timeContinue = timeContinue;
@@ -41,13 +46,13 @@ public class CircleSkill {
         this.stateOver = stateOver;
     }
 
-    public void addStateReset(Consumer<AbstractPlant> stateTick){
+    public void addStateReset(Consumer<Mob> stateTick){
         this.stateTick = stateTick;
     };
-    public void addStateInit (Consumer<AbstractPlant> stateInit){
+    public void addStateInit (Consumer<Mob> stateInit){
         this.stateInit = stateInit;
     };
-    public void addStateOver (Consumer<AbstractPlant> stateOver){
+    public void addStateOver (Consumer<Mob> stateOver){
         this.stateOver = stateOver;
     };
 }
