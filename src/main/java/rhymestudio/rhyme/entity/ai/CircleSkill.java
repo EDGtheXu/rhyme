@@ -3,8 +3,7 @@ package rhymestudio.rhyme.entity.ai;
 import net.minecraft.world.entity.Mob;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import rhymestudio.rhyme.client.render.entity.CafeEntity;
-import rhymestudio.rhyme.entity.AbstractPlant;
+
 
 import java.util.function.Consumer;
 

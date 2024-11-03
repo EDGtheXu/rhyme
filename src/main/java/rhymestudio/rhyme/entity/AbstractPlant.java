@@ -12,36 +12,50 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
-import rhymestudio.rhyme.client.render.entity.CafeEntity;
+import rhymestudio.rhyme.entity.anim.CafeAnimationState;
 import rhymestudio.rhyme.entity.ai.CircleSkills;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 
-public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPlant> {
+import java.util.function.Consumer;
+
+public abstract class AbstractPlant extends Mob{
 
     public String namePath;
     public Player owner;
+    public Builder builder;
+    public CafeAnimationState animState = new CafeAnimationState();
+    public CircleSkills<AbstractPlant> skills = new CircleSkills<>(this);
+
     public void setOwner(Player player) {
         this.owner = player;
     }
-    public Builder builder;
+
+    protected void cafeDefineAnimations(){
+        if(builder.defineAnim!=null) builder.defineAnim.accept(this);
+    }
+
+    protected void addSkills(){
+        if(builder.defineSkill!=null) builder.defineSkill.accept(this);
+    }
 
     public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level) {
         super(tEntityType, level);
         this.namePath = getName().getString().split("\\.")[2];
+
+    }
+
+    public void onAddedToLevel(){
         this.cafeDefineAnimations();
+        this.setHealth(builder.health);
+        addSkills();
+        animState.playAnim(skills.getCurSkill(),tickCount);
+        super.onAddedToLevel();
     }
 
     public void registerGoals(){
         //this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 20.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,true, this::canAttack));
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Slime.class, true));
-    }
-    public void onAddedToLevel(){
-        this.setHealth(builder.health);
-        skills.owner = this;
-        addSkills();
-        cafePlayAnimation(skills.getCurSkill(),tickCount);
-        super.onAddedToLevel();
     }
 
     @Override
@@ -72,6 +86,7 @@ public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPl
 
         } else {
             skills.tick();
+//            System.out.println(skills.index + " "+skills.tick);
             this.entityData.set(DATA_SKILL_INDEX, skills.index);
             this.entityData.set(DATA_SKILL_TICK, skills.tick);
         }
@@ -86,9 +101,12 @@ public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPl
 
     }
 
+    public void addSkill(CircleSkill bossSkill) {skills.pushSkill(bossSkill);}
+
+    public void addSkillNoAnim(CircleSkill bossSkill) {skills.pushSkill(bossSkill);}
 
 
-    private static final EntityDataAccessor<String> DATA_CAFE_POSE_NAME = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.STRING);
+    public static final EntityDataAccessor<String> DATA_CAFE_POSE_NAME = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> DATA_SKILL_INDEX = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DATA_SKILL_TICK = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Vector3f> DATA_ROTATE = SynchedEntityData.defineId(AbstractPlant.class, EntityDataSerializers.VECTOR3);
@@ -105,13 +123,17 @@ public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPl
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (this.level().isClientSide() && DATA_CAFE_POSE_NAME.equals(key)) {
-            this.cafeResetPose();
+            this.animState.resetAnim();
 
-            String name = this.cafeGetPoseName();
-            this.cafePlayAnimation(name,this.tickCount);
+            String name = entityData.get(DATA_CAFE_POSE_NAME);
+            this.animState.playAnim(name,this.tickCount);
 
         }
         super.onSyncedDataUpdated(key);
+    }
+
+    public double getEyeY(){
+        return this.getY() + 0.5;
     }
 
     public static class Builder{
@@ -125,7 +147,8 @@ public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPl
         public int attackInternalTick = 60;
         public  int attackDamage = 1;
         public  float projSpeed = 0.5f;
-
+        public Consumer<AbstractPlant> defineAnim;
+        public Consumer<AbstractPlant> defineSkill;
 
 
         public Builder setAnimSpeed(int speed) {
@@ -161,29 +184,18 @@ public abstract class AbstractPlant extends Mob implements CafeEntity<AbstractPl
             this.attackAnimTick = attackAnimTick;
             return this;
         }
+        public Builder setDefineAnim(Consumer<AbstractPlant> defineAnim) {
+            this.defineAnim = defineAnim;
+            return this;
+        }
 
+        public Builder setDefineSkill(Consumer<AbstractPlant> defineSkill) {
+            this.defineSkill = defineSkill;
+            return this;
+        }
 
 
     }
 
-
-    public String cafeGetPoseName(){
-        return skills.getCurSkill();
-    }
-
-    public CircleSkills<? extends CafeEntity<? extends Mob>> skills = new CircleSkills<>();
-
-
-    public void addSkill(CircleSkill bossSkill) {
-        skills.pushSkill(bossSkill);
-    }
-
-    public void addSkillNoAnim(CircleSkill bossSkill) {
-        skills.pushSkill(bossSkill);
-    }
-
-    public double getEyeY(){
-        return this.getY() + 0.5;
-    }
 
 }

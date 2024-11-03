@@ -1,31 +1,32 @@
 package rhymestudio.rhyme.entity.plants;
 
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import rhymestudio.rhyme.client.animation.DoublePeaAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.registry.ModEntities;
 import rhymestudio.rhyme.utils.Computer;
 
-public class PeaNew extends AbstractPlant {
+public class DoublePea extends AbstractPlant {
 
-    public PeaNew(Level level,Builder builder) {
-        super(ModEntities.PEA_NEW.get(), level);
+    public DoublePea(Level level, Builder builder) {
+        super(ModEntities.DOUBLE_PEA.get(), level);
         this.builder = builder;
     }
 
     public void cafeDefineAnimations(){
-        this.cafeAddAnimation("idle",100,1,true);
-        this.cafeAddAnimation("shoot",100,1,true);
+        this.animState.addAnimation("idle", DoublePeaAnimation.idle_normal,1);
+        this.animState.addAnimation("shoot", DoublePeaAnimation.shoot,1);
     }
-    LivingEntity target;
+    private LivingEntity target;
     @Override
     public void addSkills() {
         //tip                                                  idle持续时间        触发攻击时间
-        CircleSkill  idle = new CircleSkill( "idle",  999999999, builder.attackInternalTick - builder.attackAnimTick,
+        CircleSkill  idle = new CircleSkill( "idle",  999999999, builder.attackInternalTick,
                 // tip刚进入状态
                 a->{},
                 // tip进入状态触发时间
@@ -47,7 +48,7 @@ public class PeaNew extends AbstractPlant {
                 a->{
                     if(skills.canTrigger() && target!= null && target.isAlive()){
                         //tip 触发射击，生成弹幕
-                        doAttack(target.getEyePosition());
+                        doAttack(target);
                     }
                 },
                 a->{}
@@ -56,12 +57,13 @@ public class PeaNew extends AbstractPlant {
         this.addSkill(shoot);
     }
 
-    public void doAttack(Vec3 tar){
+    public void doAttack(LivingEntity tar){
+        Vec3 pos = tar.getEyePosition();
 //        Projectile arrow = new Arrow(level(), this, Items.ARROW.getDefaultInstance(), Items.ARROW.getDefaultInstance());
         Projectile arrow =new LineProj(this,builder.attackDamage,builder.projSpeed);
         arrow.setOwner(this);
-        arrow.setPos(this.getEyePosition());
-        Vec3 dir = tar.subtract(getEyePosition());
+        arrow.setPos(this.getEyePosition().add(0,0.1F,0));
+        Vec3 dir = pos.subtract(getEyePosition());
         arrow.shoot(dir.x, dir.y, dir.z, builder.projSpeed, 1.0F);
         level().addFreshEntity(arrow);
     }

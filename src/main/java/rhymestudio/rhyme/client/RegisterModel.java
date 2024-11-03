@@ -1,16 +1,16 @@
 package rhymestudio.rhyme.client;
 
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import rhymestudio.rhyme.client.model.peaModel;
-import rhymestudio.rhyme.client.model.peaProjModel;
+import rhymestudio.rhyme.client.model.DoublePeaModel;
+import rhymestudio.rhyme.client.model.PeaModel;
+import rhymestudio.rhyme.client.model.PeaProjModel;
+import rhymestudio.rhyme.client.model.SunflowerModel;
 
 public class RegisterModel {
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions evt) {
-        evt.registerLayerDefinition(peaProjModel.LAYER_LOCATION, peaProjModel::createBodyLayer);
-        evt.registerLayerDefinition(peaModel.LAYER_LOCATION, peaModel::createBodyLayer);
-
+        evt.registerLayerDefinition(PeaProjModel.LAYER_LOCATION, PeaProjModel::createBodyLayer);
+        evt.registerLayerDefinition(PeaModel.LAYER_LOCATION, PeaModel::createBodyLayer);
+        evt.registerLayerDefinition(SunflowerModel.LAYER_LOCATION, SunflowerModel::createBodyLayer);
+        evt.registerLayerDefinition(DoublePeaModel.LAYER_LOCATION, DoublePeaModel::createBodyLayer);
     }
 }

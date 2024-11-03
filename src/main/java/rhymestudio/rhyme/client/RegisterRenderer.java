@@ -2,29 +2,40 @@ package rhymestudio.rhyme.client;
 
 
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import rhymestudio.rhyme.client.model.peaModel;
+import rhymestudio.rhyme.client.model.DoublePeaModel;
+import rhymestudio.rhyme.client.model.PeaModel;
+import rhymestudio.rhyme.client.model.SunflowerModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
-import rhymestudio.rhyme.client.render.entity.SunRenderer;
 
-import rhymestudio.rhyme.client.render.entity.plant.peanewrender;
-import rhymestudio.rhyme.client.render.entity.proj.peaProjRenderer;
-import rhymestudio.rhyme.entity.plants.PeaNew;
+import rhymestudio.rhyme.client.render.entity.SunRenderer;
+import rhymestudio.rhyme.client.render.entity.proj.PeaProjRenderer;
+import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.registry.ModEntities;
+
+import java.util.function.Function;
 
 public class RegisterRenderer {
     public static void register(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntities.SUN_ITEM_ENTITY.get(), SunRenderer::new);
 // 植物
-//        event.registerEntityRenderer(ModEntities.SUN_FLOWER.get(), (dispatcher, context)-> new BasePlantRenderer<SunFlower, HierarchicalModel<SunFlower>>(context,new Sum()));
-//        event.registerEntityRenderer(ModEntities.PEA_SHOOTER.get(), PeaShooterRenderer::new);
-//        event.registerEntityRenderer(ModEntities.DOUBLE_PEA_SHOOTER.get(), PeaShooterRenderer::new);
+//        event.registerEntityRenderer(, dispatcher-> new BasePlantRenderer<SunFlower, HierarchicalModel<SunFlower>>(dispatcher,new SunflowerModel(dispatcher.bakeLayer(SunflowerModel.LAYER_LOCATION))));
 
-//        event.registerEntityRenderer(ModEntities.PEA_NEW.get(), peanewrender::new);
+        registerOne(event,ModEntities.PEA.get(),c->new PeaModel(c.bakeLayer(PeaModel.LAYER_LOCATION)));
+        registerOne(event,ModEntities.DOUBLE_PEA.get(),c->new DoublePeaModel(c.bakeLayer(DoublePeaModel.LAYER_LOCATION)));
+        registerOne(event,ModEntities.SUN_FLOWER.get(),c->new SunflowerModel(c.bakeLayer(SunflowerModel.LAYER_LOCATION)));
 
-        event.registerEntityRenderer(ModEntities.PEA_NEW.get(), (dispatcher)-> new BasePlantRenderer<PeaNew, HierarchicalModel<PeaNew>>(dispatcher,new peaModel(dispatcher.bakeLayer(peaModel.LAYER_LOCATION))));
-// 子弹
-        event.registerEntityRenderer(ModEntities.PEA_PROJ.get(), peaProjRenderer::new);
 
+
+//        event.registerEntityRenderer(ModEntities.PEA.get(), (dispatcher)-> new BasePlantRenderer<AbstractPlant, HierarchicalModel<AbstractPlant>>(dispatcher,new PeaModel(dispatcher.bakeLayer(PeaModel.LAYER_LOCATION))));
+//        event.registerEntityRenderer(ModEntities.DOUBLE_PEA.get(), (dispatcher)-> new BasePlantRenderer<AbstractPlant, HierarchicalModel<AbstractPlant>>(dispatcher,new DoublePeaModel(dispatcher.bakeLayer(DoublePeaModel.LAYER_LOCATION))));
+        // 子弹
+        event.registerEntityRenderer(ModEntities.PEA_PROJ.get(), PeaProjRenderer::new);
+
+    }
+    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model){
+        event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher)));
     }
 }

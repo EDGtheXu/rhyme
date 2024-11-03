@@ -10,18 +10,15 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.BaseProj;
 
-public class peaProjModel<T extends BaseProj> extends EntityModel<T> {
+public class PeaProjModel<T extends BaseProj> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "pea_model"), "main");
 	private final ModelPart bb_main;
 
-	public peaProjModel(ModelPart root) {
+	public PeaProjModel(ModelPart root) {
 		this.bb_main = root.getChild("bb_main");
 	}
 

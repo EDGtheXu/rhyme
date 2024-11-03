@@ -11,16 +11,16 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.model.peaProjModel;
+import rhymestudio.rhyme.client.model.PeaProjModel;
 import rhymestudio.rhyme.entity.BaseProj;
 
-public class peaProjRenderer extends EntityRenderer<BaseProj> {
+public class PeaProjRenderer extends EntityRenderer<BaseProj> {
     // 存储我们的模型。
     private final EntityModel<BaseProj> bulletModel;
 
-    public peaProjRenderer(EntityRendererProvider.Context pContext) {
+    public PeaProjRenderer(EntityRendererProvider.Context pContext) {
         super(pContext);
-        bulletModel = new peaProjModel<>(pContext.bakeLayer(peaProjModel.LAYER_LOCATION));
+        bulletModel = new PeaProjModel<>(pContext.bakeLayer(PeaProjModel.LAYER_LOCATION));
 
     }
 
@@ -35,6 +35,7 @@ public class peaProjRenderer extends EntityRenderer<BaseProj> {
         super.render(pEntity, pEntityYaw, pPartialTick, pPoseStack, pBuffer, pPackedLight);
         //你的渲染应该在posh和pop之间，避免污染其他的渲染。
         pPoseStack.pushPose();
+        pPoseStack.scale(1.5F,1.5F,1.5F);
         // 绕y轴旋转45°
         pPoseStack.translate(0,-0.7,0);
         // 构建顶点
