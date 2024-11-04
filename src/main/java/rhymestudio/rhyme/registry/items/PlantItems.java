@@ -7,8 +7,10 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.item.AbstructCardItem;
+import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.ModEntities;
 
 import java.util.ArrayList;
@@ -21,13 +23,34 @@ public class PlantItems {
     //注册植物
     public static final DeferredItem<AbstructCardItem> SUN_FLOWER = registerPlant("sun_flower", ModEntities.SUN_FLOWER, 2);
     public static final DeferredItem<AbstructCardItem> PEA_ITEM = registerPlant("pea_shooter", ModEntities.PEA,4);
-    public static final DeferredItem<AbstructCardItem> DOUBLE_PEA_ITEM = registerPlant("double_pea_shooter", ModEntities.DOUBLE_PEA,8);
+    public static final DeferredItem<AbstructCardItem> DOUBLE_PEA_ITEM = registerPlant("double_pea_shooter", ModEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
 
 
-    public static DeferredItem<AbstructCardItem> registerPlant(String name, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun) {
-        DeferredItem<AbstructCardItem> item =  PLANTS.register("plant_card/"+name, () -> new AbstructCardItem(new Item.Properties(),entityType,consumeSun));
+    /**
+     * @param name 注册名
+     * @param entityType 召唤植物类型
+     * @param consumeSun 消耗阳光数量
+     * @param duration 默认10
+     * @param rarity 默认白色
+     * @return
+     */
+    public static DeferredItem<AbstructCardItem> registerPlant(String name, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration, ModRarity rarity) {
+        DeferredItem<AbstructCardItem> item =  PLANTS.register("plant_card/"+name, () -> new AbstructCardItem(
+                new Item.Properties()
+                        .component(ModDataComponentTypes.MOD_RARITY, rarity)
+                        .stacksTo(1)
+                        .durability(duration)
+                ,entityType,consumeSun));
         Optional.ofNullable(cardItems).ifPresent(list -> list.add(item));
         return item;
+    }
+
+    public static DeferredItem<AbstructCardItem> registerPlant(String name, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration) {
+        return registerPlant(name, entityType, consumeSun, duration, ModRarity.COMMON);
+    }
+
+    public static DeferredItem<AbstructCardItem> registerPlant(String name, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun) {
+        return registerPlant(name, entityType, consumeSun, 10);
     }
 
     public static List<DeferredItem<AbstructCardItem>> cardItems = new ArrayList<>();

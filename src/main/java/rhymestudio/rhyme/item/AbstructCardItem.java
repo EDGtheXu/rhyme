@@ -1,6 +1,7 @@
 package rhymestudio.rhyme.item;
 
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -29,14 +30,18 @@ public class AbstructCardItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
 
+            ItemStack itemstack = player.getItemInHand(hand);
             if(!Computer.tryCombineInventoryItem(player, MaterialItems.SUN_ITEM.get(), consume))
-                return super.use(level, player, hand);
+                return InteractionResultHolder.fail(itemstack);
 
             var entity = entityType.get().create(level);
             entity.setOwner(player);
             entity.setPos(player.position());
             level.addFreshEntity(entity);
-
+            itemstack.setDamageValue(itemstack.getDamageValue() + 1);
+            if(itemstack.getDamageValue() >= itemstack.getMaxDamage())
+                itemstack.shrink(1);
+            return InteractionResultHolder.success(itemstack);
         }
         return super.use(level, player, hand);
     }

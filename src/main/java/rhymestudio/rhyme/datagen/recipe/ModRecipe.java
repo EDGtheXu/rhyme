@@ -7,12 +7,10 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.CampfireCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
 
 import java.util.concurrent.CompletableFuture;
 
