@@ -8,8 +8,10 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 import rhymestudio.rhyme.registry.ModBlocks;
+import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.ModEntities;
-import rhymestudio.rhyme.registry.ModItems;
+import rhymestudio.rhyme.registry.items.MaterialItems;
+import rhymestudio.rhyme.registry.items.PlantItems;
 import rhymestudio.rhyme.registry.ModTabs;
 
 @Mod(Rhyme.MODID)
@@ -20,9 +22,11 @@ public class Rhyme {
 
     public Rhyme(IEventBus modEventBus, ModContainer modContainer) {
         ModBlocks.BLOCKS.register(modEventBus);
-        ModItems.ITEMS.register(modEventBus);
+        PlantItems.PLANTS.register(modEventBus);
+        MaterialItems.MATERIALS.register(modEventBus);
         ModTabs.TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
+        ModDataComponentTypes.TYPES.register(modEventBus);
     }
 
 }

@@ -35,7 +35,7 @@
 //    public static Set<Item> items;
 //
 //    private static boolean validateItemName(final Object obj) {
-//        return obj instanceof final String itemName && ForgeRegistries.ITEMS.containsKey(new ResourceLocation(itemName));
+//        return obj instanceof final String itemName && ForgeRegistries.PLANTS.containsKey(new ResourceLocation(itemName));
 //    }
 //
 //    @SubscribeEvent
@@ -45,6 +45,6 @@
 //        magicNumberIntroduction = MAGIC_NUMBER_INTRODUCTION.get();
 //
 //        // convert the list of strings into a set of items
-//        items = ITEM_STRINGS.get().stream().map(itemName -> ForgeRegistries.ITEMS.getValue(new ResourceLocation(itemName))).collect(Collectors.toSet());
+//        items = ITEM_STRINGS.get().stream().map(itemName -> ForgeRegistries.PLANTS.getValue(new ResourceLocation(itemName))).collect(Collectors.toSet());
 //    }
 //}

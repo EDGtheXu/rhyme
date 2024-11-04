@@ -15,8 +15,10 @@ public class ModEnglishProvider extends LanguageProvider {
 
 
         add("rhyme.item.sun", "sun");
+        add("creativetab.rhyme.materials", "pvz materials");
+        add("creativetab.rhyme.cards", "pvz cards");
 
-        add("creativetab.rhyme.cards","plants");
+
         add("rhyme.item.sun_flower", "sun flower");
 
     }

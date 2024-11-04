@@ -13,9 +13,10 @@ public class ModChineseProvider extends LanguageProvider {
 
 
         add("rhyme.item.sun", "阳光");
+        add("creativetab.rhyme.materials", "PVZ 材料");
+        add("creativetab.rhyme.cards", "PVZ 卡包");
 
 
-        add("creativetab.rhyme.cards","植物");
         add("rhyme.item.sun_flower", "向日葵");
 
 

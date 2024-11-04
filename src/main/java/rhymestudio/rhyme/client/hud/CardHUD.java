@@ -8,10 +8,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.ModItems;
+import rhymestudio.rhyme.registry.items.MaterialItems;
+import rhymestudio.rhyme.registry.items.PlantItems;
 import rhymestudio.rhyme.utils.Computer;
 
-import javax.smartcardio.Card;
 import java.awt.*;
 
 public class CardHUD {
@@ -105,7 +105,7 @@ public class CardHUD {
 
     public void drawSunCard(GuiGraphics guiGraphics, int x, int y,int w,int h){
         drawIcon(guiGraphics,"textures/item/sun_item.png",0, 0, w, h);
-        int count = Computer.getInventoryItemCount(player, ModItems.SUN_ITEM.get());
+        int count = Computer.getInventoryItemCount(player, MaterialItems.SUN_ITEM.get());
         String countStr =String.valueOf(count) ;
         guiGraphics.drawString(mc.font,countStr,w/2-3,h+2, Color.yellow.getRGB());
     }
