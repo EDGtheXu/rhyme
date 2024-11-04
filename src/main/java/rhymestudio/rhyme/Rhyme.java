@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.items.IconItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
 import rhymestudio.rhyme.registry.ModTabs;
@@ -21,9 +22,12 @@ public class Rhyme {
     public static ResourceLocation space(String path){return ResourceLocation.fromNamespaceAndPath(MODID, path);}
 
     public Rhyme(IEventBus modEventBus, ModContainer modContainer) {
-        ModBlocks.BLOCKS.register(modEventBus);
         PlantItems.PLANTS.register(modEventBus);
         MaterialItems.MATERIALS.register(modEventBus);
+        IconItems.QUALITY_ITEMS.register(modEventBus);
+
+
+        ModBlocks.BLOCKS.register(modEventBus);
         ModTabs.TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModDataComponentTypes.TYPES.register(modEventBus);

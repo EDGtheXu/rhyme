@@ -15,7 +15,7 @@ import rhymestudio.rhyme.entity.BaseProj;
 
 public class PeaProjModel<T extends BaseProj> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "pea_model"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "pea_bullet_model"), "main");
 	private final ModelPart bb_main;
 
 	public PeaProjModel(ModelPart root) {

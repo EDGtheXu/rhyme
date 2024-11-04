@@ -41,7 +41,7 @@ public class ModEntities {
 
     ));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PEA = registerPlants("pea_shooter",(type, level)->new Pea(type,level, PeaAnimation.idle_normal,PeaAnimation.shoot,new Pea
+    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PEA = registerPlants("pea_shooter",(type, level)->new Pea(type,level, PeaAnimation.idle,PeaAnimation.shoot,new Pea
             .Builder()
             .setAnimSpeed(2)
             .setAttackDamage(5)//子弹伤害

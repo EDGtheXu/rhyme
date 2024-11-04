@@ -8,6 +8,7 @@
     "MonsterMixin"
   ],
   "client": [
+    "GuiGraphicsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

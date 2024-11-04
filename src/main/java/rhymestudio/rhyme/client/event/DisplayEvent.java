@@ -1,6 +1,7 @@
 package rhymestudio.rhyme.client.event;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
@@ -47,6 +48,7 @@ public class DisplayEvent {
             }
             color = rarity.getColor();
             float r = (color >> 16 & 255) / 255.0F;
+
             float g = (color >> 8 & 255) / 255.0F;
             float b = (color & 255) / 255.0F;
             event.getGuiGraphics().setColor(r,g,b,1);
