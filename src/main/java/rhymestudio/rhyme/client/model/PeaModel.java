@@ -77,7 +77,7 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 		this.head.yRot = netHeadYaw * 0.017453292F;
 		this.head.zRot = headPitch * 0.017453292F;
 
-		this.animate(entity.animState.getAnim("idle"), PeaAnimation.idle, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), PeaAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
 
 	}

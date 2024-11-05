@@ -5,6 +5,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -44,8 +45,11 @@ public abstract class AbstractPlant extends Mob{
 
     }
 
+    public boolean isPushable(){return false;}
+
     public void onAddedToLevel(){
         this.cafeDefineAnimations();
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(builder.health);
         this.setHealth(builder.health);
         addSkills();
         animState.playAnim(skills.getCurSkill(),tickCount);
@@ -86,7 +90,7 @@ public abstract class AbstractPlant extends Mob{
 
         } else {
             skills.tick();
-//            System.out.println(skills.index + " "+skills.tick);
+
             this.entityData.set(DATA_SKILL_INDEX, skills.index);
             this.entityData.set(DATA_SKILL_TICK, skills.tick);
         }

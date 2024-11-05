@@ -9,7 +9,7 @@ import java.util.Map;
 public class CafeAnimationState {
     public record Tuple(AnimationState animationState, float duration, float animationSpeed, boolean isLooping){}
     public Map<String ,Tuple> animationMap;
-    public String curName = "idle";
+    public String curName = "idle_on";
     public int tick = 0;
 
     public CafeAnimationState(Map<String, Tuple> animationMap) {
@@ -46,8 +46,11 @@ public class CafeAnimationState {
     }
 
     public void playAnim(String name, int tick){
-        this.animationMap.get(name).animationState().start(tick);
-        this.curName = name;
+        if(!this.animationMap.isEmpty()){
+            this.animationMap.get(name).animationState().start(tick);
+            this.curName = name;
+        }
+
     }
 
     public int getAnimTick(String name) {
@@ -60,9 +63,7 @@ public class CafeAnimationState {
 
 
     public void addAnimation(String name, AnimationDefinition anim, float speed) {
-        this.animationMap.put(name, new CafeAnimationState.Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
-
-
+        if(anim!=null) this.animationMap.put(name, new CafeAnimationState.Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
     }
 
 }

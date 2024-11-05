@@ -13,8 +13,9 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.entity.plants.NutWall;
 
-public class NutWallHurt1 extends HierarchicalModel<AbstractPlant> {
+public class NutWallHurt1 extends HierarchicalModel<NutWall>  {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space("wall_nut2"), "main");
 	private final ModelPart bone4;
@@ -43,7 +44,7 @@ public class NutWallHurt1 extends HierarchicalModel<AbstractPlant> {
 	}
 
 	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(NutWall entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 	}
 

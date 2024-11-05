@@ -26,7 +26,7 @@ public class peaPrefabs {
                 .setAttackAnimTick(attackAnimTick)
                 .setDefineSkill(plant->{
                     //tip                                                  idle持续时间        触发攻击时间
-                    CircleSkill idle = new CircleSkill( "idle",  999999999, builder.attackInternalTick,
+                    CircleSkill idle = new CircleSkill( "idle_on",  999999999, builder.attackInternalTick,
                             // tip刚进入状态
                             a->{},
                             // tip进入状态触发时间

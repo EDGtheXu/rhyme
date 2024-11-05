@@ -7,6 +7,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -22,6 +23,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import rhymestudio.rhyme.Rhyme;
 
 public abstract class BaseProj extends AbstractHurtingProjectile{
     public Vector3f initForward = new Vector3f();
@@ -123,12 +125,6 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
         return 1;
     }
 
-
-
-
-
-    //defineSynchedData()：该方法用于定义实体的同步数据，在该方法中，将COUNTER实体数据访问器初始化为0。
-
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
@@ -139,4 +135,20 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
             this.entityData.set(curRot,initForward);
         }
     }
+    public ResourceLocation texture;
+    public void setTexture(ResourceLocation texture){
+        this.texture = texture;
+    }
+    public ResourceLocation getTexture(){
+        return texture;
+    }
+
+    public static class TextureLib{
+        public static final ResourceLocation PEA = Rhyme.space("textures/entity/pea_bullet.png");
+        public static final ResourceLocation ICE_PEA = Rhyme.space("textures/entity/ice_pea_bullet.png");
+        public static final ResourceLocation FIRE_PEA = Rhyme.space("textures/entity/fire_pea_bullet.png");
+
+
+    }
+
 }

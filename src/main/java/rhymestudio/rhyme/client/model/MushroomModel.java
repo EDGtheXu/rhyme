@@ -47,7 +47,7 @@ public class MushroomModel extends HierarchicalModel<AbstractPlant> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 
-		this.animate(entity.animState.getAnim("idle"), PeaAnimation.idle, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), PeaAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
 
 	}

@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.item;
 
+import net.minecraft.client.telemetry.TelemetryProperty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
@@ -29,11 +30,11 @@ public class AbstractCardItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         if (!level.isClientSide()) {
             ItemStack itemstack = player.getItemInHand(hand);
+            if(!player.canBeSeenAsEnemy()){ // 创造
+                summon(player, level);
+                return InteractionResultHolder.success(itemstack);
+            }
             if(!Computer.tryCombineInventoryItem(player, MaterialItems.SUN_ITEM.get(), consume)){
-                if(player.isCreative() || player.isSpectator()){
-                    summon(player, level);
-                    return InteractionResultHolder.success(itemstack);
-                }
                 return InteractionResultHolder.fail(itemstack);
             }
             summon(player, level);

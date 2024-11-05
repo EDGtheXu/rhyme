@@ -2,13 +2,14 @@ package rhymestudio.rhyme.entity.plants.prefabs;
 
 import rhymestudio.rhyme.entity.AbstractPlant;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class PresetBuilders {
     public static final Supplier<AbstractPlant.Builder> NORMAL_PEA_PLANT = () -> new AbstractPlant.Builder()
             .setAnimSpeed(2)
             .setAttackDamage(5)//子弹伤害
-            .setAttackInternalTick(20)//idle
+            .setAttackInternalTick(20)//idle_on
 
             .setAttackTriggerTick(15)
             .setAttackAnimTick((int) (1.5 * 20));//shoot
@@ -20,6 +21,9 @@ public class PresetBuilders {
             .setAttackTriggerTick(10)//攻击动画触发时间
             .setAttackAnimTick(20);//攻击动画持续时间
 
-
+    public static final Function<Integer,AbstractPlant.Builder> DEFENSE_PLANT = (hp) -> new AbstractPlant.Builder()
+            .setHealth(hp)
+            .setAttackTriggerTick(10)//攻击动画触发时间
+            .setAttackAnimTick(20);//攻击动画持续时间
 
 }

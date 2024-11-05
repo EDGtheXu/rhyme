@@ -11,7 +11,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * @author Author
  */
 public class PotatoMineOnAnimation {
-	public static final AnimationDefinition idle = AnimationDefinition.Builder.withLength(3.0F).looping()
+	public static final AnimationDefinition idle_on = AnimationDefinition.Builder.withLength(3.0F).looping()
 		.addAnimation("grey", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),
 			new Keyframe(0.749F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.LINEAR),

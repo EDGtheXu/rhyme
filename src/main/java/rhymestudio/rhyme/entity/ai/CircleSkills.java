@@ -20,6 +20,7 @@ public class CircleSkills<T extends AbstractPlant> {
 
     public boolean pushSkill(CircleSkill skill){
         bossSkills.add(skill);
+
         if(bossSkills.size()==1) tick = 0;
         return true;
     }

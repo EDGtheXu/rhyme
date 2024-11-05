@@ -13,8 +13,7 @@ import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.DoublePeaAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.DoublePea;
-import rhymestudio.rhyme.entity.plants.Pea;
+
 
 public class DoublePeaModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -79,7 +78,7 @@ public class DoublePeaModel extends HierarchicalModel<AbstractPlant> {
 		this.head.yRot = netHeadYaw * 0.017453292F;
 		this.head.zRot = headPitch * 0.017453292F;
 
-		this.animate(entity.animState.getAnim("idle"), DoublePeaAnimation.idle_normal, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), DoublePeaAnimation.idle_normal, ageInTicks);
 		this.animate(entity.animState.getAnim("shoot"), DoublePeaAnimation.shoot, ageInTicks);
 	}
 

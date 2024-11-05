@@ -10,12 +10,11 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.PeaAnimation;
-import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.client.animation.PotatoMineOnAnimation;
+import rhymestudio.rhyme.entity.plants.PotatoMine;
 
-public class PotatoMineOnModel extends HierarchicalModel<AbstractPlant> {
+public class PotatoMineOnModel extends HierarchicalModel<PotatoMine> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space("potato_mine_on"), "main");
 	private final ModelPart all;
@@ -100,11 +99,12 @@ public class PotatoMineOnModel extends HierarchicalModel<AbstractPlant> {
 	}
 
 	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(PotatoMine entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.animate(entity.animState.getAnim("idle"), PeaAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), PotatoMineOnAnimation.idle_on, ageInTicks);
+		this.animate(entity.animState.getAnim("bomb"), PotatoMineOnAnimation.bomb, ageInTicks);
+
 
 	}
 

@@ -1,20 +1,35 @@
 package rhymestudio.rhyme.client;
 
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import rhymestudio.rhyme.client.model.DoublePeaModel;
-import rhymestudio.rhyme.client.model.IcePeaModel;
-import rhymestudio.rhyme.client.model.PeaModel;
+import rhymestudio.rhyme.client.model.*;
 import rhymestudio.rhyme.client.model.proj.PeaProjModel;
-import rhymestudio.rhyme.client.model.SunflowerModel;
 
+import static rhymestudio.rhyme.registry.ModEntities.registerContainers;
+
+
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
 public class RegisterModel {
+    @SubscribeEvent
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions evt) {
         evt.registerLayerDefinition(PeaProjModel.LAYER_LOCATION, PeaProjModel::createBodyLayer);
         evt.registerLayerDefinition(SunflowerModel.LAYER_LOCATION, SunflowerModel::createBodyLayer);
-        evt.registerLayerDefinition(PeaModel.LAYER_LOCATION, PeaModel::createBodyLayer);
-        evt.registerLayerDefinition(IcePeaModel.LAYER_LOCATION, IcePeaModel::createBodyLayer);
+//        evt.registerLayerDefinition(PeaModel.LAYER_LOCATION, PeaModel::createBodyLayer);
+//        evt.registerLayerDefinition(IcePeaModel.LAYER_LOCATION, IcePeaModel::createBodyLayer);
+//        evt.registerLayerDefinition(DoublePeaModel.LAYER_LOCATION, DoublePeaModel::createBodyLayer);
 
-        evt.registerLayerDefinition(DoublePeaModel.LAYER_LOCATION, DoublePeaModel::createBodyLayer);
+        registerContainers.forEach(r->evt.registerLayerDefinition(r.getModelDefine(), r.getCreate()));
+
+        evt.registerLayerDefinition(PotatoMineOnModel.LAYER_LOCATION, PotatoMineOnModel::createBodyLayer);
+        evt.registerLayerDefinition(PotatoMineUnderModel.LAYER_LOCATION, PotatoMineUnderModel::createBodyLayer);
+
+        evt.registerLayerDefinition(NutWallModel.LAYER_LOCATION, NutWallModel::createBodyLayer);
+        evt.registerLayerDefinition(NutWallHurt1.LAYER_LOCATION, NutWallHurt1::createBodyLayer);
+        evt.registerLayerDefinition(NutWallHurt2.LAYER_LOCATION, NutWallHurt2::createBodyLayer);
+
+
 
 
 

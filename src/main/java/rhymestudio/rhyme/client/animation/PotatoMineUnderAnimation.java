@@ -10,7 +10,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * Exported for Minecraft version 1.19 or later with Mojang mappings
  * @author Author
  */
-public class PotatoMineAnimation {
+public class PotatoMineUnderAnimation {
 	public static final AnimationDefinition idle = AnimationDefinition.Builder.withLength(1.5F).looping()
 		
 		.build();
