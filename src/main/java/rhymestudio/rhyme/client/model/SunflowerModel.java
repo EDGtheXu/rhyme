@@ -43,22 +43,22 @@ public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition all = partdefinition.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition all = partdefinition.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 24.0F, 0.0F, 0.0F, 1.5708F, 0.0F));
 
-		PartDefinition head = all.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 9).addBox(-1.075F, -1.75F, -3.0F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 29).addBox(-2.075F, -2.75F, -4.0F, 2.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 43).addBox(0.925F, -5.75F, -7.0F, 0.0F, 12.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.425F, -12.45F, 0.0F));
+		PartDefinition head = all.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 9).addBox(-0.8333F, -2.0F, -3.0F, 1.0F, 4.0F, 6.0F, new CubeDeformation(0.0F))
+				.texOffs(8, 29).addBox(-1.8333F, -3.0F, -4.0F, 2.0F, 6.0F, 8.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 43).addBox(1.1667F, -6.0F, -7.0F, 0.0F, 12.0F, 14.0F, new CubeDeformation(0.0F)), PartPose.offset(-0.6667F, -12.2F, 0.0F));
 
-		PartDefinition face = head.addOrReplaceChild("face", CubeListBuilder.create(), PartPose.offset(0.925F, 3.25F, 0.0F));
+		PartDefinition face = head.addOrReplaceChild("face", CubeListBuilder.create(), PartPose.offset(1.1667F, 3.0F, 0.0F));
 
 		PartDefinition normal = face.addOrReplaceChild("normal", CubeListBuilder.create().texOffs(28, 25).addBox(-1.0F, -7.0F, -5.0F, 2.0F, 8.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition eyes_closed = face.addOrReplaceChild("eyes_closed", CubeListBuilder.create().texOffs(40, 0).addBox(-1.0F, -7.0F, -5.0F, 2.0F, 8.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition Yezi = all.addOrReplaceChild("Yezi", CubeListBuilder.create().texOffs(24, 15).addBox(0.0F, -1.0F, -4.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(24, 0).addBox(0.0F, -1.0F, 2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(0, 20).addBox(-6.0F, -1.0F, 2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
-		.texOffs(12, 24).addBox(-6.0F, -1.0F, -4.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 0.0F, -1.0F));
+				.texOffs(24, 0).addBox(0.0F, -1.0F, 2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 20).addBox(-6.0F, -1.0F, 2.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F))
+				.texOffs(12, 24).addBox(-6.0F, -1.0F, -4.0F, 4.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(1.0F, 0.0F, -1.0F));
 
 		PartDefinition gj = all.addOrReplaceChild("gj", CubeListBuilder.create(), PartPose.offset(-1.0F, -6.0F, 0.0F));
 
@@ -74,7 +74,7 @@ public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.head.yRot = netHeadYaw * 0.017453292F;
-		this.head.zRot = headPitch * 0.017453292F;
+		this.head.xRot = headPitch * 0.017453292F;
 
 		this.animate(entity.animState.getAnim("idle"), SunflowerAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("sun"), SunflowerAnimation.sun, ageInTicks);

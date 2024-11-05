@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.entity.proj;
 
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
@@ -9,28 +10,32 @@ import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.registry.ModEntities;
 
 public class LineProj extends BaseProj {
-    private float damage;
-    private float speed;
+    private int damage;
+    private int existTick;
 
     @Override
     public float damage() {
-        return 10;
+        return damage;
     }
     @Override
-    public float waveDur() {
-        return 2000;
+    public int waveDur() {
+        return existTick;
     }
+/*
+    public LineProj(EntityType<? extends LineProj> pEntityType, Level pLevel){
+        super(pEntityType,pLevel,null);
+        this.damage = 1000;
+        this.existTick = 100;
+    }*/
 
-
-    public LineProj(EntityType<LineProj> pEntityType, Level pLevel) {
-        super(pEntityType, pLevel);
-    }
-
-    public LineProj(Entity pOwner,int damage, float speed) {
-        super(ModEntities.PEA_PROJ.get(),pOwner.level());
-        this.setOwner(pOwner);
+    public LineProj(EntityType<? extends LineProj> pEntityType, Level pLevel,int damage, int existTick, MobEffectInstance pEffect) {
+        super(pEntityType,pLevel,pEffect);
         this.damage = damage;
-        this.speed = speed;
+        this.existTick = existTick;
+    }
+
+    public LineProj(EntityType<? extends LineProj> pEntityType, Level pLevel,int damage, int existTick) {
+        this(pEntityType,pLevel,damage,existTick,null);
     }
 
 

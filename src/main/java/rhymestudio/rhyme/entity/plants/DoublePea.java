@@ -60,7 +60,7 @@ public class DoublePea extends AbstractPlant {
     public void doAttack(LivingEntity tar){
         Vec3 pos = tar.getEyePosition();
 //        Projectile arrow = new Arrow(level(), this, Items.ARROW.getDefaultInstance(), Items.ARROW.getDefaultInstance());
-        Projectile arrow =new LineProj(this,builder.attackDamage,builder.projSpeed);
+        Projectile arrow = ModEntities.PEA_PROJ.get().create(level());
         arrow.setOwner(this);
         arrow.setPos(this.getEyePosition().add(0,0.1F,0));
         Vec3 dir = pos.subtract(getEyePosition());

@@ -11,7 +11,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.model.PeaProjModel;
+import rhymestudio.rhyme.client.model.proj.PeaProjModel;
 import rhymestudio.rhyme.entity.BaseProj;
 
 public class PeaProjRenderer extends EntityRenderer<BaseProj> {

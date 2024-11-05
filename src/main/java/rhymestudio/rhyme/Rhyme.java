@@ -7,13 +7,10 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
-import rhymestudio.rhyme.registry.ModBlocks;
-import rhymestudio.rhyme.registry.ModDataComponentTypes;
-import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.*;
 import rhymestudio.rhyme.registry.items.IconItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
-import rhymestudio.rhyme.registry.ModTabs;
 
 @Mod(Rhyme.MODID)
 public class Rhyme {
@@ -31,6 +28,7 @@ public class Rhyme {
         ModTabs.TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModDataComponentTypes.TYPES.register(modEventBus);
+        ModEffects.EFFECTS.register(modEventBus);
     }
 
 }

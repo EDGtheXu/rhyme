@@ -5,6 +5,7 @@ import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 import rhymestudio.rhyme.entity.proj.LineProj;
+import rhymestudio.rhyme.registry.ModEntities;
 import rhymestudio.rhyme.utils.Computer;
 
 import java.util.function.Consumer;
@@ -49,7 +50,7 @@ public class peaPrefabs {
                                     //tip 触发射击，生成弹幕
                                     Vec3 pos = plant.getTarget().getEyePosition();
 //        Projectile arrow = new Arrow(level(), this, Items.ARROW.getDefaultInstance(), Items.ARROW.getDefaultInstance());
-                                    Projectile arrow =new LineProj(plant,builder.attackDamage,builder.projSpeed);
+                                    Projectile arrow = ModEntities.PEA_PROJ.get().create(plant.level());
                                     arrow.setOwner(plant);
                                     arrow.setPos(plant.getEyePosition().add(0,0.1F,0));
                                     Vec3 dir = pos.subtract(plant.getEyePosition());

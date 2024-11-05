@@ -14,11 +14,9 @@ public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>>
     public BasePlantRenderer(EntityRendererProvider.Context renderManager,U model) {
         super(renderManager, model,0.5f);
     }
-    
 
     protected void setupRotations(T entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, float scale) {
-        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
-
+//        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
         super.setupRotations(entity, poseStack, bob, yBodyRot, partialTick, scale);
 
     }

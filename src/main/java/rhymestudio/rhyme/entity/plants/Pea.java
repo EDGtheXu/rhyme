@@ -11,16 +11,25 @@ import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.registry.ModEntities;
 import rhymestudio.rhyme.utils.Computer;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 public class Pea extends AbstractPlant {
 
     private final AnimationDefinition idle;
     private final AnimationDefinition shoot;
+    private BiConsumer<AbstractPlant,LivingEntity> attackCallback;
 
     public Pea(EntityType<? extends AbstractPlant> type,Level level, AnimationDefinition idle,AnimationDefinition shoot, Builder builder) {
         super(type, level);
         this.builder = builder;
         this.idle = idle;
         this.shoot = shoot;
+    }
+
+    public Pea(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition idle, AnimationDefinition shoot, BiConsumer<AbstractPlant,LivingEntity> doAttack, Builder builder) {
+        this(type, level, idle, shoot, builder);
+        this.attackCallback = doAttack;
     }
 
     public void cafeDefineAnimations(){
@@ -55,7 +64,8 @@ public class Pea extends AbstractPlant {
                 a->{
                     if(skills.canTrigger() && target!= null && target.isAlive()){
                         //tip 触发射击，生成弹幕
-                        doAttack(target);
+                        if(attackCallback!= null) attackCallback.accept(this,target);
+                        else doAttack(target);
                     }
                 },
                 a->{}
@@ -66,8 +76,7 @@ public class Pea extends AbstractPlant {
 
     public void doAttack(LivingEntity tar){
         Vec3 pos = tar.getEyePosition();
-//        Projectile arrow = new Arrow(level(), this, Items.ARROW.getDefaultInstance(), Items.ARROW.getDefaultInstance());
-        Projectile arrow =new LineProj(this,builder.attackDamage,builder.projSpeed);
+        Projectile arrow = ModEntities.PEA_PROJ.get().create(level());
         arrow.setOwner(this);
         arrow.setPos(this.getEyePosition().add(0,0.1F,0));
         Vec3 dir = pos.subtract(getEyePosition());
@@ -75,10 +84,4 @@ public class Pea extends AbstractPlant {
         level().addFreshEntity(arrow);
     }
 
-
-    public void tick() {
-
-
-        super.tick();
-    }
 }
