@@ -11,17 +11,17 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.PeaAnimation;
+import rhymestudio.rhyme.client.animation.PuffShroomAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
-public class MushroomModel extends HierarchicalModel<AbstractPlant> {
+public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "custommodel"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "puff_shroom"), "main");
 	private final ModelPart bone;
 	private final ModelPart bone3;
 	private final ModelPart bone2;
 
-	public MushroomModel(ModelPart root) {
+	public PuffShroomModel(ModelPart root) {
 		this.bone = root.getChild("bone");
 		this.bone3 = this.bone.getChild("bone3");
 		this.bone2 = this.bone.getChild("bone2");
@@ -46,9 +46,9 @@ public class MushroomModel extends HierarchicalModel<AbstractPlant> {
 	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-
-		this.animate(entity.animState.getAnim("idle_on"), PeaAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
+		this.animate(entity.animState.getAnim("sleep"), PuffShroomAnimation.sleeping, ageInTicks);
+		this.animate(entity.animState.getAnim("idle"), PuffShroomAnimation.idle, ageInTicks);
+		this.animate(entity.animState.getAnim("shoot"), PuffShroomAnimation.attack, ageInTicks);
 
 	}
 

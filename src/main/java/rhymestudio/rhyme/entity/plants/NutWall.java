@@ -27,7 +27,7 @@ public class NutWall extends AbstractPlant {
 
 
     public void cafeDefineAnimations(){
-        super.addSkills();
+        super.cafeDefineAnimations();
         this.animState.addAnimation("idle_on", idle,1);
     }
 

@@ -56,6 +56,7 @@ public class CircleSkills<T extends AbstractPlant> {
     public void forceStartIndex(int index){
         tick = 0;
         this.index = index;
+        owner.animState.playAnim(bossSkills.get(index).skill,owner.tickCount);
     }
 
 

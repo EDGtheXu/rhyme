@@ -28,19 +28,7 @@ public class PresetAttacks {
         arrow.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
         me.level().addFreshEntity(arrow);
     };
-    /*
-    //带贴图的豌豆
-    public static final QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, ResourceLocation> PEA_SHOOT_ATTACK_TEXTURE = (me, tar, proj, tex) -> {
-        Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0);
-        BaseProj arrow = proj.get().create(me.level());
-        arrow.setOwner(me);
-        arrow.setPos(me.getEyePosition().add(0,0.1F,0));
-        arrow.setTexture(tex);
-        Vec3 dir = pos.subtract(me.getEyePosition());
-        arrow.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
-        me.level().addFreshEntity(arrow);
-    };
-    */
+
     //普通豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> PEA_SHOOT = (me, tar) -> {
         PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ);

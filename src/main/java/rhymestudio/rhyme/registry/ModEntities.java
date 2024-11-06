@@ -22,10 +22,7 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.*;
 import rhymestudio.rhyme.client.model.*;
 import rhymestudio.rhyme.entity.BaseProj;
-import rhymestudio.rhyme.entity.plants.NutWall;
-import rhymestudio.rhyme.entity.plants.Pea;
-import rhymestudio.rhyme.entity.plants.PotatoMine;
-import rhymestudio.rhyme.entity.plants.SunFlower;
+import rhymestudio.rhyme.entity.plants.*;
 import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.SunItemEntity;
@@ -46,9 +43,11 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, Rhyme.MODID);
 
     // tip 植物
+    //      tip 生产类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> SUN_FLOWER = registerPlants("sunflower", (type, level)->
             new SunFlower(level,NORMAL_SUNFLOWER_PLANT.get()));
 
+    //      tip 豌豆类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PEA = registerPlants("pea_shooter",(type, level)->
             new Pea(type,level, PeaAnimation.idle,PeaAnimation.shoot,
                     PEA_SHOOT, NORMAL_PEA_PLANT.get()));
@@ -61,12 +60,17 @@ public class ModEntities {
             new Pea(type,level, DoublePeaAnimation.idle_normal,DoublePeaAnimation.shoot,
                     DOUBLE_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
 
+    //      tip 坚果类
     public static final DeferredHolder<EntityType<?>, EntityType<NutWall>> NUT_WALL = registerPlants("nut_wall",(type,level)->
             new NutWall(type,level, null, DEFENSE_PLANT.apply(200)));
 
+    //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<PotatoMine>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
-            new PotatoMine(type,level, PotatoMineUnderAnimation.idle, PotatoMineUnderAnimation.up, PotatoMineOnAnimation.idle_on,PotatoMineOnAnimation.bomb,10,DEFENSE_PLANT.apply(50)));
+            new PotatoMine(type,level, PotatoMineUnderAnimation.idle, PotatoMineUnderAnimation.up, PotatoMineOnAnimation.idle_on,PotatoMineOnAnimation.bomb,20 * 10,DEFENSE_PLANT.apply(50)));
 
+    //      tip 蘑菇类
+    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->
+            new PuffShroom(type,level, PuffShroomAnimation.sleeping, PuffShroomAnimation.idle, PuffShroomAnimation.attack , PEA_SHOOT, DEFENSE_PLANT.apply(50)));
 
 
 
@@ -130,7 +134,8 @@ public class ModEntities {
             create(SUN_FLOWER, SunflowerModel.class),
             create(PEA,  PeaModel.class),
             create(ICE_PEA, IcePeaModel.class),
-            create(DOUBLE_PEA, DoublePeaModel.class)
+            create(DOUBLE_PEA, DoublePeaModel.class),
+            create(PUFF_SHROOM, PuffShroomModel.class)
 
 //            create(NUT_WALL,NutWallModel.class)
 

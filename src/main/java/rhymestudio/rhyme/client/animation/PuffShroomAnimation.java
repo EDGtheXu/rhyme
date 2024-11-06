@@ -10,7 +10,7 @@ import net.minecraft.client.animation.KeyframeAnimations;
  * Exported for Minecraft version 1.19 or later with Mojang mappings
  * @author Author
  */
-public class MashroomAnimation {
+public class PuffShroomAnimation {
 	public static final AnimationDefinition sleeping = AnimationDefinition.Builder.withLength(4.25F).looping()
 		.addAnimation("bone", new AnimationChannel(AnimationChannel.Targets.ROTATION,
 			new Keyframe(0.0F, KeyframeAnimations.degreeVec(0.0F, 0.0F, 0.0F), AnimationChannel.Interpolations.CATMULLROM),
