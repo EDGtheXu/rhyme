@@ -3,7 +3,8 @@ package rhymestudio.rhyme.entity.plants;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.ExplosionDamageCalculator;
@@ -15,21 +16,24 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PotatoMine extends AbstractPlant {
 
     private int readyTime;
-
+    private float explosionRadius;
     public PotatoMine(EntityType<? extends AbstractPlant> type, Level level,
                       AnimationDefinition idle,
                       AnimationDefinition up,
                       AnimationDefinition idle_on,
                       AnimationDefinition bomb,
-                      int readyTick, Builder builder) {
+                      int readyTick,
+                      float explosionRadius,
+                      Builder builder) {
         super(type, level);
         this.builder = builder;
         this.readyTime = readyTick;
-
+        this.explosionRadius = explosionRadius;
 
         this.animState.addAnimation("idle", idle,1);
         this.animState.addAnimation("up", up,1);
@@ -52,9 +56,13 @@ public class PotatoMine extends AbstractPlant {
                 a->{},
                 a-> {
                     if(readyTime<=0){
-                        if (!level().getEntities(this, this.getBoundingBox().inflate(0.2f)).isEmpty()) {
-                            skills.forceEnd();
-                        }
+                        AtomicBoolean flag = new AtomicBoolean(false);
+                        level().getEntities(this, this.getBoundingBox().inflate(0.2f)).forEach(e->{
+                            if(e instanceof Mob mob && mob instanceof Enemy){
+                                flag.set(true);
+                            }
+                        });
+                        if(flag.get()) skills.forceEnd();
                     }
                 },
                 a->{}
@@ -77,8 +85,7 @@ public class PotatoMine extends AbstractPlant {
         this.addSkill(boom);
     }
     protected void explode() {
-        float f = 1F;
-        this.level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), USED_PORTAL_DAMAGE_CALCULATOR , this.getX(), this.getY(0.0625), this.getZ(), f, false, Level.ExplosionInteraction.TNT);
+        this.level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), USED_PORTAL_DAMAGE_CALCULATOR , this.getX(), this.getY(0.0625), this.getZ(), explosionRadius, false, Level.ExplosionInteraction.TNT);
     }
 
     private static final ExplosionDamageCalculator USED_PORTAL_DAMAGE_CALCULATOR = new ExplosionDamageCalculator() {
@@ -108,6 +115,9 @@ public class PotatoMine extends AbstractPlant {
 
     }
     public boolean canBeSeenAsEnemy(){
+        return false;
+    }
+    public boolean isInWall(){
         return false;
     }
 }

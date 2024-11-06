@@ -66,7 +66,8 @@ public class ModEntities {
 
     //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<PotatoMine>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
-            new PotatoMine(type,level, PotatoMineUnderAnimation.idle, PotatoMineUnderAnimation.up, PotatoMineOnAnimation.idle_on,PotatoMineOnAnimation.bomb,20 * 10,DEFENSE_PLANT.apply(50)));
+            new PotatoMine(type,level, PotatoMineAnimation.idle, PotatoMineAnimation.up, PotatoMineAnimation.idle_on, PotatoMineAnimation.bomb,
+                    20 * 2,2,DEFENSE_PLANT.apply(50)));
 
     //      tip 蘑菇类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->

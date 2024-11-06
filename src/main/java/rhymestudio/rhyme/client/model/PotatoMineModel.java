@@ -11,28 +11,25 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.PotatoMineOnAnimation;
+import rhymestudio.rhyme.client.animation.PeaAnimation;
+import rhymestudio.rhyme.client.animation.PotatoMineAnimation;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
 
-public class PotatoMineOnModel extends HierarchicalModel<PotatoMine> {
+public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space("potato_mine_on"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "potato_mine_model"), "main");
 	private final ModelPart all;
-	private final ModelPart bone2;
 	private final ModelPart body;
 	private final ModelPart red;
 	private final ModelPart grey;
-	private final ModelPart bone;
 	private final ModelPart doro_on;
 	private final ModelPart doro_under;
 
-	public PotatoMineOnModel(ModelPart root) {
+	public PotatoMineModel(ModelPart root) {
 		this.all = root.getChild("all");
-		this.bone2 = this.all.getChild("bone2");
-		this.body = this.bone2.getChild("body");
+		this.body = this.all.getChild("body");
 		this.red = this.body.getChild("red");
 		this.grey = this.body.getChild("grey");
-		this.bone = this.body.getChild("bone");
 		this.doro_on = this.all.getChild("doro_on");
 		this.doro_under = this.all.getChild("doro_under");
 	}
@@ -41,17 +38,14 @@ public class PotatoMineOnModel extends HierarchicalModel<PotatoMine> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition all = partdefinition.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 16.2F, 0.0F));
+		PartDefinition all = partdefinition.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 22.0F, 0.0F));
 
-		PartDefinition bone2 = all.addOrReplaceChild("bone2", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-		PartDefinition body = bone2.addOrReplaceChild("body", CubeListBuilder.create().texOffs(10, 15).addBox(-0.7F, -1.0F, -0.7F, 1.4F, 6.0F, 1.4F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition body = all.addOrReplaceChild("body", CubeListBuilder.create().texOffs(10, 15).addBox(-0.7F, -1.0F, -0.7F, 1.4F, 6.0F, 1.4F, new CubeDeformation(0.0F))
+		.texOffs(0, 0).addBox(-4.0F, 2.5F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition red = body.addOrReplaceChild("red", CubeListBuilder.create().texOffs(8, 24).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
 
 		PartDefinition grey = body.addOrReplaceChild("grey", CubeListBuilder.create().texOffs(32, 11).addBox(-1.0F, -2.0F, -1.0F, 2.0F, 2.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-		PartDefinition bone = body.addOrReplaceChild("bone", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, 0.5F, -4.0F, 8.0F, 7.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 2.0F, 0.0F));
 
 		PartDefinition doro_on = all.addOrReplaceChild("doro_on", CubeListBuilder.create().texOffs(0, 26).addBox(0.0F, -1.0F, -1.0F, 1.0F, 1.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(0.7F, 2.0F, -1.3F));
 
@@ -102,9 +96,10 @@ public class PotatoMineOnModel extends HierarchicalModel<PotatoMine> {
 	public void setupAnim(PotatoMine entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.animate(entity.animState.getAnim("idle_on"), PotatoMineOnAnimation.idle_on, ageInTicks);
-		this.animate(entity.animState.getAnim("bomb"), PotatoMineOnAnimation.bomb, ageInTicks);
-
+		this.animate(entity.animState.getAnim("idle"), PotatoMineAnimation.idle, ageInTicks);
+		this.animate(entity.animState.getAnim("up"), PotatoMineAnimation.up, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), PotatoMineAnimation.idle_on, ageInTicks);
+		this.animate(entity.animState.getAnim("bomb"), PotatoMineAnimation.bomb, ageInTicks);
 
 	}
 
@@ -112,7 +107,6 @@ public class PotatoMineOnModel extends HierarchicalModel<PotatoMine> {
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
 		all.render(poseStack, vertexConsumer, packedLight, packedOverlay, c);
 	}
-
 	@Override
 	public ModelPart root() {
 		return all;

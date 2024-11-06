@@ -22,8 +22,9 @@ public class RegisterModel {
 
         registerContainers.forEach(r->evt.registerLayerDefinition(r.getModelDefine(), r.getCreate()));
 
-        evt.registerLayerDefinition(PotatoMineOnModel.LAYER_LOCATION, PotatoMineOnModel::createBodyLayer);
-        evt.registerLayerDefinition(PotatoMineUnderModel.LAYER_LOCATION, PotatoMineUnderModel::createBodyLayer);
+        evt.registerLayerDefinition(PotatoMineModel.LAYER_LOCATION, PotatoMineModel::createBodyLayer);
+//        evt.registerLayerDefinition(PotatoMineUnderModel.LAYER_LOCATION, PotatoMineUnderModel::createBodyLayer);
+
 
         evt.registerLayerDefinition(NutWallModel.LAYER_LOCATION, NutWallModel::createBodyLayer);
         evt.registerLayerDefinition(NutWallHurt1.LAYER_LOCATION, NutWallHurt1::createBodyLayer);

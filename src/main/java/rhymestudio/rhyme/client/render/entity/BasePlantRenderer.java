@@ -11,14 +11,19 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 
 
 public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>> extends MobRenderer<T, U> {
+    private boolean rotY;
     public BasePlantRenderer(EntityRendererProvider.Context renderManager,U model) {
-        super(renderManager, model,0.5f);
+        this(renderManager, model,0.3f,false);
+    }
+
+    public BasePlantRenderer(EntityRendererProvider.Context renderManager,U model,float shadowRadius,boolean rotY) {
+        super(renderManager, model,shadowRadius);
+        this.rotY = rotY;
     }
 
     protected void setupRotations(T entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, float scale) {
-//        poseStack.mulPose(Axis.YP.rotationDegrees(-90));
+        if(rotY) poseStack.mulPose(Axis.YP.rotationDegrees(-90));
         super.setupRotations(entity, poseStack, bob, yBodyRot, partialTick, scale);
-
     }
 
         @Override

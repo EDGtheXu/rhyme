@@ -19,7 +19,8 @@ public class NutWall extends AbstractPlant {
 
     private final AnimationDefinition idle;
 
-    public NutWall(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition idle, Builder builder) {
+    public NutWall(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition idle,
+                   Builder builder) {
         super(type, level);
         this.builder = builder;
         this.idle = idle;
