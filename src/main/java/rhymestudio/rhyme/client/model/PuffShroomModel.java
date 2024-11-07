@@ -20,7 +20,9 @@ public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 	private final ModelPart head;
 	private final ModelPart bone3;
 	private final ModelPart bone2;
+	private final ModelPart root;
 	public PuffShroomModel(ModelPart root) {
+		this.root = root;
 		this.head = root.getChild("head");
 		this.bone3 = this.head.getChild("bone3");
 		this.bone2 = this.head.getChild("bone2");
@@ -45,6 +47,9 @@ public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+		this.head.yRot = netHeadYaw * 0.017453292F +1.5708F;
+//		this.head.xRot = headPitch * 0.017453292F;
+
 		this.animate(entity.animState.getAnim("sleep"), PuffShroomAnimation.sleeping, ageInTicks);
 		this.animate(entity.animState.getAnim("idle"), PuffShroomAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("shoot"), PuffShroomAnimation.attack, ageInTicks);
@@ -58,6 +63,6 @@ public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 
 	@Override
 	public ModelPart root() {
-		return head;
+		return root;
 	}
 }

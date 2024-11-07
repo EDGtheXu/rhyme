@@ -1,6 +1,5 @@
 package rhymestudio.rhyme.item;
 
-import net.minecraft.client.telemetry.TelemetryProperty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
@@ -9,27 +8,33 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.item.quality.CardQuality;
+import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.utils.Computer;
 
 public class AbstractCardItem<T extends AbstractPlant> extends Item {
     public DeferredHolder<EntityType<?>, EntityType<T>> entityType;
-    public CardQuality quality;
+    public void upLevel(){
+
+    }
 
     public int consume;
     public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consume){
         super(properties);
         this.entityType = entityType;
         this.consume = consume;
-        quality = CardQuality.COPPER;
     }
 
-
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+
         if (!level.isClientSide()) {
+
             ItemStack itemstack = player.getItemInHand(hand);
+
+            CardQualityComponent.tryUpLevel(itemstack);
+
             if(!player.canBeSeenAsEnemy()){ // 创造
                 summon(player, level);
                 return InteractionResultHolder.success(itemstack);
@@ -52,6 +57,5 @@ public class AbstractCardItem<T extends AbstractPlant> extends Item {
         entity.setPos(player.position());
         level.addFreshEntity(entity);
     }
-
 
 }

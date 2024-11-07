@@ -20,7 +20,7 @@ public class RegisterModel {
 //        evt.registerLayerDefinition(IcePeaModel.LAYER_LOCATION, IcePeaModel::createBodyLayer);
 //        evt.registerLayerDefinition(DoublePeaModel.LAYER_LOCATION, DoublePeaModel::createBodyLayer);
 
-        registerContainers.forEach(r->evt.registerLayerDefinition(r.getModelDefine(), r.getCreate()));
+        registerContainers.forEach(r->evt.registerLayerDefinition(r.getModelDefine(), r.getLayerDefinition()));
 
         evt.registerLayerDefinition(PotatoMineModel.LAYER_LOCATION, PotatoMineModel::createBodyLayer);
 //        evt.registerLayerDefinition(PotatoMineUnderModel.LAYER_LOCATION, PotatoMineUnderModel::createBodyLayer);

@@ -19,9 +19,12 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PotatoMine extends AbstractPlant {
+    public float offsetYAnim = 0;
+    public float shadowAnim = 0;
 
     private int readyTime;
     private float explosionRadius;
+
     public PotatoMine(EntityType<? extends AbstractPlant> type, Level level,
                       AnimationDefinition idle,
                       AnimationDefinition up,
@@ -42,16 +45,11 @@ public class PotatoMine extends AbstractPlant {
     }
 
 
-    public void cafeDefineAnimations(){
-        super.cafeDefineAnimations();
-
-    }
-
     @Override
     public void addSkills() {
         super.addSkills();
         CircleSkill idle = new CircleSkill( "idle",  readyTime, 0);
-        CircleSkill up = new CircleSkill( "up",  30, 0);
+        CircleSkill up = new CircleSkill( "up",  29, 0);
         CircleSkill on = new CircleSkill( "idle_on",  999999999, 0,
                 a->{},
                 a-> {

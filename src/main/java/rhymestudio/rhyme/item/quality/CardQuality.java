@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public class CardQuality {
     final int level;
     final DeferredItem<Item> qualityItem;
-    static int maxLevel = 5;
+    static int maxLevel = 4;
 
     CardQuality(int level, DeferredItem<Item> qualityItem){
         if(level < 0) this.level = 0;

@@ -19,11 +19,11 @@ import java.util.function.BiConsumer;
 public class PresetAttacks {
 
     //普通豌豆
-    public static final TriConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>> PEA_SHOOT_ATTACK_BASE = (me, tar, proj) -> {
+    public static final  QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, Float> PEA_SHOOT_ATTACK_BASE = (me, tar, proj, offsetY) -> {
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0);
         BaseProj arrow = proj.get().create(me.level());
         arrow.setOwner(me);
-        arrow.setPos(me.getEyePosition().add(0,0.1F,0));
+        arrow.setPos(me.getEyePosition().add(0,offsetY,0));
         Vec3 dir = pos.subtract(me.getEyePosition());
         arrow.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
         me.level().addFreshEntity(arrow);
@@ -31,11 +31,11 @@ public class PresetAttacks {
 
     //普通豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> PEA_SHOOT = (me, tar) -> {
-        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ);
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ, 0.1f);
     };
     //冰豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> ICE_PEA_SHOOT = (me, tar) -> {
-        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.ICE_PEA_PROJ);
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.ICE_PEA_PROJ, 0.1f);
     };
     //双豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> DOUBLE_PEA_SHOOT = (me, tar) -> {
@@ -46,6 +46,11 @@ public class PresetAttacks {
                 PEA_SHOOT.accept(me, tar);
             }
         }, 300);
+    };
+
+    //小喷菇
+    public static final BiConsumer<AbstractPlant, LivingEntity> SPORE_SHOOT = (me, tar) -> {
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ, -0.3f);
     };
 
 

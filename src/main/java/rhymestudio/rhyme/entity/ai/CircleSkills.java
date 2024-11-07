@@ -56,6 +56,7 @@ public class CircleSkills<T extends AbstractPlant> {
     public void forceStartIndex(int index){
         tick = 0;
         this.index = index;
+        owner.getEntityData().set(AbstractPlant.DATA_CAFE_POSE_NAME,getCurSkill());
         owner.animState.playAnim(bossSkills.get(index).skill,owner.tickCount);
     }
 

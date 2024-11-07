@@ -9,9 +9,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.model.DoublePeaModel;
-import rhymestudio.rhyme.client.model.IcePeaModel;
-import rhymestudio.rhyme.client.model.PeaModel;
 import rhymestudio.rhyme.client.model.SunflowerModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
@@ -20,7 +17,6 @@ import rhymestudio.rhyme.client.render.entity.plant.NutWallRenderer;
 import rhymestudio.rhyme.client.render.entity.plant.PotatoMineRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.PeaProjRenderer;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.PotatoMine;
 import rhymestudio.rhyme.registry.ModEntities;
 
 import java.util.function.Function;
@@ -50,7 +46,15 @@ public class RegisterRenderer {
 
     }
     public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model){
-        event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher)));
+        registerOne(event,entityType,model,1.0f,0.3f);
+    }
+
+    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model,float shadowRadius,float scale){
+        registerOne(event,entityType,model,scale,shadowRadius,false);
+    }
+
+    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model,float shadowRadius,float scale,boolean rotY){
+        event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher), shadowRadius,scale, rotY));
     }
 
 }

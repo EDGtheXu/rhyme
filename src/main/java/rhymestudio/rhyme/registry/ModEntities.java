@@ -67,16 +67,16 @@ public class ModEntities {
     //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<PotatoMine>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
             new PotatoMine(type,level, PotatoMineAnimation.idle, PotatoMineAnimation.up, PotatoMineAnimation.idle_on, PotatoMineAnimation.bomb,
-                    20 * 2,2,DEFENSE_PLANT.apply(50)));
+                    20 * 2,2,DEFENSE_PLANT.apply(50)),1f,0.5f);
 
     //      tip 蘑菇类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->
-            new PuffShroom(type,level, PuffShroomAnimation.sleeping, PuffShroomAnimation.idle, PuffShroomAnimation.attack , PEA_SHOOT, DEFENSE_PLANT.apply(50)));
+            new PuffShroom(type,level, PuffShroomAnimation.sleeping, PuffShroomAnimation.idle, PuffShroomAnimation.attack , SPORE_SHOOT, NORMAL_PEA_PLANT.get()),0.75f,0.75f);
 
 
 
     public static <T extends AbstractPlant> DeferredHolder<EntityType<?>, EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory) {
-        return registerPlants(name,entityFactory,1,1);
+        return registerPlants(name,entityFactory,0.9F,1);
     }
     public static <T extends AbstractPlant> DeferredHolder<EntityType<?>, EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory, float w,float h) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(w,h).build("rhyme:entity."+name));
@@ -171,7 +171,7 @@ public class ModEntities {
             }catch (Exception e){ throw new RuntimeException();}
 
         }
-        public Supplier<LayerDefinition> getCreate(){
+        public Supplier<LayerDefinition> getLayerDefinition(){
             return  ()-> {
                 try {
                     return (LayerDefinition) clz.getMethod("createBodyLayer").invoke(null);

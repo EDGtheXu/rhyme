@@ -26,6 +26,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.item.AbstractCardItem;
+import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.items.IconItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
 
@@ -44,7 +45,11 @@ public abstract class GuiGraphicsMixin {
     @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;IIII)V",at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/entity/ItemRenderer;render(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IILnet/minecraft/client/resources/model/BakedModel;)V"))
     private void init(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, int guiOffset, CallbackInfo ci) {
         if(stack.getItem() instanceof AbstractCardItem item){
-            ItemStack qualityItem = item.quality.getQualityItem().getDefaultInstance();
+            var data = stack.getComponents().get(ModDataComponentTypes.CARD_QUALITY.get());
+            if(data == null){
+                return;
+            }
+            ItemStack qualityItem = data.getQualityItem().getDefaultInstance();
             BakedModel bakedmodel = this.minecraft.getItemRenderer().getModel(qualityItem, level, entity, seed);
             minecraft.getItemRenderer().render(qualityItem, ItemDisplayContext.GUI, false, this.pose,  this.bufferSource, 15728880, OverlayTexture.NO_OVERLAY,bakedmodel);
 

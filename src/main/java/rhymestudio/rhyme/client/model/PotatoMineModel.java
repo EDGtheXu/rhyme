@@ -11,8 +11,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.PeaAnimation;
 import rhymestudio.rhyme.client.animation.PotatoMineAnimation;
+import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
 
 public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
@@ -24,9 +24,12 @@ public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
 	private final ModelPart grey;
 	private final ModelPart doro_on;
 	private final ModelPart doro_under;
+	private final ModelPart root;
 
 	public PotatoMineModel(ModelPart root) {
+
 		this.all = root.getChild("all");
+		this.root = root;
 		this.body = this.all.getChild("body");
 		this.red = this.body.getChild("red");
 		this.grey = this.body.getChild("grey");
@@ -92,23 +95,34 @@ public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
+
+	float ageInTicksO = 0;
 	@Override
 	public void setupAnim(PotatoMine entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+
+		String pose = entity.getEntityData().get(AbstractPlant.DATA_CAFE_POSE_NAME);
+		int time =  entity.getEntityData().get(AbstractPlant.DATA_SKILL_TICK);
+
+		if(pose.equals("up") && time == 29){
+			if(ageInTicksO + 1 > ageInTicks) return;
+		}
+		ageInTicksO = ageInTicks;
+
+
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animate(entity.animState.getAnim("idle"), PotatoMineAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("up"), PotatoMineAnimation.up, ageInTicks);
 		this.animate(entity.animState.getAnim("idle_on"), PotatoMineAnimation.idle_on, ageInTicks);
 		this.animate(entity.animState.getAnim("bomb"), PotatoMineAnimation.bomb, ageInTicks);
-
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
-		all.render(poseStack, vertexConsumer, packedLight, packedOverlay, c);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, c);
 	}
 	@Override
 	public ModelPart root() {
-		return all;
+		return root;
 	}
 }

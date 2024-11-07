@@ -38,16 +38,26 @@ public class PuffShroom extends AbstractPlant {
         this.animState.addAnimation("sleep", sleep,1);
         this.animState.addAnimation("idle", idle,1);
         this.animState.addAnimation("shoot", shoot,1);
+//        this.animState.playAnim("sleep",tickCount);
     }
     private LivingEntity target;
     @Override
     public void addSkills() {
         super.addSkills();
 
-        CircleSkill sleep = new CircleSkill( "sleep",  20, 0);
-        CircleSkill  idle = new CircleSkill( "idle",  999999999, builder.attackInternalTick,
+        CircleSkill sleep = new CircleSkill( "sleep",  999999999, 0,
+                a->{},
+                a->{
+                    if(!level().isClientSide() && level().isNight())
+                        skills.forceEnd();
+                },
+                a->{}
+                );
+        CircleSkill idle = new CircleSkill( "idle",  999999999, builder.attackInternalTick,
                 a->{},
                 a-> {
+                    if(!level().isClientSide() && !level().isNight())
+                        skills.forceStartIndex(0);
                     if(skills.canContinue() &&
                             getTarget() != null && getTarget().isAlive() &&
                             Computer.angle(this.getForward(), getTarget().getEyePosition().subtract(this.getEyePosition())) < 20){
@@ -81,13 +91,6 @@ public class PuffShroom extends AbstractPlant {
         arrow.shoot(dir.x, dir.y, dir.z, builder.projSpeed, 1.0F);
         level().addFreshEntity(arrow);
 
-    }
-
-    public void tick(){
-        super.tick();
-        if(!level().isClientSide && !level().isNight()){
-            this.skills.forceStartIndex(0);
-        }
     }
 
 }

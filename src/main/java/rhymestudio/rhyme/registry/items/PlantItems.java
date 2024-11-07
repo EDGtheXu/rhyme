@@ -7,6 +7,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.NutWall;
@@ -52,6 +53,7 @@ public class PlantItems {
         DeferredItem<AbstractCardItem<T>> item =  PLANTS.register("plant_card/"+name, () -> new AbstractCardItem<>(
                 new Item.Properties()
                         .component(ModDataComponentTypes.MOD_RARITY, rarity)
+                        .component(ModDataComponentTypes.CARD_QUALITY, new CardQualityComponent(0))
                         .stacksTo(1)
                         .durability(duration)
                 ,entityType,consumeSun));
