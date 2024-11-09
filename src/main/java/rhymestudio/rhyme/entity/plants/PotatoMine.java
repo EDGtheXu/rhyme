@@ -2,6 +2,7 @@ package rhymestudio.rhyme.entity.plants;
 
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Enemy;
@@ -12,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 
@@ -86,10 +88,11 @@ public class PotatoMine extends AbstractPlant {
         this.level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), USED_PORTAL_DAMAGE_CALCULATOR , this.getX(), this.getY(0.0625), this.getZ(), explosionRadius, false, Level.ExplosionInteraction.TNT);
     }
 
-    private static final ExplosionDamageCalculator USED_PORTAL_DAMAGE_CALCULATOR = new ExplosionDamageCalculator() {
+    private  final ExplosionDamageCalculator USED_PORTAL_DAMAGE_CALCULATOR = new ExplosionDamageCalculator() {
         @Override
         public boolean shouldBlockExplode(Explosion p_353087_, BlockGetter p_353096_, BlockPos p_353092_, BlockState p_353086_, float p_353094_) {
-            return p_353086_.is(Blocks.NETHER_PORTAL) ? false : super.shouldBlockExplode(p_353087_, p_353096_, p_353092_, p_353086_, p_353094_);
+            return false;
+//            return p_353086_.is(Blocks.NETHER_PORTAL) ? false : super.shouldBlockExplode(p_353087_, p_353096_, p_353092_, p_353086_, p_353094_);
         }
 
         @Override
@@ -100,6 +103,11 @@ public class PotatoMine extends AbstractPlant {
                     ? Optional.empty()
                     : super.getBlockExplosionResistance(p_353090_, p_353088_, p_353091_, p_353093_, p_353095_);
         }
+        @Override
+        public float getEntityDamageAmount(Explosion explosion, Entity entity) {
+            return super.getEntityDamageAmount(explosion, entity)+builder.attackDamage;
+        }
+
     };
     @Override
     public void tick() {

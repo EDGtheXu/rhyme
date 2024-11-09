@@ -23,16 +23,17 @@ public record CardQualityComponent(int level) implements DataComponentType<CardQ
     public static final CardQualityComponent COPPER = new CardQualityComponent(0);//铜
     public static final CardQualityComponent SILVER = new CardQualityComponent(1);//银
     public static final CardQualityComponent GOLD = new CardQualityComponent(2);//金
-    public static final CardQualityComponent EMERALD = new CardQualityComponent(3);//翡翠
-    public static final CardQualityComponent DIAMOND = new CardQualityComponent(4);//钻石
+    public static final CardQualityComponent DIAMOND = new CardQualityComponent(3);//钻石
+    public static final CardQualityComponent EMERALD = new CardQualityComponent(4);//翡翠
+
 
     private record Tuple(DeferredItem<Item> qualityItem, CardQualityComponent component) { }
     private static final Map<Integer, Tuple> _levels = Map.of(
             0, new Tuple(IconItems.COPPER, COPPER),
             1, new Tuple(IconItems.SILVER, SILVER),
             2, new Tuple(IconItems.GOLD, GOLD),
-            3, new Tuple(IconItems.EMERALD, EMERALD),
-            4, new Tuple(IconItems.DIAMOND, DIAMOND)
+            3, new Tuple(IconItems.DIAMOND, DIAMOND),
+            4, new Tuple(IconItems.EMERALD, EMERALD)
     );
 
     public CardQualityComponent(int level) {

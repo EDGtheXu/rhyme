@@ -8,7 +8,9 @@
     "MonsterMixin"
   ],
   "client": [
-    "GuiGraphicsMixin"
+    "GuiGraphicsMixin",
+    "ItemEntityRendererMixin",
+    "ItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

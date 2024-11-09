@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.registry.items;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -17,5 +18,10 @@ public class IconItems {
 
     private static DeferredItem<Item> register(String name){
         return QUALITY_ITEMS.register(name, () -> new Item(new Item.Properties()));
+    }
+
+    public static void adjustItemEntityPose(PoseStack poseStack){
+        poseStack.translate(0.0D, 0.0D, -0.048);
+        poseStack.scale(0.99f, 0.99f, 0.9f);
     }
 }

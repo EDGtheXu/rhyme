@@ -156,6 +156,7 @@ public abstract class AbstractPlant extends Mob{
         public int attackInternalTick = 60;
         public  int attackDamage = 1;
         public  float projSpeed = 0.5f;
+
         public Consumer<AbstractPlant> defineAnim;
         public Consumer<AbstractPlant> defineSkill;
 

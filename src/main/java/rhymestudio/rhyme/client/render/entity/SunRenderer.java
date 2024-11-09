@@ -14,7 +14,7 @@ public class SunRenderer extends ItemEntityRenderer {
 
     //todo
     public void render(@NotNull ItemEntity itemEntity, float entityYaw, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource multiBufferSource, int packedLight) {
-
+        poseStack.scale(5,5,5);
         super.render(itemEntity, entityYaw, partialTick, poseStack, multiBufferSource, packedLight);
     }
 
