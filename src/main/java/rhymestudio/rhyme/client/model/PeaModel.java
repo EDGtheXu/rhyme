@@ -5,15 +5,21 @@ package rhymestudio.rhyme.client.model;// Made with Blockbench 4.11.1
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.world.entity.AnimationState;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.PeaAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.Pea;
+import software.bernie.geckolib.model.GeoModel;
+
+import java.util.Timer;
 
 public class PeaModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -27,6 +33,9 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 	private final ModelPart bone5;
 	private final ModelPart eyeclosed;
 
+	private long lastTime;
+	public static PeaModel INSTANCE;
+
 	public PeaModel(ModelPart root) {
 		this.bone2 = root.getChild("bone2");
 		this.bone6 = this.bone2.getChild("bone6");
@@ -37,6 +46,20 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 		this.bone5 = this.head.getChild("bone5");
 		this.eyeclosed = this.head.getChild("eyeclosed");
 
+		state.start(0);
+
+		lastTime = System.currentTimeMillis();
+	}
+
+	public static PeaModel getInstance() {
+		if(INSTANCE == null) {
+			try {
+				INSTANCE = new PeaModel(Minecraft.getInstance().getEntityModels().bakeLayer(PeaModel.LAYER_LOCATION));
+			} catch (Exception e) {
+				return null;
+			}
+		}
+		return INSTANCE;
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -79,6 +102,20 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 
 		this.animate(entity.animState.getAnim("idle_on"), PeaAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
+
+	}
+	private AnimationState state = new AnimationState();
+
+	public void defaultAnimate(PoseStack pose){
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		pose.scale(-0.65F,-0.65F,-0.65F);
+		pose.translate(-0.1,0.6,0);
+		pose.rotateAround(Axis.YN.rotationDegrees(-30), 0,0,0);
+		pose.rotateAround(Axis.XN.rotationDegrees(-10), 0,0,0);
+
+
+		float time = (System.currentTimeMillis() - lastTime)/1000f;
+		this.animate(state,PeaAnimation.idle, 0);
 
 	}
 

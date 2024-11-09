@@ -11,25 +11,22 @@ import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.NutWall;
-import rhymestudio.rhyme.entity.plants.Pea;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
-import rhymestudio.rhyme.entity.plants.PuffShroom;
 import rhymestudio.rhyme.item.AbstractCardItem;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.ModEntities;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PlantItems {
     public static final DeferredRegister.Items PLANTS = DeferredRegister.createItems(Rhyme.MODID);
 
     // tip 植物基类
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> SUN_FLOWER = registerPlant("sun_flower", ModEntities.SUN_FLOWER, 2);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> SUN_FLOWER = registerPlant("sunflower", ModEntities.SUN_FLOWER, 2);
     public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PEA_ITEM = registerPlant("pea_shooter", ModEntities.PEA,4);
     public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", ModEntities.ICE_PEA,7,10,ModRarity.BLUE);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> DOUBLE_PEA_ITEM = registerPlant("double_pea_shooter", ModEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> REPEATER_ITEM = registerPlant("repeater", ModEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
 
     // tip 蘑菇类
     public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PUFF_SHROOM_ITEM = registerPlant("puff_shroom", ModEntities.PUFF_SHROOM,0);
@@ -45,7 +42,7 @@ public class PlantItems {
      * @param name 注册名
      * @param entityType 召唤植物类型
      * @param consumeSun 消耗阳光数量
-     * @param duration 默认10
+     * @param duration 默认铜卡使用次数 10
      * @param rarity 默认白色
      * @return
      */

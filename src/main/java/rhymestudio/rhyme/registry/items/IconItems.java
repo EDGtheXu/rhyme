@@ -14,14 +14,6 @@ public class IconItems {
     public static final DeferredItem<Item> DIAMOND  = register("quality/card_quality_4");
 
 
-    /**
-     *     public static final CardQuality COPPER  = new CardQuality(0);//铜
-     *     public static final CardQuality SILVER  = new CardQuality(1);//银
-     *     public static final CardQuality GOLD    = new CardQuality(2);//金
-     *     public static final CardQuality EMERALD = new CardQuality(3);//翡翠
-     *     public static final CardQuality DIAMOND = new CardQuality(4);//钻石
-
-     */
 
     private static DeferredItem<Item> register(String name){
         return QUALITY_ITEMS.register(name, () -> new Item(new Item.Properties()));

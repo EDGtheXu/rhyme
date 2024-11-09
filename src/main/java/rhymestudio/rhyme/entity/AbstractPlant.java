@@ -98,8 +98,10 @@ public abstract class AbstractPlant extends Mob{
 
         super.tick();
         if(this.getTarget()!=null && getTarget().isAlive()){
-            this.lookControl.setLookAt(getTarget());
-            this.lookAt(getTarget(),360,85);
+            if(builder.shouldRotHead){
+                this.lookControl.setLookAt(getTarget());
+                this.lookAt(getTarget(),360,85);
+            }
             this.setYBodyRot(this.yHeadRot);
         }
 
@@ -146,6 +148,7 @@ public abstract class AbstractPlant extends Mob{
         //默认参数（豌豆）
         public  int health = 20;
         public  float animSpeed = 1;
+        private boolean shouldRotHead = true;
 
         public  int attackTriggerTick = 20;
         public  int attackAnimTick = 30;
@@ -197,6 +200,10 @@ public abstract class AbstractPlant extends Mob{
 
         public Builder setDefineSkill(Consumer<AbstractPlant> defineSkill) {
             this.defineSkill = defineSkill;
+            return this;
+        }
+        public Builder setNoRotHead() {
+            this.shouldRotHead = false;
             return this;
         }
 

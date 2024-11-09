@@ -15,17 +15,15 @@ import rhymestudio.rhyme.utils.Computer;
 import java.util.function.BiConsumer;
 
 public class PuffShroom extends AbstractPlant {
-    private final AnimationDefinition sleep;
-    private final AnimationDefinition idle;
-    private final AnimationDefinition shoot;
+
     private BiConsumer<AbstractPlant,LivingEntity> attackCallback;
 
     public PuffShroom(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition sleep, AnimationDefinition idle, AnimationDefinition shoot, Builder builder) {
         super(type, level);
         this.builder = builder;
-        this.idle = idle;
-        this.shoot = shoot;
-        this.sleep = sleep;
+        this.animState.addAnimation("sleep", sleep,1);
+        this.animState.addAnimation("idle", idle,1);
+        this.animState.addAnimation("shoot", shoot,1);
     }
 
     public PuffShroom(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition sleep, AnimationDefinition idle, AnimationDefinition shoot, BiConsumer<AbstractPlant,LivingEntity> doAttack, Builder builder) {
@@ -35,16 +33,14 @@ public class PuffShroom extends AbstractPlant {
 
     public void cafeDefineAnimations(){
         super.addSkills();
-        this.animState.addAnimation("sleep", sleep,1);
-        this.animState.addAnimation("idle", idle,1);
-        this.animState.addAnimation("shoot", shoot,1);
-//        this.animState.playAnim("sleep",tickCount);
+
+
     }
     private LivingEntity target;
     @Override
     public void addSkills() {
         super.addSkills();
-
+//        this.animState.playAnim("sleep",tickCount);
         CircleSkill sleep = new CircleSkill( "sleep",  999999999, 0,
                 a->{},
                 a->{
