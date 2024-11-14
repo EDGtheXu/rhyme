@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 @Mod(Rhyme.MODID)
 public class Rhyme {
     public static final String MODID = "rhyme";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
     public static ResourceLocation space(String path){return ResourceLocation.fromNamespaceAndPath(MODID, path);}
 
     public static List<Consumer<ModChineseProvider>> chineseProviders = new ArrayList<>();
@@ -32,8 +32,10 @@ public class Rhyme {
         MaterialItems.MATERIALS.register(modEventBus);
         IconItems.QUALITY_ITEMS.register(modEventBus);
 
-
+        ModBlocks.BLOCK_ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
+        ModBlocks.BLOCK_ENTITIES.register(modEventBus);
+
         ModTabs.TABS.register(modEventBus);
         ModEntities.ENTITIES.register(modEventBus);
         ModDataComponentTypes.TYPES.register(modEventBus);

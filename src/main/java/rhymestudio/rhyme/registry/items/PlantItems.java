@@ -51,7 +51,7 @@ public class PlantItems {
         DeferredItem<AbstractCardItem<T>> item =  PLANTS.register("plant_card/"+en, () -> new AbstractCardItem<>(
                 new Item.Properties()
                         .component(ModDataComponentTypes.MOD_RARITY, rarity)
-                        .component(ModDataComponentTypes.CARD_QUALITY, new CardQualityComponent(0))
+                        .component(ModDataComponentTypes.CARD_QUALITY, CardQualityComponent.COPPER)
                         .stacksTo(1)
                         .durability(duration)
                 ,entityType,consumeSun));

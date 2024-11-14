@@ -4,10 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -15,48 +16,36 @@ import org.jetbrains.annotations.Nullable;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.items.IconItems;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-public record CardQualityComponent(int level) implements DataComponentType<CardQualityComponent> {
-    static int maxLevel = 4;
+/**
+ * 物品等级组件，用于渲染背景
+ * @param level
+ * @param source
+ */
+public record CardQualityComponent(int level, ResourceLocation source) implements DataComponentType<CardQualityComponent> {
 
-    public static final CardQualityComponent COPPER = new CardQualityComponent(0);//铜
-    public static final CardQualityComponent SILVER = new CardQualityComponent(1);//银
-    public static final CardQualityComponent GOLD = new CardQualityComponent(2);//金
-    public static final CardQualityComponent DIAMOND = new CardQualityComponent(3);//钻石
-    public static final CardQualityComponent EMERALD = new CardQualityComponent(4);//翡翠
+    public static List<CardQualityComponent> _levels = new ArrayList<>();
+    public static final CardQualityComponent COPPER     = register(0, IconItems.COPPER);
+    public static final CardQualityComponent SILVER     = register(1, IconItems.SILVER);
+    public static final CardQualityComponent GOLD       = register(2, IconItems.GOLD);
+    public static final CardQualityComponent DIAMOND    = register(3, IconItems.DIAMOND);
+    public static final CardQualityComponent EMERALD    = register(4, IconItems.EMERALD);
 
 
-    private record Tuple(DeferredItem<Item> qualityItem, CardQualityComponent component) { }
-    private static final Map<Integer, Tuple> _levels = Map.of(
-            0, new Tuple(IconItems.COPPER, COPPER),
-            1, new Tuple(IconItems.SILVER, SILVER),
-            2, new Tuple(IconItems.GOLD, GOLD),
-            3, new Tuple(IconItems.DIAMOND, DIAMOND),
-            4, new Tuple(IconItems.EMERALD, EMERALD)
-    );
 
-    public CardQualityComponent(int level) {
-        if (level < 0) this.level = 0;
-        else this.level = Math.min(level, maxLevel);
+    public static CardQualityComponent register(int level, DeferredItem<Item> qualityItem) {
+        var q = new CardQualityComponent(level, qualityItem.getId());
+        _levels.add(q);
+        return q;
     }
 
-    public CardQualityComponent ofLevel(int level) {
-        if(level < 0 || level > maxLevel) return this;
-        return _levels.get(level).component;
-    }
+    public CardQualityComponent increaseLevel() {return _levels.get(level < _levels.size() - 1? level + 1 : _levels.size() - 1);}
 
-    public CardQualityComponent increaseLevel() {
-        if (level < maxLevel) return _levels.get(level + 1).component;
-        return this;
-    }
+    public CardQualityComponent decreaseLevel() {return _levels.get(level > 0 ? level - 1 : 0);}
 
-    public CardQualityComponent decreaseLevel() {
-        if (level > 0) return _levels.get(level - 1).component;
-        return this;
-    }
-
-    public Item getQualityItem() {return _levels.get(level).qualityItem.get();}
+    public Item getQualityItem() {return BuiltInRegistries.ITEM.get(source);}
 
     public static boolean tryUpLevel(ItemStack stack){
         var data = stack.getComponents().get(ModDataComponentTypes.CARD_QUALITY.get());
@@ -76,12 +65,15 @@ public record CardQualityComponent(int level) implements DataComponentType<CardQ
 
 
     public static final Codec<CardQualityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codec.INT.fieldOf("card_level").forGetter(CardQualityComponent::level)
+            Codec.INT.fieldOf("card_level").forGetter(CardQualityComponent::level),
+            ResourceLocation.CODEC.fieldOf("card_source").forGetter(CardQualityComponent::source)
     ).apply(instance, CardQualityComponent::new));
 
-
-    public static final StreamCodec<ByteBuf, CardQualityComponent> STREAM_CODEC =
-            ByteBufCodecs.INT.map(CardQualityComponent::new, CardQualityComponent::level);
+    public static final StreamCodec<ByteBuf, CardQualityComponent> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.INT, CardQualityComponent::level,
+            ResourceLocation.STREAM_CODEC, CardQualityComponent::source,
+            CardQualityComponent::new
+    );
 
     @Override
     public @Nullable Codec<CardQualityComponent> codec() {
@@ -97,9 +89,7 @@ public record CardQualityComponent(int level) implements DataComponentType<CardQ
     public boolean equals(Object object) {
         if (this == object) return true;
         if (!(object instanceof CardQualityComponent component)) return false;
-
-        return component.level == level;
+        return component.level == level && component.source.equals(source);
     }
-
 
 }

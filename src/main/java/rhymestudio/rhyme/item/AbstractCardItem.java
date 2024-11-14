@@ -5,7 +5,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -14,11 +13,10 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.utils.Computer;
 
-public class AbstractCardItem<T extends AbstractPlant> extends Item {
+public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem {
     public DeferredHolder<EntityType<?>, EntityType<T>> entityType;
     public void upLevel(){
 
@@ -66,5 +64,6 @@ public class AbstractCardItem<T extends AbstractPlant> extends Item {
         entity.setPos(new Vec3(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5));
         level.addFreshEntity(entity);
     }
+
 
 }

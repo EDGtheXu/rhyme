@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "rhyme:block/sun_creator_block",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "rhyme:block/sun_creator_block"
+    },
+    "facing=south": {
+      "model": "rhyme:block/sun_creator_block",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "rhyme:block/sun_creator_block",
+      "y": 270
+    }
+  }
+}

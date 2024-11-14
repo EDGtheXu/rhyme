@@ -2,7 +2,6 @@ package rhymestudio.rhyme.event;
 
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 

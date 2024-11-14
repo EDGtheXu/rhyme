@@ -1,0 +1,42 @@
+package rhymestudio.rhyme.datagen;
+
+import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.ModBlocks;
+
+
+import java.util.List;
+
+import static rhymestudio.rhyme.Rhyme.MODID;
+
+
+public class ModBlockStateProvider extends BlockStateProvider {
+//    private static final String[] WOODS = Arrays.stream(LogBlocks.WoodSetType.values()).map(woodSetType -> woodSetType.name().toLowerCase()).toArray(String[]::new);
+
+    public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
+        super(output, MODID, exFileHelper);
+    }
+
+    @Override
+    protected void registerStatesAndModels() {
+
+        // 一般方块
+        List<DeferredRegister.Blocks> normalBlocks = List.of(
+                ModBlocks.BLOCKS
+        );
+        normalBlocks.forEach(blocks -> blocks.getEntries().forEach(block -> {
+            Block value = block.get();
+            try {
+                simpleBlock(value);
+            } catch (Exception e) {
+                Rhyme.LOGGER.error(e.getMessage());
+            }
+        }));
+
+    }
+
+}

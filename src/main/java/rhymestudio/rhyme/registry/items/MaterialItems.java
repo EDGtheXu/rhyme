@@ -5,6 +5,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.dataComponent.ModRarity;
+import rhymestudio.rhyme.item.CustomRarityItem;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 
 public class MaterialItems {
@@ -22,7 +23,7 @@ public class MaterialItems {
 
 
     public static DeferredItem<Item> register(String en, String zh, ModRarity rarity) {
-        DeferredItem<Item> item =  MATERIALS.register("material/"+en, () -> new Item(new Item.Properties().component(ModDataComponentTypes.MOD_RARITY,rarity)));
+        DeferredItem<Item> item =  MATERIALS.register("material/"+en, () -> new CustomRarityItem(new Item.Properties().component(ModDataComponentTypes.MOD_RARITY,rarity)));
         Rhyme.chineseProviders.add((c)->c.add(item.get(),zh));
         return item;
     }

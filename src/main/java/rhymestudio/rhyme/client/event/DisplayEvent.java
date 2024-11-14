@@ -22,6 +22,7 @@ import static rhymestudio.rhyme.Rhyme.MODID;
 public class DisplayEvent {
     @SubscribeEvent
     public static void onDisplay(GatherComponents event) {
+        /*
         ModRarity rarity = event.getItemStack().get(ModDataComponentTypes.MOD_RARITY);
         if(rarity!=null){
             var a =  event.getTooltipElements();
@@ -29,6 +30,7 @@ public class DisplayEvent {
                 a.getFirst().ifLeft(s-> ((MutableComponent)s).withColor(rarity.getColor()));
             }
         }
+        */
     }
     @SubscribeEvent
     public static void onTick(ClientTickEvent.Pre event) {
@@ -39,6 +41,7 @@ public class DisplayEvent {
 
     @SubscribeEvent
     public static void onRenderTooltip(RenderGuiLayerEvent.Pre event) {
+        /*
         if(event.getName().toString().equals("minecraft:selected_item_name")){
             ItemStack stack = Minecraft.getInstance().player.getItemInHand(InteractionHand.MAIN_HAND);
             ModRarity rarity = stack.get(ModDataComponentTypes.MOD_RARITY);
@@ -55,6 +58,7 @@ public class DisplayEvent {
         }else{
             event.getGuiGraphics().setColor(1,1,1,1);
         }
+        */
     }
 
 }

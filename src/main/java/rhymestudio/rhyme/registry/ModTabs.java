@@ -35,4 +35,14 @@ public class ModTabs {
                     .build()
     );
 
+    public static final Supplier<CreativeModeTab> BLOCKS = TABS.register("blocks",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> ModBlocks.BLOCK_ITEMS.getEntries().stream().filter(i->i.is(Rhyme.space("sun_creator_block"))).findFirst().get().get().getDefaultInstance())
+                    .title(Component.translatable("creativetab.rhyme.blocks"))
+                    .displayItems((parameters, output) -> {
+                        ModBlocks.BLOCKS.getEntries().forEach(item -> output.accept(item.get()));
+                    })
+                    .build()
+    );
+
 }

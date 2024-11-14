@@ -15,7 +15,9 @@ import rhymestudio.rhyme.client.animate.MasterColorAnimation;
 
 import java.util.Objects;
 
-
+/**
+ * FROM @link <a href="https://github.com/westernat/TerraCurio/blob/f2cdd8a6a400a27d5d4721c289f72d832b76028b/src/main/java/org/confluence/terra_curio/common/component/ModRarity.java">...</a>
+ */
 public class ModRarity implements DataComponentType<ModRarity> {
     public static final ModRarity COMMON = new ModRarity("common",16777215);
     public static final ModRarity UNCOMMON = new ModRarity("uncommon", 16777045);

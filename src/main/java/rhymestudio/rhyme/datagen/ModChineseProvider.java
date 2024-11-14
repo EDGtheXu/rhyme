@@ -2,8 +2,6 @@ package rhymestudio.rhyme.datagen;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
 
 import static rhymestudio.rhyme.Rhyme.MODID;
 
@@ -17,7 +15,7 @@ public class ModChineseProvider extends LanguageProvider {
 
         add("creativetab.rhyme.materials", "PVZ 材料");
         add("creativetab.rhyme.cards", "PVZ 卡包");
-
+        add("creativetab.rhyme.blocks", "pvz 方块");
 
         Rhyme.chineseProviders.forEach(a->a.accept(this));
 

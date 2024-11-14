@@ -3,6 +3,7 @@ package rhymestudio.rhyme.datagen;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
 
@@ -27,11 +28,12 @@ public class ModEnglishProvider extends LanguageProvider {
         add("rhyme.item.sun", "sun");
         add("creativetab.rhyme.materials", "pvz materials");
         add("creativetab.rhyme.cards", "pvz cards");
+        add("creativetab.rhyme.blocks", "pvz blocks");
 
 
         PlantItems.PLANTS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
         MaterialItems.MATERIALS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
-
+        ModBlocks.BLOCK_ITEMS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
     }
 
 }
