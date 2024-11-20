@@ -94,8 +94,8 @@ public class ModEntities {
             new LineProj(e,l,20,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5), BaseProj.TextureLib.ICE_PEA));
 
         // tip 投掷
-    public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> THROWN_PEA_PROJ = registerProj("thrown_pea_proj",(e,l)->
-            new ThrowableProj(e,l));
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> THROWN_PEA_PROJ = registerProj("thrown_pea_proj",
+                ThrowableProj::new);
 
 
 

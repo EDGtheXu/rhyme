@@ -13,6 +13,7 @@ public class SunFlower extends AbstractPlant {
     public SunFlower(Level level, Builder builder) {
         super(ModEntities.SUN_FLOWER.get(), level);
         this.builder = builder;
+
     }
 
     @Override

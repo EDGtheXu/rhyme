@@ -11,7 +11,7 @@ public class CafeAnimationState {
     public Map<String ,Tuple> animationMap;
     public String curName = "idle_on";
     public int tick = 0;
-
+    public float globalAnimSpeed = 1;
     public CafeAnimationState(Map<String, Tuple> animationMap) {
         this.animationMap = animationMap;
     }
@@ -20,16 +20,16 @@ public class CafeAnimationState {
         this.animationMap = new HashMap<>();
     }
 
-    public void addAnimation(String animationName, AnimationState animationState, int duration, float animationSpeed, boolean isLooping) {
-        animationMap.put(animationName, new Tuple(animationState, duration, animationSpeed, isLooping));
+    public void addAnimation(String name, AnimationDefinition anim, float speed) {
+        if(anim!=null) this.animationMap.put(name, new Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
     }
 
     public float getDuration(String animationName) {
         return animationMap.get(animationName).duration;
     }
 
-    public float getAnimSpeed(String animationName) {
-        return animationMap.get(animationName).animationSpeed;
+    public float getAnimSpeed() {
+        return animationMap.get(curName).animationSpeed;
     }
 
     public boolean isLooping(String animationName) {
@@ -42,7 +42,6 @@ public class CafeAnimationState {
 
     public void resetAnim(){
         this.animationMap.forEach((k,v)->v.animationState().stop());
-
     }
 
     public void playAnim(String name, int tick){
@@ -50,7 +49,6 @@ public class CafeAnimationState {
             this.animationMap.get(name).animationState().start(tick);
             this.curName = name;
         }
-
     }
 
     public int getAnimTick(String name) {
@@ -62,8 +60,6 @@ public class CafeAnimationState {
     }
 
 
-    public void addAnimation(String name, AnimationDefinition anim, float speed) {
-        if(anim!=null) this.animationMap.put(name, new CafeAnimationState.Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
-    }
+
 
 }

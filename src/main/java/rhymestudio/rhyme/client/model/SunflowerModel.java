@@ -76,8 +76,8 @@ public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
 		this.head.yRot = netHeadYaw * 0.017453292F;
 		this.head.zRot = headPitch * 0.017453292F;
 
-		this.animate(entity.animState.getAnim("idle_on"), SunflowerAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("sun"), SunflowerAnimation.sun, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), SunflowerAnimation.idle, ageInTicks, entity.animState.getAnimSpeed());
+		this.animate(entity.animState.getAnim("sun"), SunflowerAnimation.sun, ageInTicks, entity.animState.getAnimSpeed());
 	}
 
 	@Override

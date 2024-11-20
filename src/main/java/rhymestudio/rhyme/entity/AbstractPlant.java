@@ -17,6 +17,7 @@ import org.joml.Vector3f;
 import rhymestudio.rhyme.entity.anim.CafeAnimationState;
 import rhymestudio.rhyme.entity.ai.CircleSkills;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
+import rhymestudio.rhyme.entity.proj.ThrowableProj;
 
 import java.util.function.Consumer;
 
@@ -25,6 +26,7 @@ public abstract class AbstractPlant extends Mob{
     public String namePath;
     public Player owner;
     public Builder builder;
+
     public CafeAnimationState animState = new CafeAnimationState();
     public CircleSkills<AbstractPlant> skills = new CircleSkills<>(this);
 
@@ -58,6 +60,8 @@ public abstract class AbstractPlant extends Mob{
         super.onAddedToLevel();
     }
 
+
+
     public void registerGoals(){
         //this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 20.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,true, this::canAttack));
@@ -86,6 +90,7 @@ public abstract class AbstractPlant extends Mob{
     }
 
     public void tick(){
+
         if (level().isClientSide) {
             skills.index = this.entityData.get(DATA_SKILL_INDEX);
             skills.tick = this.entityData.get(DATA_SKILL_TICK);

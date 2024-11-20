@@ -13,10 +13,10 @@ import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.entity.anim.curve.BezierCurse;
 
 public class ThrowableProj extends BaseProj {
+    private float step = 0f;
     private Vec3 heightPos;
     private Vec3 targetPos;
     private BezierCurse curse;
-    private float step = 0f;
 
     public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel) {
         super(pEntityType,pLevel,null);
@@ -36,6 +36,14 @@ public class ThrowableProj extends BaseProj {
         this(pEntityType,pLevel,targetPos,null);
     }
 
+    public Vec3 getNexPos(){
+        step += 0.05f;
+        return curse.cal(step);
+    }
+
+    @Override
+    public int waveDur() {return 100;}
+
     public static final EntityDataAccessor<Vector3f> DATA_HEIGHT = SynchedEntityData.defineId(ThrowableProj.class, EntityDataSerializers.VECTOR3);
     public static final EntityDataAccessor<Vector3f> DATA_TARGET = SynchedEntityData.defineId(ThrowableProj.class, EntityDataSerializers.VECTOR3);
 
@@ -46,6 +54,7 @@ public class ThrowableProj extends BaseProj {
         builder.define(DATA_TARGET, new Vector3f(0,0,0));
 
     }
+
     @Override
     public void onSyncedDataUpdated(EntityDataAccessor<?> var1) {
         super.onSyncedDataUpdated(var1);
@@ -71,13 +80,6 @@ public class ThrowableProj extends BaseProj {
         }
     }
 
-    public Vec3 getNexPos(){
-        step += 0.05f;
-        return curse.cal(step);
-    }
-
-
-
     @Override
     public void tick(){
         super.tick();
@@ -89,9 +91,8 @@ public class ThrowableProj extends BaseProj {
         this.setPos(getNexPos());
     }
 
-    @Override
-    public int waveDur() {
-        return 100;
-    }
+
+
+
 
 }

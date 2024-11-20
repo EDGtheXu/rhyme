@@ -113,7 +113,7 @@ public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
 
 		this.animate(entity.animState.getAnim("idle"), PotatoMineAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("up"), PotatoMineAnimation.up, ageInTicks);
-		this.animate(entity.animState.getAnim("idle_on"), PotatoMineAnimation.idle_on, ageInTicks);
+		this.animate(entity.animState.getAnim("idle_on"), PotatoMineAnimation.idle_on, ageInTicks, entity.animState.getAnimSpeed() * entity.animState.globalAnimSpeed);
 		this.animate(entity.animState.getAnim("bomb"), PotatoMineAnimation.bomb, ageInTicks);
 	}
 

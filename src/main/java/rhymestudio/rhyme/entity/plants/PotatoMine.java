@@ -2,6 +2,9 @@ package rhymestudio.rhyme.entity.plants;
 
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -13,16 +16,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
 
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class PotatoMine extends AbstractPlant {
-    public float offsetYAnim = 0;
-    public float shadowAnim = 0;
 
     private int readyTime;
     private float explosionRadius;
@@ -46,6 +47,23 @@ public class PotatoMine extends AbstractPlant {
         this.animState.addAnimation("bomb", bomb,1);
     }
 
+    public static final EntityDataAccessor<Float> DATA_SPEED = SynchedEntityData.defineId(PotatoMine.class, EntityDataSerializers.FLOAT);
+
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_SPEED, 1F);
+
+    }
+
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> var1) {
+        super.onSyncedDataUpdated(var1);
+        if (var1 == DATA_SPEED && level().isClientSide) {
+            this.animState.globalAnimSpeed = this.entityData.get(DATA_SPEED);
+        }
+    }
 
     @Override
     public void addSkills() {
@@ -56,18 +74,32 @@ public class PotatoMine extends AbstractPlant {
                 a->{},
                 a-> {
                     if(readyTime<=0){
+
+                        AtomicReference<Float> minDistance = new AtomicReference<>((float) 1000000000);
                         AtomicBoolean flag = new AtomicBoolean(false);
-                        level().getEntities(this, this.getBoundingBox().inflate(0.2f)).forEach(e->{
-                            if(e instanceof Mob mob && mob instanceof Enemy){
-                                flag.set(true);
+                        level().getEntities(this, this.getBoundingBox().inflate(5f)).forEach(e->{
+                            float distance = distanceTo(e);
+                            if(distance < 8){
+                                if(e instanceof Mob mob && mob instanceof Enemy){
+                                    if(distance < 1.2f){
+                                        flag.set(true);
+                                    }
+                                    minDistance.set(Math.min(minDistance.get(), distance));
+
+                                }
                             }
+
                         });
+                        float distance = minDistance.get();
+                        if(distance < 8f){
+                            this.entityData.set(DATA_SPEED, 1/distance/distance*64);
+                        }else this.entityData.set(DATA_SPEED, 1f);
                         if(flag.get()) skills.forceEnd();
                     }
                 },
                 a->{}
         );
-        CircleSkill boom = new CircleSkill( "bomb",  999999999, 30,
+        CircleSkill boom = new CircleSkill( "bomb",  999999999, 20,
                 a->{},
                 a-> {
                     if(skills.canTrigger()){
@@ -121,7 +153,7 @@ public class PotatoMine extends AbstractPlant {
 
     }
     public boolean canBeSeenAsEnemy(){
-        return false;
+        return super.canBeSeenAsEnemy();
     }
     public boolean isInWall(){
         return false;

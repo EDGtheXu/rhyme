@@ -1,12 +1,9 @@
 package rhymestudio.rhyme.entity.plants.prefabs;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import org.apache.commons.lang3.function.TriConsumer;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.entity.proj.LineProj;
@@ -22,12 +19,12 @@ public class PresetAttacks {
     //普通豌豆
     public static final QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, Float> PEA_SHOOT_ATTACK_BASE = (me, tar, proj, offsetY) -> {
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0);
-        BaseProj arrow = proj.get().create(me.level());
-        arrow.setOwner(me);
-        arrow.setPos(me.getEyePosition().add(0,offsetY,0));
+        BaseProj proj1 = proj.get().create(me.level());
+        proj1.setOwner(me);
+        proj1.setPos(me.getEyePosition().add(0,offsetY,0));
         Vec3 dir = pos.subtract(me.getEyePosition());
-        arrow.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
-        me.level().addFreshEntity(arrow);
+        proj1.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
+        me.level().addFreshEntity(proj1);
     };
 
     //普通豌豆
@@ -56,14 +53,13 @@ public class PresetAttacks {
 
     //投手豌豆
     public static final  QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<ThrowableProj>>, Float> THROWN_SHOOT = (me, tar, proj, offsetY) -> {
-
         Vec3 dir = tar.getDeltaMovement().normalize().scale(2.5f);
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0).add(dir);
 
-        ThrowableProj arrow = new ThrowableProj(proj.get(),me.level(),pos);
-        arrow.setOwner(me);
-        arrow.setPos(me.getEyePosition().add(0,offsetY,0));
-        me.level().addFreshEntity(arrow);
+        ThrowableProj proj1 = new ThrowableProj(proj.get(),me.level(),pos);
+        proj1.setOwner(me);
+        proj1.setPos(me.getEyePosition().add(0,offsetY,0));
+        me.level().addFreshEntity(proj1);
     };
 
     //普通豌豆
