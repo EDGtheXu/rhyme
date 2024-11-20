@@ -1,41 +1,31 @@
 package rhymestudio.rhyme.entity;
 
 
-import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
-import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3f;
 import rhymestudio.rhyme.Rhyme;
 
 public abstract class BaseProj extends AbstractHurtingProjectile{
-    public Vector3f initForward = new Vector3f();
 
     //客户端数据交互
     private final long starttime = System.currentTimeMillis();
-    private static final EntityDataAccessor<Vector3f> curRot = SynchedEntityData.defineId(BaseProj.class, EntityDataSerializers.VECTOR3);
+    public float damage;
+    private MobEffectInstance effect;
 
-
-    MobEffectInstance effect;
-    public abstract float damage();
-    public abstract int waveDur();
 
     //默认构造方法
     public BaseProj(EntityType<? extends AbstractHurtingProjectile> pEntityType, Level pLevel, MobEffectInstance pEffect) {
@@ -45,27 +35,26 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
     @Override
     public void tick() {
-
-
-        if(level().isClientSide){
-            initForward = this.getEntityData().get(curRot);
-        }else{
+        if(!level().isClientSide){
             if(System.currentTimeMillis()-starttime > waveDur() * 50L) discard();
-            /*
             //包围盒检测造成伤害
             var entities=level().getEntities(this,this.getBoundingBox());
             if(!entities.isEmpty()){
                 for (var e:entities) {
-                    if(canHitEntity(e))
+                    if(canHitEntity(e)) {
                         e.hurt(this.damageSources().mobProjectile(this, getOwner() instanceof LivingEntity livingentity ? livingentity : null), damage());
+
+                        discard();
+                        break;
+                    }
                 }
             }
-            */
         }
         super.tick();
     }
 
-
+    public abstract int waveDur();
+    public float damage() {return damage;}
     //弹幕设置
     @Override//取消射击惯性
     public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {
@@ -75,6 +64,12 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
         this.shoot(f, f1, f2, pVelocity, pInaccuracy);
     }
 
+    public void onAddedToLevel(){
+        super.onAddedToLevel();
+        if(!level().isClientSide()){
+            this.damage = (int) ((LivingEntity)getOwner()).getAttribute(Attributes.ATTACK_DAMAGE).getValue();
+        }
+    }
     @Override
     protected void onHitEntity(@NotNull EntityHitResult pResult) {
 
@@ -89,6 +84,9 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
         }
         super.onHitEntity(pResult);
+    }
+    public void setDamage(int damage) {
+        this.damage = damage;
     }
 
     @Nullable
@@ -124,25 +122,24 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     protected float getInertia() {
         return 1;
     }
+    @Override
+    protected void onHitBlock(@NotNull BlockHitResult pResult) {
+        super.onHitBlock(pResult);
+        if(!this.level().isClientSide()) discard();
+    }
 
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(curRot,new Vector3f());
-    }
-    public void syncRot(){
-        if(!level().isClientSide){
-            this.entityData.set(curRot,initForward);
-        }
-    }
-    public ResourceLocation texture;
-    public void setTexture(ResourceLocation texture){
-        this.texture = texture;
-    }
-    public ResourceLocation getTexture(){
-        return texture;
+
+
     }
 
+
+
+    public ResourceLocation texture;
+    public void setTexture(ResourceLocation texture){this.texture = texture;}
+    public ResourceLocation getTexture(){return texture;}
     public static class TextureLib{
         public static final ResourceLocation PEA = Rhyme.space("textures/entity/pea_bullet.png");
         public static final ResourceLocation ICE_PEA = Rhyme.space("textures/entity/ice_pea_bullet.png");

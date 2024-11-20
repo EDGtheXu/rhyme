@@ -51,6 +51,7 @@ public abstract class AbstractPlant extends Mob{
     public void onAddedToLevel(){
         this.cafeDefineAnimations();
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(builder.health);
+        this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(builder.attackDamage);
         this.setHealth(builder.health);
         addSkills();
         animState.playAnim(skills.getCurSkill(),tickCount);
@@ -143,6 +144,7 @@ public abstract class AbstractPlant extends Mob{
     public double getEyeY(){
         return this.getY() + 0.5;
     }
+
 
     public static class Builder{
         //默认参数（豌豆）

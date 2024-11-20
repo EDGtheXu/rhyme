@@ -10,6 +10,7 @@ import org.apache.commons.lang3.function.TriConsumer;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.entity.proj.LineProj;
+import rhymestudio.rhyme.entity.proj.ThrowableProj;
 import rhymestudio.rhyme.registry.ModEntities;
 
 import java.util.Timer;
@@ -19,7 +20,7 @@ import java.util.function.BiConsumer;
 public class PresetAttacks {
 
     //普通豌豆
-    public static final  QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, Float> PEA_SHOOT_ATTACK_BASE = (me, tar, proj, offsetY) -> {
+    public static final QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, Float> PEA_SHOOT_ATTACK_BASE = (me, tar, proj, offsetY) -> {
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0);
         BaseProj arrow = proj.get().create(me.level());
         arrow.setOwner(me);
@@ -51,6 +52,23 @@ public class PresetAttacks {
     //小喷菇
     public static final BiConsumer<AbstractPlant, LivingEntity> SPORE_SHOOT = (me, tar) -> {
         PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ, -0.3f);
+    };
+
+    //投手豌豆
+    public static final  QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<ThrowableProj>>, Float> THROWN_SHOOT = (me, tar, proj, offsetY) -> {
+
+        Vec3 dir = tar.getDeltaMovement().normalize().scale(2.5f);
+        Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0).add(dir);
+
+        ThrowableProj arrow = new ThrowableProj(proj.get(),me.level(),pos);
+        arrow.setOwner(me);
+        arrow.setPos(me.getEyePosition().add(0,offsetY,0));
+        me.level().addFreshEntity(arrow);
+    };
+
+    //普通豌豆
+    public static final BiConsumer<AbstractPlant, LivingEntity> THROWN_PEA_SHOOT = (me, tar) -> {
+        THROWN_SHOOT.accept(me, tar, ModEntities.THROWN_PEA_PROJ, 1f);
     };
 
 

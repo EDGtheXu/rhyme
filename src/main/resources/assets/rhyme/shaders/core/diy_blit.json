@@ -1,0 +1,21 @@
+{
+    "blend": {
+        "func": "add",
+        "srcrgb": "srcalpha",
+        "dstrgb": "1-srcalpha"
+    },
+    "vertex": "rhyme:diy_blit",
+    "fragment": "rhyme:diy_blit",
+    "attributes": [
+        "Position",
+        "Color",
+        "UV0"
+    ],
+    "samplers": [
+        { "name": "att" }
+
+    ],
+    "uniforms": [
+        { "name": "ColorModulator", "type": "float",     "count": 4,  "values": [ 1.0, 1.0, 1.0, 1.0 ] }
+    ]
+}

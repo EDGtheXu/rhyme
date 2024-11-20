@@ -1,13 +1,21 @@
 package rhymestudio.rhyme.client.render.entity;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.client.ModRenderTypes;
 import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.mixinauxiliary.IShaderInstance;
+
+import javax.annotation.Nullable;
 
 
 public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>> extends MobRenderer<T, U> {
@@ -38,4 +46,16 @@ public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>>
         String s = "textures/entity/"+abstractPlant.namePath+".png";
         return Rhyme.space(s);
     }
+/*
+    @Nullable
+    protected RenderType getRenderType(T livingEntity, boolean bodyVisible, boolean translucent, boolean glowing) {
+        ResourceLocation resourcelocation = this.getTextureLocation(livingEntity);
+        RenderType.CompositeRenderType rendertype = (RenderType.CompositeRenderType) ModRenderTypes.cthRenderType(resourcelocation);
+        ShaderInstance shader = rendertype.state.shaderState.shader.get().get();
+//        RenderSystem._setShaderTexture(3, Minecraft.getInstance().getMainRenderTarget().getColorTextureId());
+//        ((IShaderInstance)shader).getRhyme$TEST().set((float) Math.sin(livingEntity.tickCount / 10f) * 0.2f + 0.8f);
+        ((IShaderInstance)shader).getRhyme$TEST().set(0.5F);
+        return rendertype;
+    }
+    */
 }

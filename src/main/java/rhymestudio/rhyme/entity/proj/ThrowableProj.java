@@ -1,0 +1,97 @@
+package rhymestudio.rhyme.entity.proj;
+
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
+import rhymestudio.rhyme.entity.BaseProj;
+import rhymestudio.rhyme.entity.anim.curve.BezierCurse;
+
+public class ThrowableProj extends BaseProj {
+    private Vec3 heightPos;
+    private Vec3 targetPos;
+    private BezierCurse curse;
+    private float step = 0f;
+
+    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel) {
+        super(pEntityType,pLevel,null);
+    }
+
+    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos,  MobEffectInstance pEffect, ResourceLocation texture) {
+        super(pEntityType,pLevel,pEffect);
+        this.texture = texture;
+        this.targetPos = targetPos;
+    }
+
+    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos,  MobEffectInstance pEffect) {
+        this(pEntityType,pLevel,targetPos,pEffect,null);
+    }
+
+    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos) {
+        this(pEntityType,pLevel,targetPos,null);
+    }
+
+    public static final EntityDataAccessor<Vector3f> DATA_HEIGHT = SynchedEntityData.defineId(ThrowableProj.class, EntityDataSerializers.VECTOR3);
+    public static final EntityDataAccessor<Vector3f> DATA_TARGET = SynchedEntityData.defineId(ThrowableProj.class, EntityDataSerializers.VECTOR3);
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_HEIGHT, new Vector3f(0,0,0));
+        builder.define(DATA_TARGET, new Vector3f(0,0,0));
+
+    }
+    @Override
+    public void onSyncedDataUpdated(EntityDataAccessor<?> var1) {
+        super.onSyncedDataUpdated(var1);
+        if (var1 == DATA_HEIGHT) {
+            heightPos = new Vec3(this.entityData.get(DATA_HEIGHT));
+        }
+        if (var1 == DATA_TARGET) {
+            targetPos = new Vec3(this.entityData.get(DATA_TARGET));
+        }
+    }
+
+    @Override
+    public void onAddedToLevel(){
+        super.onAddedToLevel();
+        if(!level().isClientSide) {
+            if(targetPos==null) {
+                discard();
+                return;
+            }
+            this.heightPos = position().add(targetPos).multiply(0.5f,0.5f,0.5f).add(0,10f,0);
+            this.entityData.set(DATA_HEIGHT, new Vector3f((float)heightPos.x,(float)heightPos.y,(float)heightPos.z));
+            this.entityData.set(DATA_TARGET, new Vector3f((float)targetPos.x,(float)targetPos.y,(float)targetPos.z));
+        }
+    }
+
+    public Vec3 getNexPos(){
+        step += 0.05f;
+        return curse.cal(step);
+    }
+
+
+
+    @Override
+    public void tick(){
+        super.tick();
+
+        if(curse==null) {
+            if(targetPos==null || heightPos==null) return;
+            curse = new BezierCurse(position(),heightPos,targetPos);
+        }
+        this.setPos(getNexPos());
+    }
+
+    @Override
+    public int waveDur() {
+        return 100;
+    }
+
+}

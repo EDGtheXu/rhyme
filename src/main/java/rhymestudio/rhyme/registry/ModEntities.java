@@ -26,6 +26,7 @@ import rhymestudio.rhyme.entity.plants.*;
 import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.SunItemEntity;
+import rhymestudio.rhyme.entity.proj.ThrowableProj;
 
 
 import java.lang.reflect.Constructor;
@@ -73,7 +74,10 @@ public class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->
             new PuffShroom(type,level, PuffShroomAnimation.sleeping, PuffShroomAnimation.idle, PuffShroomAnimation.attack , SPORE_SHOOT, NORMAL_PEA_PLANT.get()),0.75f,0.75f);
 
-
+    //      tip 投手类
+    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> CABBAGE_PULT = registerPlants("cabbage_pult",(type,level)->
+            new Pea(type,level, PeaAnimation.idle, PeaAnimation.shoot,
+                    THROWN_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
 
     public static <T extends AbstractPlant> DeferredHolder<EntityType<?>, EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory) {
         return registerPlants(name,entityFactory,0.9F,1);
@@ -83,17 +87,23 @@ public class ModEntities {
     }
 
     // tip 弹幕
+         // tip 直线
     public static final DeferredHolder<EntityType<?>, EntityType<LineProj>> PEA_PROJ = registerProj("pea_proj",(e,l)->
-            new LineProj(e,l,10,20));
+            new LineProj(e,l,20));
     public static final DeferredHolder<EntityType<?>, EntityType<LineProj>> ICE_PEA_PROJ = registerProj("ice_pea_proj",(e,l)->
-            new LineProj(e,l,10,20,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5), BaseProj.TextureLib.ICE_PEA));
+            new LineProj(e,l,20,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5), BaseProj.TextureLib.ICE_PEA));
+
+        // tip 投掷
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> THROWN_PEA_PROJ = registerProj("thrown_pea_proj",(e,l)->
+            new ThrowableProj(e,l));
 
 
 
-    public static <T extends LineProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory,float w,float h) {
+
+    public static <T extends BaseProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory,float w,float h) {
         return ENTITIES.register(name, () -> EntityType.Builder.of(entityFactory , MobCategory.MISC).clientTrackingRange(10).sized(w,h).build("rhyme:entity.proj."+name));
     }
-    public static <T extends LineProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory) {
+    public static <T extends BaseProj> DeferredHolder<EntityType<?>, EntityType<T>> registerProj(String name, EntityType.EntityFactory<T> entityFactory) {
         return registerProj(name,entityFactory,1,1);
     }
     // tip 阳光
@@ -136,7 +146,8 @@ public class ModEntities {
             create(PEA,  PeaModel.class),
             create(ICE_PEA, IcePeaModel.class),
             create(DOUBLE_PEA, DoublePeaModel.class),
-            create(PUFF_SHROOM, PuffShroomModel.class)
+            create(PUFF_SHROOM, PuffShroomModel.class),
+            create(CABBAGE_PULT, PeaModel.class)
 
 //            create(NUT_WALL,NutWallModel.class)
 

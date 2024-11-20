@@ -42,6 +42,7 @@ public class RegisterRenderer {
         // tip 子弹
         event.registerEntityRenderer(ModEntities.PEA_PROJ.get(), PeaProjRenderer::new);
         event.registerEntityRenderer(ModEntities.ICE_PEA_PROJ.get(), PeaProjRenderer::new);
+        event.registerEntityRenderer(THROWN_PEA_PROJ.get(), PeaProjRenderer::new);
 
 
     }
