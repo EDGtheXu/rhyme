@@ -62,8 +62,8 @@ public class ModEntities {
                     DOUBLE_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
 
     //      tip 坚果类
-    public static final DeferredHolder<EntityType<?>, EntityType<NutWall>> NUT_WALL = registerPlants("nut_wall",(type,level)->
-            new NutWall(type,level, null, DEFENSE_PLANT.apply(200)));
+    public static final DeferredHolder<EntityType<?>, EntityType<WallNut>> WALL_NUT = registerPlants("wall_nut",(type, level)->
+            new WallNut(type,level, WallNutAnimation.idle1,WallNutAnimation.idle2,WallNutAnimation.idle3, DEFENSE_PLANT.apply(200)));
 
     //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<PotatoMine>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
@@ -124,7 +124,7 @@ public class ModEntities {
                 .add(Attributes.ATTACK_DAMAGE)
                 .add(Attributes.FOLLOW_RANGE, 16)
                 .add(Attributes.MOVEMENT_SPEED, 0f)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 20)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 1)
 
                 ;
 
@@ -133,36 +133,38 @@ public class ModEntities {
 //        event.put(ModEntities.ICE_PEA.get(), genericPlant.build());
 //        event.put(ModEntities.DOUBLE_PEA.get(), genericPlant.build());
 
-        registerContainers.forEach(r->event.put(r.entity.get(), genericPlant.build()));
+        registerAbstractPlants.forEach(r->event.put(r.entity.get(), genericPlant.build()));
+        registerNutWalls.forEach(r->event.put(r.entity.get(), genericPlant.build()));
+
 
         event.put(ModEntities.POTATO_MINE.get(), genericPlant.build());
-        event.put(ModEntities.NUT_WALL.get(), genericPlant.build());
 
     }
 
     // tip 快速注册简单实体的模型、属性、模型、渲染器
-    public static List<EntityRegisterContainer> registerContainers = List.of(
+    public static List<EntityRegisterContainer<AbstractPlant>> registerAbstractPlants = List.of(
             create(SUN_FLOWER, SunflowerModel.class),
             create(PEA,  PeaModel.class),
             create(ICE_PEA, IcePeaModel.class),
             create(DOUBLE_PEA, DoublePeaModel.class),
             create(PUFF_SHROOM, PuffShroomModel.class),
             create(CABBAGE_PULT, PeaModel.class)
-
-//            create(NUT_WALL,NutWallModel.class)
-
+    );
+    public static List<EntityRegisterContainer<WallNut>> registerNutWalls = List.of(
+            create(WALL_NUT, WallNutModel.class)
     );
 
-    public static EntityRegisterContainer create(DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entity, Class<? extends HierarchicalModel<AbstractPlant>> clz){
-        return new EntityRegisterContainer(entity,clz);}
-    public record EntityRegisterContainer(DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entity, Class<? extends HierarchicalModel<AbstractPlant>> clz) {
-        public Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> getRenderSup(){
-            Constructor<? extends HierarchicalModel<AbstractPlant>> c;
+
+    public static <T extends AbstractPlant>EntityRegisterContainer<T> create(DeferredHolder<EntityType<?>, EntityType<T>> entity, Class<? extends HierarchicalModel<T>> clz){
+        return new EntityRegisterContainer<>(entity,clz);}
+    public record EntityRegisterContainer<T extends AbstractPlant>(DeferredHolder<EntityType<?>, EntityType<T>> entity, Class<? extends HierarchicalModel<T>> clz) {
+        public Function<EntityRendererProvider.Context, HierarchicalModel<T>> getRenderSup(){
+            Constructor<? extends HierarchicalModel<T>> c;
             try{
                 c = clz.getDeclaredConstructor(ModelPart.class);
             }catch (Exception e){ throw new RuntimeException();}
 
-            Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> res = cnt->
+            Function<EntityRendererProvider.Context, HierarchicalModel<T>> res = cnt->
             {
                 try {
                     return c.newInstance(cnt.bakeLayer(getModelDefine()));

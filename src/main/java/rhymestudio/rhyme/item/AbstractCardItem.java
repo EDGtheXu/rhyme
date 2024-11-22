@@ -18,9 +18,6 @@ import rhymestudio.rhyme.utils.Computer;
 
 public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem {
     public DeferredHolder<EntityType<?>, EntityType<T>> entityType;
-    public void upLevel(){
-
-    }
 
     public int consume;
     public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consume){

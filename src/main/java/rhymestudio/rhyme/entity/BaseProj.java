@@ -46,7 +46,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     public void doAABBHurt(){
         //包围盒检测造成伤害
         var entities=level().getEntities(this,this.getBoundingBox());
-        if(!entities.isEmpty()){
+        if(!entities.isEmpty() && penetration > 0){
             for (var e:entities) {
                 if(canHitEntity(e)) {
                     if(e instanceof LivingEntity living) {
@@ -77,9 +77,14 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
     @Override
     public void tick() {
+
         if(!level().isClientSide){
-            if(System.currentTimeMillis()-starttime > waveDur() * 50L) discard();
+            if(System.currentTimeMillis()-starttime > waveDur() * 50L) {
+                discard();
+                return;
+            }
             doAABBHurt();
+            if(penetration <= 0) return;
         }
         super.tick();
     }
@@ -103,6 +108,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     protected void onHitEntity(@NotNull EntityHitResult pResult) {
 
         if(!this.level().isClientSide()) {
+            if(this.isRemoved()) return;
             Entity entity1 = pResult.getEntity();
             Entity entity = this.getOwner();
             if(effect!= null && entity1 != entity && entity1 instanceof LivingEntity living){
@@ -124,16 +130,10 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
     @Override
     protected boolean canHitEntity(@NotNull Entity pTarget) {
-        if(pTarget != getOwner() &&
+        return pTarget != getOwner() &&
                 !(pTarget instanceof AbstractPlant) &&
                 !(pTarget instanceof Player) &&
-                super.canHitEntity(pTarget)
-        ) {
-            penetration--;
-            if(penetration <= 0) discard();
-            return true;
-        }
-        return false;
+                super.canHitEntity(pTarget);
     }
 
     @Override//流体阻力

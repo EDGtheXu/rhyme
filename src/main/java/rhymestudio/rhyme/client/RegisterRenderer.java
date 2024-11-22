@@ -13,7 +13,6 @@ import rhymestudio.rhyme.client.model.SunflowerModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
-import rhymestudio.rhyme.client.render.entity.plant.NutWallRenderer;
 import rhymestudio.rhyme.client.render.entity.plant.PotatoMineRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.PeaProjRenderer;
 import rhymestudio.rhyme.entity.AbstractPlant;
@@ -34,10 +33,11 @@ public class RegisterRenderer {
 //        registerOne(event,ICE_PEA.get(),c->new IcePeaModel(c.bakeLayer(IcePeaModel.LAYER_LOCATION)));
 //        registerOne(event,DOUBLE_PEA.get(),c->new DoublePeaModel(c.bakeLayer(DoublePeaModel.LAYER_LOCATION)));
 
-        registerContainers.forEach(r->registerOne(event,r.entity().get(),r.getRenderSup()));
+        registerAbstractPlants.forEach(r->registerOne(event,r.entity().get(),r.getRenderSup()));
+        registerNutWalls.forEach(r->registerOne(event,r.entity().get(),r.getRenderSup()));
+
 
         event.registerEntityRenderer(POTATO_MINE.get(), PotatoMineRenderer::new);
-        event.registerEntityRenderer(NUT_WALL.get(), NutWallRenderer::new);
 
         // tip 子弹
         event.registerEntityRenderer(ModEntities.PEA_PROJ.get(), PeaProjRenderer::new);
@@ -46,15 +46,15 @@ public class RegisterRenderer {
 
 
     }
-    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model){
+    public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model){
         registerOne(event,entityType,model,1.0f,0.3f);
     }
 
-    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model,float shadowRadius,float scale){
+    public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model,float shadowRadius,float scale){
         registerOne(event,entityType,model,scale,shadowRadius,false);
     }
 
-    public static void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<AbstractPlant> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<AbstractPlant>> model,float shadowRadius,float scale,boolean rotY){
+    public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model,float shadowRadius,float scale,boolean rotY){
         event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher), shadowRadius,scale, rotY));
     }
 

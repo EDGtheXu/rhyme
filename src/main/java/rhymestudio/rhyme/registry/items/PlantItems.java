@@ -10,7 +10,7 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.NutWall;
+import rhymestudio.rhyme.entity.plants.WallNut;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
 import rhymestudio.rhyme.item.AbstractCardItem;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
@@ -35,7 +35,7 @@ public class PlantItems {
     public static final DeferredHolder<Item, AbstractCardItem<PotatoMine>> POTATO_MINE_ITEM = registerPlant("potato_mine", "土豆雷",ModEntities.POTATO_MINE,1);
 
     // tip 坚果类
-    public static final DeferredHolder<Item, AbstractCardItem<NutWall>> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", ModEntities.NUT_WALL,2);
+    public static final DeferredHolder<Item, AbstractCardItem<WallNut>> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", ModEntities.WALL_NUT,2);
 
 
     /**

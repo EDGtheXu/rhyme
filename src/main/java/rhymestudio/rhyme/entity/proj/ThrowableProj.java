@@ -10,13 +10,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 import rhymestudio.rhyme.entity.BaseProj;
-import rhymestudio.rhyme.entity.anim.curve.BezierCurse;
+import rhymestudio.rhyme.entity.anim.curve.Bezier2Curse;
+import rhymestudio.rhyme.entity.anim.curve.Curve;
 
 public class ThrowableProj extends BaseProj {
     private float step = 0f;
     private Vec3 heightPos;
     private Vec3 targetPos;
-    private BezierCurse curse;
+    private Curve curse;
 
     public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel) {
         super(pEntityType,pLevel,null);
@@ -86,13 +87,11 @@ public class ThrowableProj extends BaseProj {
 
         if(curse==null) {
             if(targetPos==null || heightPos==null) return;
-            curse = new BezierCurse(position(),heightPos,targetPos);
+
+            curse = new Bezier2Curse(position(),heightPos,targetPos);
         }
         this.setPos(getNexPos());
     }
-
-
-
 
 
 }
