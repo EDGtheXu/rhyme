@@ -13,8 +13,8 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.WallNut;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
 import rhymestudio.rhyme.item.AbstractCardItem;
+import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
-import rhymestudio.rhyme.registry.ModEntities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,19 +23,19 @@ public class PlantItems {
     public static final DeferredRegister.Items PLANTS = DeferredRegister.createItems(Rhyme.MODID);
 
     // tip 植物基类
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> SUN_FLOWER = registerPlant("sunflower", "向日葵",ModEntities.SUN_FLOWER, 2);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PEA_ITEM = registerPlant("pea_shooter", "豌豆射手",ModEntities.PEA,4);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", "寒冰射手",ModEntities.ICE_PEA,7,10,ModRarity.BLUE);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> REPEATER_ITEM = registerPlant("repeater","双重射手", ModEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> SUN_FLOWER = registerPlant("sunflower", "向日葵", PlantEntities.SUN_FLOWER, 2);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PEA_ITEM = registerPlant("pea_shooter", "豌豆射手", PlantEntities.PEA,4);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", "寒冰射手", PlantEntities.ICE_PEA,7,10,ModRarity.BLUE);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> REPEATER_ITEM = registerPlant("repeater","双重射手", PlantEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
 
     // tip 蘑菇类
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PUFF_SHROOM_ITEM = registerPlant("puff_shroom", "小喷菇",ModEntities.PUFF_SHROOM,0);
+    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PUFF_SHROOM_ITEM = registerPlant("puff_shroom", "小喷菇", PlantEntities.PUFF_SHROOM,0);
 
     // tip 土豆雷类
-    public static final DeferredHolder<Item, AbstractCardItem<PotatoMine>> POTATO_MINE_ITEM = registerPlant("potato_mine", "土豆雷",ModEntities.POTATO_MINE,1);
+    public static final DeferredHolder<Item, AbstractCardItem<PotatoMine>> POTATO_MINE_ITEM = registerPlant("potato_mine", "土豆雷", PlantEntities.POTATO_MINE,1);
 
     // tip 坚果类
-    public static final DeferredHolder<Item, AbstractCardItem<WallNut>> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", ModEntities.WALL_NUT,2);
+    public static final DeferredHolder<Item, AbstractCardItem<WallNut>> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", PlantEntities.WALL_NUT,2);
 
 
     /**

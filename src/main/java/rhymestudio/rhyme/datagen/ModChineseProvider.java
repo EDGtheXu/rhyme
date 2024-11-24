@@ -16,6 +16,7 @@ public class ModChineseProvider extends LanguageProvider {
         add("creativetab.rhyme.materials", "PVZ 材料");
         add("creativetab.rhyme.cards", "PVZ 卡包");
         add("creativetab.rhyme.blocks", "pvz 方块");
+        add("creativetab.rhyme.armors", "pvz 护甲");
 
         Rhyme.chineseProviders.forEach(a->a.accept(this));
 

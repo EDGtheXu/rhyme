@@ -9,9 +9,8 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
 
 
 public class SunItemEntity extends ItemEntity {
@@ -24,7 +23,7 @@ public class SunItemEntity extends ItemEntity {
     }
 
     public SunItemEntity(Level level, Vec3 pos) {
-        this(ModEntities.SUN_ITEM_ENTITY.get(), level);
+        this(PlantEntities.SUN_ITEM_ENTITY.get(), level);
         setPos(pos);
         setItem(MaterialItems.SUN_ITEM.get().getDefaultInstance());
         float r =  0.2F;

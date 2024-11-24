@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.client.animation;
+package rhymestudio.rhyme.client.animation.plantAnimations;
 
 import net.minecraft.client.animation.AnimationChannel;
 import net.minecraft.client.animation.AnimationDefinition;

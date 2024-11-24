@@ -7,12 +7,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
-import rhymestudio.rhyme.entity.proj.LineProj;
-import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.utils.Computer;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 public class Pea extends AbstractPlant {
 
@@ -76,7 +74,7 @@ public class Pea extends AbstractPlant {
 
     public void doAttack(LivingEntity tar){
         Vec3 pos = tar.getEyePosition();
-        Projectile arrow = ModEntities.PEA_PROJ.get().create(level());
+        Projectile arrow = PlantEntities.PEA_PROJ.get().create(level());
         arrow.setOwner(this);
         arrow.setPos(this.getEyePosition().add(0,0.1F,0));
         Vec3 dir = pos.subtract(getEyePosition());

@@ -1,17 +1,17 @@
 package rhymestudio.rhyme.entity.plants;
 
 import net.minecraft.world.level.Level;
-import rhymestudio.rhyme.client.animation.SunflowerAnimation;
+import rhymestudio.rhyme.client.animation.plantAnimations.SunflowerAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.SunItemEntity;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
-import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.Entities.PlantEntities;
 
 
 public class SunFlower extends AbstractPlant {
 
     public SunFlower(Level level, Builder builder) {
-        super(ModEntities.SUN_FLOWER.get(), level);
+        super(PlantEntities.SUN_FLOWER.get(), level);
         this.builder = builder;
 
     }

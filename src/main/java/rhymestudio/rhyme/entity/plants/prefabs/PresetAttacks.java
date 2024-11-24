@@ -8,7 +8,7 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.entity.proj.LineProj;
 import rhymestudio.rhyme.entity.proj.ThrowableProj;
-import rhymestudio.rhyme.registry.ModEntities;
+import rhymestudio.rhyme.registry.Entities.PlantEntities;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -29,11 +29,11 @@ public class PresetAttacks {
 
     //普通豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> PEA_SHOOT = (me, tar) -> {
-        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ, 0.1f);
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.PEA_PROJ, 0.1f);
     };
     //冰豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> ICE_PEA_SHOOT = (me, tar) -> {
-        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.ICE_PEA_PROJ, 0.1f);
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.ICE_PEA_PROJ, 0.1f);
     };
     //双豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> DOUBLE_PEA_SHOOT = (me, tar) -> {
@@ -48,7 +48,7 @@ public class PresetAttacks {
 
     //小喷菇
     public static final BiConsumer<AbstractPlant, LivingEntity> SPORE_SHOOT = (me, tar) -> {
-        PEA_SHOOT_ATTACK_BASE.accept(me, tar, ModEntities.PEA_PROJ, -0.3f);
+        PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.PEA_PROJ, -0.3f);
     };
 
     //投手豌豆
@@ -64,7 +64,7 @@ public class PresetAttacks {
 
     //普通豌豆
     public static final BiConsumer<AbstractPlant, LivingEntity> THROWN_PEA_SHOOT = (me, tar) -> {
-        THROWN_SHOOT.accept(me, tar, ModEntities.THROWN_PEA_PROJ, 1f);
+        THROWN_SHOOT.accept(me, tar, PlantEntities.THROWN_PEA_PROJ, 1f);
     };
 
 

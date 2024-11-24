@@ -17,9 +17,9 @@ public class EntityEvent {
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         if(event.getEntity() instanceof Monster monster ){
             if(monster instanceof NeutralMob) return;
-            monster.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(monster, AbstractPlant.class, true));
+            monster.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(monster, AbstractPlant.class, true));
         }else if(event.getEntity() instanceof Slime slime){
-            slime.targetSelector.addGoal(9, new NearestAttackableTargetGoal<>(slime,  AbstractPlant.class, true));
+            slime.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(slime,  AbstractPlant.class, true));
         }
     }
 }

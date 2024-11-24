@@ -1,19 +1,14 @@
 package rhymestudio.rhyme.client.render.entity.plant;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
 
-import rhymestudio.rhyme.client.model.PotatoMineModel;
+import rhymestudio.rhyme.client.model.plantModels.PotatoMineModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
-import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
-
-import static net.minecraft.client.renderer.entity.EntityRenderDispatcher.renderShadow;
 
 public class PotatoMineRenderer extends BasePlantRenderer<PotatoMine, PotatoMineModel> {
 

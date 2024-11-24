@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.client.model;// Made with Blockbench 4.11.1
+package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
@@ -14,12 +14,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.AnimationState;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.PeaAnimation;
+import rhymestudio.rhyme.client.animation.plantAnimations.PeaAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.Pea;
-import software.bernie.geckolib.model.GeoModel;
-
-import java.util.Timer;
 
 public class PeaModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

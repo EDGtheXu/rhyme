@@ -15,6 +15,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.block.BaseModelBlock;
 import rhymestudio.rhyme.block.SunCreaterBlock;
 
 import java.util.function.Supplier;
@@ -24,9 +25,15 @@ public class ModBlocks {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Rhyme.MODID);
     public static final DeferredRegister.Items BLOCK_ITEMS = DeferredRegister.createItems(Rhyme.MODID);
 
+
+
     public static final Supplier<BaseEntityBlock> SUN_CREATOR_BLOCK = register("sun_creator_block","光萃台", () -> new SunCreaterBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).noOcclusion()));
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SunCreaterBlock.SunCreaterBlockEntity>> SUN_CREATOR_BLOCK_ENTITY =
             BLOCK_ENTITIES.register("sun_creator_block_entity", () -> BlockEntityType.Builder.of(SunCreaterBlock.SunCreaterBlockEntity::new, SUN_CREATOR_BLOCK.get()).build(DSL.remainderType()));
+
+
+    public static final Supplier<Block> CONE_BLOCK = register("cone","路障", ()->new BaseModelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).noOcclusion()));
+
 
 
     public static <T extends Block>Supplier<T> register(String name,String zh,Supplier<T> blockSupplier) {

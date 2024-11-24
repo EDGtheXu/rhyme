@@ -1,6 +1,7 @@
 package rhymestudio.rhyme.registry.items;
 
 import net.minecraft.world.item.Item;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;

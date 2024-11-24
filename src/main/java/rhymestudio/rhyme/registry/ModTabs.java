@@ -6,6 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.items.ArmorItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
 
@@ -44,5 +45,16 @@ public class ModTabs {
                     })
                     .build()
     );
+
+    public static final Supplier<CreativeModeTab> ARMOR = TABS.register("armors",
+            () -> CreativeModeTab.builder()
+                    .icon(() -> ArmorItems.IRON_BUCKET_HELMET.asItem().getDefaultInstance())
+                    .title(Component.translatable("creativetab.rhyme.armors"))
+                    .displayItems((parameters, output) -> {
+                        ArmorItems.ARMORS.getEntries().forEach(item -> output.accept(item.get()));
+                    })
+                    .build()
+    );
+
 
 }

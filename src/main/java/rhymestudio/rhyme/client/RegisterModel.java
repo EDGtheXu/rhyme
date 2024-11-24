@@ -5,11 +5,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import rhymestudio.rhyme.client.model.*;
+import rhymestudio.rhyme.client.model.plantModels.PotatoMineModel;
+import rhymestudio.rhyme.client.model.plantModels.SunflowerModel;
 import rhymestudio.rhyme.client.model.proj.PeaProjModel;
+import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 
-import static rhymestudio.rhyme.registry.ModEntities.registerAbstractPlants;
-import static rhymestudio.rhyme.registry.ModEntities.registerNutWalls;
+import static rhymestudio.rhyme.registry.Entities.PlantEntities.registerAbstractPlants;
+import static rhymestudio.rhyme.registry.Entities.PlantEntities.registerNutWalls;
 
 
 @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD,value = Dist.CLIENT)
@@ -29,6 +31,8 @@ public class RegisterModel {
 //        evt.registerLayerDefinition(PotatoMineUnderModel.LAYER_LOCATION, PotatoMineUnderModel::createBodyLayer);
 
 
+        // 僵尸模型
+        evt.registerLayerDefinition(NormalZombieModel.LAYER_LOCATION,NormalZombieModel::createBodyLayer);
 
     }
 

@@ -1,20 +1,17 @@
-package rhymestudio.rhyme.client.model;// Made with Blockbench 4.11.1
+package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.1
 // Exported for Minecraft version 1.17 or later with Mojang mappings
 // Paste this class into your mod and generate all required imports
 
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.DoublePeaAnimation;
-import rhymestudio.rhyme.client.animation.IcePeaAnimation;
+import rhymestudio.rhyme.client.animation.plantAnimations.IcePeaAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
 public class IcePeaModel extends HierarchicalModel<AbstractPlant> {

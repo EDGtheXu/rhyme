@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.client.animation;// Save this class in your mod and generate all required imports
+package rhymestudio.rhyme.client.animation.plantAnimations;// Save this class in your mod and generate all required imports
 
 
 import net.minecraft.client.animation.AnimationChannel;

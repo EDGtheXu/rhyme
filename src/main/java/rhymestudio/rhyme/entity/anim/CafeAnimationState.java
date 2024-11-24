@@ -23,6 +23,7 @@ public class CafeAnimationState {
     public void addAnimation(String name, AnimationDefinition anim, float speed) {
         if(anim!=null) this.animationMap.put(name, new Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
     }
+    public void addAnimation(String name, AnimationDefinition anim) {addAnimation(name, anim, 1);    }
 
     public float getDuration(String animationName) {
         return animationMap.get(animationName).duration;
