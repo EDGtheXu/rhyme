@@ -1,16 +1,18 @@
 package rhymestudio.rhyme.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelShaper;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -19,10 +21,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.client.model.ModelUtils;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.registry.items.ArmorItems;
+
+import static rhymestudio.rhyme.client.model.ModelUtils.HEAD_MODEL_ITEMS;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
@@ -33,16 +36,20 @@ public abstract class ItemRendererMixin {
 
     @Shadow public abstract void render(ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay, BakedModel p_model);
 
+    @Shadow @Final private Minecraft minecraft;
+
     @Inject(method = "renderStatic(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;ZLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/level/Level;III)V", at = @At("HEAD"),cancellable = true)
     private void renderStaticMixin(LivingEntity entity, ItemStack itemStack, ItemDisplayContext displayContext, boolean leftHand, PoseStack poseStack, MultiBufferSource bufferSource, Level level, int combinedLight, int combinedOverlay, int seed, CallbackInfo ci) {
 
-
-        if(itemStack.is(ArmorItems.CONE_HELMET)){
+        Item item = itemStack.getItem();
+        if(HEAD_MODEL_ITEMS.containsKey(item)){
             if(displayContext == ItemDisplayContext.HEAD) {
-
-                BakedModel bakedmodel = itemModelShaper.getModelManager().getModel(ModelResourceLocation.standalone(Rhyme.space("item/armor/cone_helmet_static")));
-                this.render(itemStack, displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, bakedmodel);
-                ci.cancel();
+                ResourceLocation location = HEAD_MODEL_ITEMS.get(item);
+                BakedModel bakedmodel = itemModelShaper.getModelManager().getModel(ModelResourceLocation.standalone(location));
+                if(bakedmodel!=itemModelShaper.getModelManager().getMissingModel()) {
+                    this.render(itemStack, displayContext, leftHand, poseStack, bufferSource, combinedLight, combinedOverlay, bakedmodel);
+                    ci.cancel();
+                }
             }
         }
 
@@ -51,9 +58,9 @@ public abstract class ItemRendererMixin {
         if(data != null){
             ItemStack qualityItem = data.getQualityItem().getDefaultInstance();
             renderStatic(entity, qualityItem, displayContext, leftHand, poseStack, bufferSource, level, combinedLight, combinedOverlay, seed);
-            ci.cancel();
-            return;
+
         }
+
     }
             /*
     @Inject(method = "getModel", at = @At(value = "HEAD"),cancellable = true)

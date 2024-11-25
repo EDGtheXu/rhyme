@@ -1,27 +1,18 @@
 package rhymestudio.rhyme.client.event;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.ItemRenderer;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.item.ItemStack;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.client.event.RenderTooltipEvent.GatherComponents;
-import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animate.ExpertColorAnimation;
 import rhymestudio.rhyme.client.animate.MasterColorAnimation;
 import rhymestudio.rhyme.client.post.PostUtil;
-import rhymestudio.rhyme.dataComponent.ModRarity;
-import rhymestudio.rhyme.registry.ModDataComponentTypes;
 
 import static rhymestudio.rhyme.Rhyme.MODID;
+
 
 @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.GAME,value = Dist.CLIENT)
 public class DisplayEvent {
@@ -46,6 +37,7 @@ public class DisplayEvent {
 
     @SubscribeEvent
     public static void onTickEnd(ClientTickEvent.Pre event) {
+
 
         PostUtil.clear();
 

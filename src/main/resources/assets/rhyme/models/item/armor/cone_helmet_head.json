@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "rhyme:item/armor/cone_helmet_static",
-		"particle": "rhyme:item/armor/cone_helmet_static"
+		"0": "rhyme:item/armor/cone_helmet_head",
+		"particle": "rhyme:item/armor/cone_helmet_head"
 	},
 	"elements": [
 		{

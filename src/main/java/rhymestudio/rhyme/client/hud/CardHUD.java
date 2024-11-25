@@ -7,11 +7,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
 import rhymestudio.rhyme.utils.Computer;
 
 import java.awt.*;
@@ -46,7 +43,7 @@ public class CardHUD {
         guiGraphics.pose().pushPose();
 
         guiGraphics.pose().translate(10,10,0);
-        drawSunCard(guiGraphics,0,0,30,50);
+        drawSunCard(guiGraphics,0,0,30,42);
 
         guiGraphics.pose().translate(itemInternalX0,0,0);
 //        drawCard(guiGraphics,ModItems.SUN_FLOWER.get(),0,0,2);
@@ -115,7 +112,7 @@ public class CardHUD {
             StrSize = cacheSunStr.length();
         }
 
-        guiGraphics.drawString(mc.font,cacheSunStr,w/2-3*StrSize,h-14, Color.yellow.getRGB());
+        guiGraphics.drawString(mc.font,cacheSunStr,w/2-3*StrSize,h-12, Color.yellow.getRGB());
     }
 
     public void drawCard(GuiGraphics guiGraphics, Item item, int x, int y, float scale){

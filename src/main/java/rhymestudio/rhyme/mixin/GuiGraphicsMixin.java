@@ -39,7 +39,9 @@ public abstract class GuiGraphicsMixin {
         if(data!=null){
             ItemStack qualityItem = data.getQualityItem().getDefaultInstance();
             BakedModel bakedmodel = this.minecraft.getItemRenderer().getModel(qualityItem, level, entity, seed);
-//            pose.scale(1.2f, 1.2f, 1.2f);
+
+
+            //            pose.scale(1.2f, 1.2f, 1.2f);
             pose.translate(0, 0, -1f);
             minecraft.getItemRenderer().render(qualityItem, ItemDisplayContext.GUI, false, this.pose,  this.bufferSource, 15728880, OverlayTexture.NO_OVERLAY,bakedmodel);
             pose.translate(0, 0, 1f);
