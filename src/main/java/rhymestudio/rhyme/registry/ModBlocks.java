@@ -41,14 +41,14 @@ public class ModBlocks {
             BLOCK_ENTITIES.register("sun_creator_block_entity", () -> BlockEntityType.Builder.of(SunCreaterBlock.SunCreaterBlockEntity::new, SUN_CREATOR_BLOCK.get()).build(DSL.remainderType()));
 
 
-    public static final Supplier<Block> CONE_BLOCK = register("cone","路障", ()->new BaseModelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).noOcclusion()){
-        public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
-            return Shapes.or(box(3, 0, 3, 13, 1, 13),
-                    box(4, 1, 4, 12, 4, 12),
-                    box(5, 3, 5, 11, 9, 11),
-                    box(6, 9, 6, 10, 12, 10));
-        }
-    });
+//    public static final Supplier<Block> CONE_BLOCK = register("cone","路障", ()->new BaseModelBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WOOD).noOcclusion()){
+//        public @NotNull VoxelShape getShape(@NotNull BlockState pState, @NotNull BlockGetter pLevel, @NotNull BlockPos pPos, @NotNull CollisionContext pContext) {
+//            return Shapes.or(box(3, 0, 3, 13, 1, 13),
+//                    box(4, 1, 4, 12, 4, 12),
+//                    box(5, 3, 5, 11, 9, 11),
+//                    box(6, 9, 6, 10, 12, 10));
+//        }
+//    });
 
 
 

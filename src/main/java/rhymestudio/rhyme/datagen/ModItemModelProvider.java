@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.items.ArmorItems;
 import rhymestudio.rhyme.registry.items.IconItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
@@ -40,6 +41,14 @@ public class ModItemModelProvider extends ItemModelProvider {
             }
         });
         IconItems.QUALITY_ITEMS.getEntries().forEach(item -> {
+            String path = item.getId().getPath().toLowerCase();
+            try {
+                withExistingParent("item/"+path, "item/generated").texture("layer0", Rhyme.space("item/"+path));
+            }catch (Exception e){
+                withExistingParent("item/"+path,MISSING_ITEM);
+            }
+        });
+        ArmorItems.ARMORS.getEntries().forEach(item -> {
             String path = item.getId().getPath().toLowerCase();
             try {
                 withExistingParent("item/"+path, "item/generated").texture("layer0", Rhyme.space("item/"+path));

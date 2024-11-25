@@ -12,9 +12,10 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.plantAnimations.WallNutAnimation;
+import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.WallNut;
 
-public class WallNutModel extends HierarchicalModel<WallNut> {
+public class WallNutModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space("wall_nut_model"), "main");
 	private final ModelPart head;
@@ -48,7 +49,7 @@ public class WallNutModel extends HierarchicalModel<WallNut> {
 	}
 
 	@Override
-	public void setupAnim(WallNut entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.animate(entity.animState.getAnim("idle1"), WallNutAnimation.idle1, ageInTicks, entity.animState.getAnimSpeed());

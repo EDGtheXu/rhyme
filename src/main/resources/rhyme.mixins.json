@@ -11,6 +11,7 @@
   "client": [
     "GameRendererMixin",
     "GuiGraphicsMixin",
+    "HumanoidArmorLayerMixin",
     "ItemEntityRendererMixin",
     "ItemRendererMixin"
   ],

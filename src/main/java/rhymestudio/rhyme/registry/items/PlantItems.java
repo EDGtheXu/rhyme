@@ -10,8 +10,6 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.WallNut;
-import rhymestudio.rhyme.entity.plants.PotatoMine;
 import rhymestudio.rhyme.item.AbstractCardItem;
 import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
@@ -23,19 +21,19 @@ public class PlantItems {
     public static final DeferredRegister.Items PLANTS = DeferredRegister.createItems(Rhyme.MODID);
 
     // tip 植物基类
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> SUN_FLOWER = registerPlant("sunflower", "向日葵", PlantEntities.SUN_FLOWER, 2);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PEA_ITEM = registerPlant("pea_shooter", "豌豆射手", PlantEntities.PEA,4);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", "寒冰射手", PlantEntities.ICE_PEA,7,10,ModRarity.BLUE);
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> REPEATER_ITEM = registerPlant("repeater","双重射手", PlantEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
+    public static final DeferredItem<Item> SUN_FLOWER = registerPlant("sunflower", "向日葵", PlantEntities.SUN_FLOWER, 2);
+    public static final DeferredItem<Item> PEA_ITEM = registerPlant("pea_shooter", "豌豆射手", PlantEntities.PEA,4);
+    public static final DeferredItem<Item> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", "寒冰射手", PlantEntities.ICE_PEA,7,10,ModRarity.BLUE);
+    public static final DeferredItem<Item> REPEATER_ITEM = registerPlant("repeater","双重射手", PlantEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
 
     // tip 蘑菇类
-    public static final DeferredHolder<Item, AbstractCardItem<AbstractPlant>> PUFF_SHROOM_ITEM = registerPlant("puff_shroom", "小喷菇", PlantEntities.PUFF_SHROOM,0);
+    public static final DeferredItem<Item> PUFF_SHROOM_ITEM = registerPlant("puff_shroom", "小喷菇", PlantEntities.PUFF_SHROOM,0);
 
     // tip 土豆雷类
-    public static final DeferredHolder<Item, AbstractCardItem<PotatoMine>> POTATO_MINE_ITEM = registerPlant("potato_mine", "土豆雷", PlantEntities.POTATO_MINE,1);
+    public static final DeferredItem<Item> POTATO_MINE_ITEM = registerPlant("potato_mine", "土豆雷", PlantEntities.POTATO_MINE,1);
 
     // tip 坚果类
-    public static final DeferredHolder<Item, AbstractCardItem<WallNut>> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", PlantEntities.WALL_NUT,2);
+    public static final DeferredItem<Item> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", PlantEntities.WALL_NUT,2);
 
 
     /**
@@ -47,8 +45,8 @@ public class PlantItems {
      * @param rarity 默认白色
      * @return
      */
-    public static <T extends  AbstractPlant> DeferredHolder<Item,AbstractCardItem<T>> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun, int duration, ModRarity rarity) {
-        DeferredItem<AbstractCardItem<T>> item =  PLANTS.register("plant_card/"+en, () -> new AbstractCardItem<>(
+    public static  DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration, ModRarity rarity) {
+        DeferredItem<Item> item =  PLANTS.register("plant_card/"+en, () -> new AbstractCardItem(
                 new Item.Properties()
                         .component(ModDataComponentTypes.MOD_RARITY, rarity)
                         .component(ModDataComponentTypes.CARD_QUALITY, CardQualityComponent.COPPER)
@@ -60,13 +58,13 @@ public class PlantItems {
         return item;
     }
 
-    public static <T extends  AbstractPlant> DeferredHolder<Item,AbstractCardItem<T>> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun, int duration) {
+    public static  DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration) {
         return registerPlant(en, zh,entityType, consumeSun, duration, ModRarity.COMMON);
     }
 
-    public static <T extends  AbstractPlant> DeferredHolder<Item,AbstractCardItem<T>> registerPlant(String en, String zh, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun) {
+    public static  DeferredItem<Item> registerPlant(String en, String zh, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun) {
         return registerPlant(en, zh,entityType, consumeSun, 10);
     }
 
-    public static List<DeferredItem<AbstractCardItem<? extends  AbstractPlant>>> cardItems = new ArrayList<>();
+    public static List<DeferredItem<AbstractCardItem>> cardItems = new ArrayList<>();
 }

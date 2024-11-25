@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import rhymestudio.rhyme.registry.items.ArmorItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 
 import java.util.concurrent.CompletableFuture;
@@ -18,35 +19,42 @@ import static rhymestudio.rhyme.Rhyme.MODID;
 
 public class ModRecipe extends RecipeProvider {
 
-
-
     public ModRecipe(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
 
     @Override
     protected void buildRecipes(RecipeOutput recipeOutput) {
-        /*
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, PlantItems.BREAD_SWORD.get())
-                .pattern("A")
-                .pattern("A")
-                .pattern("B")
-                .define('A',Items.BREAD)
-                .define('B',Items.STICK)
-                .unlockedBy("has_ruby",has(Items.BREAD))
+
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.CONE_HELMET.get())
+                .pattern(" A ")
+                .pattern(" A ")
+                .pattern("AAA")
+                .define('A',Items.TERRACOTTA)
+                .unlockedBy("has_terracotta",has(Items.TERRACOTTA))
                 .save(recipeOutput);
 
-*/
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.IRON_BUCKET_HELMET.get())
+                .pattern("AAA")
+                .pattern("A A")
+                .pattern(" A ")
+                .define('A',Items.IRON_INGOT)
+                .unlockedBy("has_iron_ingot",has(Items.IRON_INGOT))
+                .save(recipeOutput);
+
+
         // 万能种子配方
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, MaterialItems.GENERAL_SEED.get())
                 .requires(Items.WHEAT_SEEDS,2)
-                .unlockedBy("has_snowball",has(Items.SNOWBALL))
+                .unlockedBy("has_wheat_seeds",has(Items.WHEAT_SEEDS))
                 .save(recipeOutput);
 
         // 植物基因配方
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, MaterialItems.PLANT_GENE.get())
                 .requires(Items.WHEAT_SEEDS,4)
-                .unlockedBy("has_snowball",has(Items.SNOWBALL))
+                .unlockedBy("has_wheat_seeds",has(Items.WHEAT_SEEDS))
                 .save(recipeOutput);
 
 

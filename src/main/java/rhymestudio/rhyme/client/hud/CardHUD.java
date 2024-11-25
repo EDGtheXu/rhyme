@@ -7,6 +7,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.registry.items.PlantItems;
@@ -16,15 +18,15 @@ import java.awt.*;
 
 public class CardHUD {
 
-    //阳光位置
-    static int x = 20;
-    static int y = 5;
-    static int itemInternalX0 = 40;
-    static int itemInternalX = 40;
+    private long lastCacheTime = 0;
+    private int StrSize = 0;
+    private String cacheSunStr = "";
+
+    private int itemInternalX0 = 40;
+    private int itemInternalX = 40;
 
     public Minecraft mc;
     public Player player;
-
 
     public CardHUD(Minecraft mc,Player player) {
         this.mc = mc;
@@ -43,8 +45,8 @@ public class CardHUD {
 
         guiGraphics.pose().pushPose();
 
-        guiGraphics.pose().translate(x,y,0);
-        drawSunCard(guiGraphics,0,0,20,20);
+        guiGraphics.pose().translate(10,10,0);
+        drawSunCard(guiGraphics,0,0,30,50);
 
         guiGraphics.pose().translate(itemInternalX0,0,0);
 //        drawCard(guiGraphics,ModItems.SUN_FLOWER.get(),0,0,2);
@@ -104,10 +106,16 @@ public class CardHUD {
     }
 
     public void drawSunCard(GuiGraphics guiGraphics, int x, int y,int w,int h){
-        drawIcon(guiGraphics,"textures/item/material/sun_item.png",0, 0, w, h);
-        int count = Computer.getInventoryItemCount(player, MaterialItems.SUN_ITEM.get());
-        String countStr =String.valueOf(count) ;
-        guiGraphics.drawString(mc.font,countStr,w/2-3,h+2, Color.yellow.getRGB());
+        drawIcon(guiGraphics,"textures/hud/sun_hud.png",0, 0, w, h);
+        long time = System.currentTimeMillis();
+        if(time > lastCacheTime + 500){
+            lastCacheTime = time;
+            int cacheSunNumber = Computer.getInventoryItemCount(player, MaterialItems.SUN_ITEM.get());
+            cacheSunStr =String.valueOf(cacheSunNumber) ;
+            StrSize = cacheSunStr.length();
+        }
+
+        guiGraphics.drawString(mc.font,cacheSunStr,w/2-3*StrSize,h-14, Color.yellow.getRGB());
     }
 
     public void drawCard(GuiGraphics guiGraphics, Item item, int x, int y, float scale){

@@ -11,7 +11,6 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.DoublePeaAnimation;
 import rhymestudio.rhyme.client.animation.zombieAnimations.NormalZombieAnimation;
 import rhymestudio.rhyme.entity.AbstractMonster;
 

@@ -4,27 +4,30 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
-import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.anim.CafeAnimationState;
+import rhymestudio.rhyme.registry.items.ArmorItems;
 
 
+import javax.annotation.Nullable;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -48,6 +51,8 @@ public class AbstractMonster extends Monster {
         this.setDiscardFriction(builder.noFriction);
         this.builder.animation.accept(animState);
         this.animState.playAnim("idle",0);
+
+
 
         this.setHealth(builder.MAX_HEALTH);
         this.getAttribute(Attributes.ARMOR).setBaseValue(builder.ARMOR);
@@ -107,6 +112,32 @@ public class AbstractMonster extends Monster {
                 .add(Attributes.FLYING_SPEED)
                 ;
     }
+
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+        RandomSource randomsource = level.getRandom();
+
+        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+            LocalDate localdate = LocalDate.now();
+            int i = localdate.get(ChronoField.DAY_OF_MONTH);
+            int j = localdate.get(ChronoField.MONTH_OF_YEAR);
+            if (j == 10 && i == 31 && randomsource.nextFloat() < 0.25F) {
+                this.setItemSlot(EquipmentSlot.HEAD, new ItemStack(randomsource.nextFloat() < 0.1F ? Blocks.JACK_O_LANTERN : Blocks.CARVED_PUMPKIN));
+                this.armorDropChances[EquipmentSlot.HEAD.getIndex()] = 0.0F;
+            }else if(randomsource.nextFloat() < getAttributeBaseValue(Attributes.SPAWN_REINFORCEMENTS_CHANCE)){
+                if(randomsource.nextFloat() < 0.33f){
+                    this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.IRON_BUCKET_HELMET.toStack());
+
+                }else{
+                    this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.CONE_HELMET.toStack());
+                }
+
+            }
+        }
+
+        return spawnGroupData;
+    }
+
 
     public void aiStep() {
         super.aiStep();
@@ -191,7 +222,7 @@ public class AbstractMonster extends Monster {
         public int ARMOR = 2;
         public float MOVEMENT_SPEED = 0.38f;
         public int FOLLOW_RANGE = 32;
-        public float SPAWN_REINFORCEMENTS_CHANCE = 0.01f;
+        public float SPAWN_REINFORCEMENTS_CHANCE = 0.2f;
         public float KNOCKBACK_RESISTANCE = 0.8f;
         public float ATTACK_KNOCKBACK = 0.5f;
         public float ATTACK_SPEED = 0.6f;

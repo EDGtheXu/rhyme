@@ -16,26 +16,21 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.utils.Computer;
 
-public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem {
-    public DeferredHolder<EntityType<?>, EntityType<T>> entityType;
+public class AbstractCardItem extends CustomRarityItem {
+    public DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType;
 
     public int consume;
-    public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consume){
+    public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consume){
         super(properties);
         this.entityType = entityType;
         this.consume = consume;
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
-
         if (!level.isClientSide()) {
-
             ItemStack itemstack = player.getItemInHand(hand);
-
             CardQualityComponent.tryUpLevel(itemstack);
-
             if(!player.canBeSeenAsEnemy()){ // 创造
-
                 summon(player, level);
                 return InteractionResultHolder.success(itemstack);
             }

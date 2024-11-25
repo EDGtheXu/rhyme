@@ -2,27 +2,29 @@ package rhymestudio.rhyme.client;
 
 
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.ZombieRenderer;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.model.plantModels.SunflowerModel;
+import rhymestudio.rhyme.client.model.plantModels.*;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
-import rhymestudio.rhyme.client.render.entity.plant.PotatoMineRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.PeaProjRenderer;
 import rhymestudio.rhyme.client.render.entity.zombie.NormalZombieRenderer;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.Entities.Zombies;
 
+import java.lang.reflect.Constructor;
 import java.util.function.Function;
+
+import static rhymestudio.rhyme.client.RegisterModel.getModelDefine;
 import static rhymestudio.rhyme.registry.Entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
@@ -32,16 +34,15 @@ public class RegisterRenderer {
         event.registerEntityRenderer(PlantEntities.SUN_ITEM_ENTITY.get(), SunRenderer::new);
         // tip 植物
 //        event.registerEntityRenderer(, dispatcher-> new BasePlantRenderer<SunFlower, HierarchicalModel<SunFlower>>(dispatcher,new SunflowerModel(dispatcher.bakeLayer(SunflowerModel.LAYER_LOCATION))));
-        registerOne(event,SUN_FLOWER.get(),c->new SunflowerModel(c.bakeLayer(SunflowerModel.LAYER_LOCATION)));
-//        registerOne(event,PEA.get(),c->new PeaModel(c.bakeLayer(PeaModel.LAYER_LOCATION)));
-//        registerOne(event,ICE_PEA.get(),c->new IcePeaModel(c.bakeLayer(IcePeaModel.LAYER_LOCATION)));
-//        registerOne(event,DOUBLE_PEA.get(),c->new DoublePeaModel(c.bakeLayer(DoublePeaModel.LAYER_LOCATION)));
 
-        registerAbstractPlants.forEach(r->registerOne(event,r.entity().get(),r.getRenderSup()));
-        registerNutWalls.forEach(r->registerOne(event,r.entity().get(),r.getRenderSup()));
+        registerOne(event,SUN_FLOWER.get(),getRenderSup(SunflowerModel.class));
+        registerOne(event,PEA.get(),getRenderSup(PeaModel.class));
+        registerOne(event,ICE_PEA.get(),getRenderSup(PeaModel.class));
+        registerOne(event,DOUBLE_PEA.get(),getRenderSup(PeaModel.class));
+        registerOne(event,WALL_NUT.get(),getRenderSup(WallNutModel.class));
+        registerOne(event,POTATO_MINE.get(),getRenderSup(PotatoMineModel.class),0,1f);
+        registerOne(event,PUFF_SHROOM.get(),getRenderSup(PuffShroomModel.class),0.5f,0.5f);
 
-
-        event.registerEntityRenderer(POTATO_MINE.get(), PotatoMineRenderer::new);
 
         // tip 子弹
         event.registerEntityRenderer(PlantEntities.PEA_PROJ.get(), PeaProjRenderer::new);
@@ -68,4 +69,19 @@ public class RegisterRenderer {
         event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher), shadowRadius,scale, rotY));
     }
 
+
+    public static <T extends AbstractPlant>Function<EntityRendererProvider.Context, HierarchicalModel<T>> getRenderSup(Class<? extends HierarchicalModel<T>>  clz){
+        Constructor<? extends HierarchicalModel<T>> c;
+        try{
+            c = clz.getDeclaredConstructor(ModelPart.class);
+        }catch (Exception e){ throw new RuntimeException();}
+
+        Function<EntityRendererProvider.Context, HierarchicalModel<T>> res = cnt->
+        {
+            try {
+                return c.newInstance(cnt.bakeLayer(getModelDefine(clz)));
+            } catch (Exception e) {throw new RuntimeException(e);}
+        };
+        return res;
+    }
 }

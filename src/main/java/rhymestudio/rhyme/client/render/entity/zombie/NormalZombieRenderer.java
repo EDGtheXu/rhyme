@@ -2,30 +2,61 @@ package rhymestudio.rhyme.client.render.entity.zombie;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.Overlay;
+import net.minecraft.client.model.*;
+import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
+import net.minecraft.client.renderer.entity.layers.ElytraLayer;
+import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.client.ClientHooks;
+import org.checkerframework.checker.units.qual.A;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.client.model.layerModels.ZombieArmorLayer;
+import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.entity.AbstractMonster;
 import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.registry.items.ArmorItems;
 
 
-public class NormalZombieRenderer<T extends AbstractMonster,U extends EntityModel<T>> extends MobRenderer<T, U> {
+public class NormalZombieRenderer<T extends AbstractMonster, M extends HierarchicalModel<T>> extends MobRenderer<T, M> {
     private boolean rotY;
     private float scale;
-    public NormalZombieRenderer(EntityRendererProvider.Context renderManager, U model) {
+    public NormalZombieRenderer(EntityRendererProvider.Context renderManager, M model) {
         this(renderManager, model,0.3f,1);
     }
 
-    public NormalZombieRenderer(EntityRendererProvider.Context renderManager, U model, float shadowRadius, float scale) {
+    public NormalZombieRenderer(EntityRendererProvider.Context renderManager, M model, float shadowRadius, float scale) {
         this(renderManager, model,shadowRadius,scale,false);
     }
 
-    public NormalZombieRenderer(EntityRendererProvider.Context renderManager, U model, float shadowRadius, float scale, boolean rotY) {
-        super(renderManager, model,shadowRadius);
+    public NormalZombieRenderer(EntityRendererProvider.Context context, M model, float shadowRadius, float scale, boolean rotY) {
+        super(context, model,shadowRadius);
         this.rotY = rotY;
         this.scale = scale;
+
+        this.addLayer(new ZombieArmorLayer<>(this,
+                new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.ZOMBIE)),
+                new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.ZOMBIE)),
+                context.getModelManager()
+        ));
+
+//        this.addLayer(new CustomHeadLayer(this, context.getModelSet(), scale, scale, scale, context.getItemInHandRenderer()));
+//        this.addLayer(new ElytraLayer(this, context.getModelSet()));
+//        this.addLayer(new ItemInHandLayer(this, context.getItemInHandRenderer()));
     }
 
     protected void setupRotations(T entity, PoseStack poseStack, float bob, float yBodyRot, float partialTick, float scale) {
@@ -33,8 +64,30 @@ public class NormalZombieRenderer<T extends AbstractMonster,U extends EntityMode
         poseStack.scale(this.scale, this.scale, this.scale);
         super.setupRotations(entity, poseStack, bob, yBodyRot, partialTick, scale);
     }
+    public void render(T entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+/*
+        ItemStack helmet = entity.getItemBySlot(EquipmentSlot.HEAD);
+        if(!helmet.isEmpty())
+        {
+            int pack = OverlayTexture.pack((int) (partialTick*Math.sin(partialTick/10)), (int) (partialTick*Math.cos(partialTick/10)));
+            float s = 0.6f;
+            poseStack.pushPose();
+            poseStack.scale(s,s,s);
 
-    @Override
+            float roty = Mth.lerp(partialTick, entity.yBodyRotO, entity.yBodyRot);
+            poseStack.mulPose(Axis.YP.rotationDegrees(-roty + 180));
+
+            poseStack.translate(0,2.8,0);
+            Minecraft.getInstance().getItemRenderer().renderStatic(helmet,ItemDisplayContext.HEAD,packedLight,pack,poseStack,buffer,entity.level(),0);
+
+            poseStack.popPose();
+        }
+        */
+        super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+    }
+
+
+        @Override
     public ResourceLocation getTextureLocation(T entity) {
         String s = "textures/entity/zombies/"+entity.namePath+".png";
         return Rhyme.space(s);

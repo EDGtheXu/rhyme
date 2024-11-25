@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "rhyme:block/cone",
-		"particle": "rhyme:block/cone"
+		"0": "rhyme:item/armor/cone_helmet_static",
+		"particle": "rhyme:item/armor/cone_helmet_static"
 	},
 	"elements": [
 		{
@@ -64,6 +64,9 @@
 			"rotation": [5, 0, 7],
 			"translation": [-1.75, 17.5, 1.25],
 			"scale": [1.8, 1.8, 1.8]
+		},
+		"gui": {
+
 		}
 	}
 }

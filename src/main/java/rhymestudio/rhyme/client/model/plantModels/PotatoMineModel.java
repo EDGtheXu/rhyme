@@ -15,7 +15,7 @@ import rhymestudio.rhyme.client.animation.plantAnimations.PotatoMineAnimation;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.entity.plants.PotatoMine;
 
-public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
+public class PotatoMineModel extends HierarchicalModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "potato_mine_model"), "main");
 	private final ModelPart all;
@@ -98,7 +98,7 @@ public class PotatoMineModel extends HierarchicalModel<PotatoMine> {
 
 	float ageInTicksO = 0;
 	@Override
-	public void setupAnim(PotatoMine entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
 		String pose = entity.getEntityData().get(AbstractPlant.DATA_CAFE_POSE_NAME);
 		int time =  entity.getEntityData().get(AbstractPlant.DATA_SKILL_TICK);

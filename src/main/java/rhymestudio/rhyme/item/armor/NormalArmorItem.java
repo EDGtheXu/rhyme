@@ -10,7 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.registry.ModDataComponentTypes;
 
-public class NormalArmorItem extends ArmorItem{
+public class NormalArmorItem extends ArmorItem implements IModelArmor{
 
     public NormalArmorItem(Holder<ArmorMaterial> material, Type type, Properties properties) {
         super(material, type, properties);

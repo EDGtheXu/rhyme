@@ -1,21 +1,13 @@
 package rhymestudio.rhyme.client.render.entity;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.ModRenderTypes;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.mixinauxiliary.IShaderInstance;
-
-import javax.annotation.Nullable;
 
 
 public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>> extends MobRenderer<T, U> {

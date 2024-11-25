@@ -16,9 +16,7 @@ import rhymestudio.rhyme.entity.AbstractMonster;
 import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.Entities.Zombies;
 
-
-import static rhymestudio.rhyme.registry.Entities.PlantEntities.registerAbstractPlants;
-import static rhymestudio.rhyme.registry.Entities.PlantEntities.registerNutWalls;
+import static rhymestudio.rhyme.registry.Entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities {
@@ -38,22 +36,22 @@ public class ModEntities {
 
                 ;
 
-//        event.put(ModEntities.SUN_FLOWER.get(), genericPlant.build());
-//        event.put(ModEntities.PEA.get(), genericPlant.build());
-//        event.put(ModEntities.ICE_PEA.get(), genericPlant.build());
-//        event.put(ModEntities.DOUBLE_PEA.get(), genericPlant.build());
 
         //植物
-        registerAbstractPlants.forEach(r->event.put(r.entity().get(), genericPlant.build()));
-        registerNutWalls.forEach(r->event.put(r.entity().get(), genericPlant.build()));
+        event.put(SUN_FLOWER.get(), genericPlant.build());
+        event.put(PEA.get(), genericPlant.build());
+        event.put(ICE_PEA.get(), genericPlant.build());
+        event.put(DOUBLE_PEA.get(), genericPlant.build());
+        event.put(PUFF_SHROOM.get(), genericPlant.build());
+        event.put(WALL_NUT.get(), genericPlant.build());
+        event.put(CABBAGE_PULT.get(), genericPlant.build());
 
 
         event.put(PlantEntities.POTATO_MINE.get(), genericPlant.build());
 
-
-
         //僵尸
         event.put(Zombies.NORMAL_ZOMBIE.get(), AbstractMonster.createAttributes().build());
+
     }
 
     //tip 生成位置
