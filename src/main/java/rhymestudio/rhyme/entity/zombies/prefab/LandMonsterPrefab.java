@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 public class LandMonsterPrefab extends AbstractPrefab {
 
     public static Supplier<AbstractMonster.Builder> NORMAL_ZOMBIE_PREFAB =
-            ()->new LandMonsterPrefab(20,2,1,30,0.5f,0.1f).getPrefab()
+            ()->new LandMonsterPrefab(35,2,4,30,0.5f,0.1f).getPrefab()
                     .setStepHeight(2.4f)
                     .setJumpStrength(0.5f)
                     .addTarget((t,e)->{
@@ -45,7 +45,7 @@ public class LandMonsterPrefab extends AbstractPrefab {
 
 
     public LandMonsterPrefab(int health,int armor,int attack,int followRange,float knockBack,float knockbackResistance) {
-        this(health,armor,attack,0.3f,followRange,knockBack,knockbackResistance);
+        this(health,armor,attack,0.2f,followRange,knockBack,knockbackResistance);
     }
 
     public LandMonsterPrefab(int health,int armor,int attack,float moveSpeed,int followRange,float knockBack,float knockbackResistance) {

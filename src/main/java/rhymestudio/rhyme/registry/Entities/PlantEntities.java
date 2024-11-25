@@ -57,12 +57,12 @@ public class PlantEntities {
 
     //      tip 坚果类
     public static final DeferredHolder<EntityType<?>, EntityType<WallNut>> WALL_NUT = registerPlants("wall_nut",(type, level)->
-            new WallNut(type,level, WallNutAnimation.idle1,WallNutAnimation.idle2,WallNutAnimation.idle3, DEFENSE_PLANT.apply(200)));
+            new WallNut(type,level, WallNutAnimation.idle1,WallNutAnimation.idle2,WallNutAnimation.idle3, DEFENSE_PLANT.apply(150)));
 
     //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<PotatoMine>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
             new PotatoMine(type,level, PotatoMineAnimation.idle, PotatoMineAnimation.up, PotatoMineAnimation.idle_on, PotatoMineAnimation.bomb,
-                    20 * 2,2,DEFENSE_PLANT.apply(50)),1f,0.5f);
+                    300 * 2,2,DEFENSE_PLANT.apply(50)),1f,0.5f);
 
     //      tip 蘑菇类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->
