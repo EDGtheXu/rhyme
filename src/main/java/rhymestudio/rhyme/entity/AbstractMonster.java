@@ -35,18 +35,17 @@ import java.util.function.Supplier;
 
 public class AbstractMonster extends Monster {
     public String namePath;
-    private int attackInternal = 0;
+    public int attackInternal = 0;
     private int _attackInternal = 20;
     public Builder builder;
     public CafeAnimationState animState = new CafeAnimationState();
     public AbstractMonster(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level);
         this.builder = builder;
-        if (!level.isClientSide)
-            this.registerGoals();
-        else{
-            this.namePath = getName().getString().split("\\.")[2];
-        }
+        this.registerGoals();
+
+        this.namePath = getName().getString().split("\\.")[2];
+
         this.navigation = createNavigation(level);
         this.setDiscardFriction(builder.noFriction);
         this.builder.animation.accept(animState);
@@ -141,21 +140,31 @@ public class AbstractMonster extends Monster {
 
     public void aiStep() {
         super.aiStep();
+        attackInternal--;
 
         if(!level().isClientSide) {
-            if (navigation.getPath() != null) {
+            if(swingTime > 0 ){
+                if(attackInternal < 0){
+                    attackInternal = _attackInternal;
+                    this.animState.playAnim("attack", this.tickCount);
+                    this.entityData.set(DATA_CAFE_POSE_NAME, "attack");
+                }
+            }
+            if(attackInternal>0)return;
+            if (getDeltaMovement().length()>0) {
                 if (!animState.curName.equals("walk")) {
                     this.animState.playAnim("walk", this.tickCount);
                     this.entityData.set(DATA_CAFE_POSE_NAME, "walk");
                 }
 
-            } else if (navigation.getPath() == null) {
+            } else if (getDeltaMovement().length()==0) {
                 if (!animState.curName.equals("idle")) {
                     this.animState.playAnim("idle", this.tickCount);
                     this.entityData.set(DATA_CAFE_POSE_NAME, "idle");
                 }
 
             }
+
         }
     }
     /*
@@ -206,6 +215,8 @@ public class AbstractMonster extends Monster {
 
     public void tick(){
         super.tick();
+
+
     }
 
     public boolean canAttack(LivingEntity entity) {
@@ -214,7 +225,11 @@ public class AbstractMonster extends Monster {
                         getTarget() != null && getTarget().is(entity) && entity != this);
     }
 
-
+    public boolean hurt(DamageSource source, float amount){
+        boolean flag = super.hurt(source, amount);
+        this.animState.playAnim("hurt",this.tickCount);
+        return flag;
+    }
 
     public static class Builder {
         public int ATTACK_DAMAGE = 15;

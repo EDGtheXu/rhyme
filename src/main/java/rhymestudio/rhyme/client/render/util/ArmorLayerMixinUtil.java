@@ -23,7 +23,7 @@ public class ArmorLayerMixinUtil {
             poseStack.mulPose(Axis.XP.rotationDegrees(180 - headPitch));
             poseStack.translate(0,0.35 , 0);
 
-            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.HEAD,packedLight,pack,poseStack,bufferSource,livingEntity.level(),0);
+            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.HEAD,packedLight,OverlayTexture.NO_OVERLAY,poseStack,bufferSource,livingEntity.level(),0);
         }
 
 

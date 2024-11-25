@@ -10,7 +10,9 @@ public class CafeAnimationState {
     public record Tuple(AnimationState animationState, float duration, float animationSpeed, boolean isLooping){}
     public Map<String ,Tuple> animationMap;
     public String curName = "idle_on";
+    public String prevName = "idle_on";
     public int tick = 0;
+    public int prevTick = 0;
     public float globalAnimSpeed = 1;
     public CafeAnimationState(Map<String, Tuple> animationMap) {
         this.animationMap = animationMap;
@@ -48,7 +50,10 @@ public class CafeAnimationState {
     public void playAnim(String name, int tick){
         if(!this.animationMap.isEmpty()){
             this.animationMap.get(name).animationState().start(tick);
+            this.prevTick = this.tick;
+            this.prevName = this.curName;
             this.curName = name;
+            this.tick = tick;
         }
     }
 

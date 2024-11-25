@@ -64,16 +64,38 @@ public class NormalZombieModel extends HierarchicalModel<AbstractMonster> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
+
+
 	@Override
 	public void setupAnim(AbstractMonster entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
+
+		if(entity.tickCount - entity.animState.tick < 10){
+
+
+//			System.out.println("smooth");
+		}
+
+
+
 		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
 		this.head.xRot = headPitch * ((float)Math.PI / 180F);
 
+		if(entity.animState.curName.equals("attack")){
+			this.animate(entity.animState.getAnim("attack"), NormalZombieAnimation.attack, ageInTicks);
+			return;
+		}
+
+		if(entity.hurtTime>0){
+			this.animate(entity.animState.getAnim("hurt"), NormalZombieAnimation.hurt, ageInTicks);
+		}
+
+
 		this.animate(entity.animState.getAnim("idle"), NormalZombieAnimation.idle, ageInTicks);
 		this.animate(entity.animState.getAnim("walk"), NormalZombieAnimation.walk, ageInTicks);
-		this.animate(entity.animState.getAnim("attack"), NormalZombieAnimation.attack, ageInTicks);
+		this.animate(entity.animState.getAnim("run"), NormalZombieAnimation.run, ageInTicks);
+
 	}
 
 	@Override

@@ -27,7 +27,7 @@ public class LandMonsterPrefab extends AbstractPrefab {
 
                     })
                     .addGoal((g,e)-> {
-                        g.addGoal(1, new JumpAttack(e, 3, 8));
+//                        g.addGoal(1, new JumpAttack(e, 3, 8));
                         g.addGoal(2, new JumpOverBlockGoal(e));
                         g.addGoal(3, new MeleeAttackGoal(e,  1f, true));
 
@@ -38,6 +38,8 @@ public class LandMonsterPrefab extends AbstractPrefab {
                         state.addAnimation("walk", NormalZombieAnimation.walk);
                         state.addAnimation("idle", NormalZombieAnimation.idle);
                         state.addAnimation("attack", NormalZombieAnimation.attack);
+                        state.addAnimation("hurt", NormalZombieAnimation.hurt);
+                        state.addAnimation("run", NormalZombieAnimation.run);
                     })
             ;
 
