@@ -51,7 +51,7 @@ public class RegisterRenderer {
 
 
         // 僵尸
-        event.registerEntityRenderer(Zombies.NORMAL_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
+        event.registerEntityRenderer(Zombies.NORMAL_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
     }
 
 

@@ -151,20 +151,18 @@ public class AbstractMonster extends Monster {
                 }
             }
             if(attackInternal>0)return;
-            if (getDeltaMovement().length()>0) {
+            if (navigation.isInProgress()) {
                 if (!animState.curName.equals("walk")) {
                     this.animState.playAnim("walk", this.tickCount);
                     this.entityData.set(DATA_CAFE_POSE_NAME, "walk");
                 }
 
-            } else if (getDeltaMovement().length()==0) {
+            } else {
                 if (!animState.curName.equals("idle")) {
                     this.animState.playAnim("idle", this.tickCount);
                     this.entityData.set(DATA_CAFE_POSE_NAME, "idle");
                 }
-
             }
-
         }
     }
     /*

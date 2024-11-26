@@ -3,6 +3,7 @@ package rhymestudio.rhyme.registry.Entities;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.monster.Zombie;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.entity.AbstractMonster;
@@ -15,7 +16,7 @@ import static rhymestudio.rhyme.Rhyme.MODID;
 public class Zombies {
     public static final DeferredRegister<EntityType<?>> ZOMBIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<AbstractMonster>> NORMAL_ZOMBIE = registerSimpleMonster("normal_zombie", LandMonsterPrefab.NORMAL_ZOMBIE_PREFAB,0.75F,2F);
+    public static final DeferredHolder<EntityType<?>, EntityType<AbstractMonster>> NORMAL_ZOMBIE = registerSimpleMonster("normal_zombie", LandMonsterPrefab.NORMAL_ZOMBIE_PREFAB,0.6F,1.95F);
 
 
 

@@ -14,12 +14,12 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.zombieAnimations.NormalZombieAnimation;
 import rhymestudio.rhyme.entity.AbstractMonster;
 
-public class NormalZombieModel extends HierarchicalModel<AbstractMonster> {
+public class NormalZombieModel<T extends AbstractMonster> extends HierarchicalModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "normal_zombie_model"), "main");
 	private final ModelPart all;
 	private final ModelPart bone;
-	private final ModelPart head;
+	public final ModelPart head;
 	private final ModelPart body;
 	private final ModelPart left_arm;
 	private final ModelPart right_arm;

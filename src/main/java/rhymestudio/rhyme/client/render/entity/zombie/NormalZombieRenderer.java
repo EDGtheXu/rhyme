@@ -32,7 +32,7 @@ import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.registry.items.ArmorItems;
 
 
-public class NormalZombieRenderer<T extends AbstractMonster, M extends HierarchicalModel<T>> extends MobRenderer<T, M> {
+public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZombieModel<T>> extends MobRenderer<T, M> {
     private boolean rotY;
     private float scale;
     public NormalZombieRenderer(EntityRendererProvider.Context renderManager, M model) {
@@ -50,7 +50,7 @@ public class NormalZombieRenderer<T extends AbstractMonster, M extends Hierarchi
 
         this.addLayer(new ZombieArmorLayer<>(this,
                 new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.ZOMBIE)),
-                new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.ZOMBIE)),
+//                new HumanoidArmorModel<>(context.bakeLayer(ModelLayers.ZOMBIE)),
                 context.getModelManager()
         ));
 
