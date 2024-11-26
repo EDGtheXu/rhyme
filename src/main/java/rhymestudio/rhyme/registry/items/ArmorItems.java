@@ -24,7 +24,9 @@ public class ArmorItems {
 
 
     public static DeferredItem<Item> register(String en, String zh, Holder<ArmorMaterial> material,ArmorItem.Type type, int durability, ModRarity rarity) {
-        DeferredItem<Item> item =  ARMORS.register("armor/"+en, () -> new NormalArmorItem(material,type,new Item.Properties().stacksTo(1).durability(durability).component(ModDataComponentTypes.MOD_RARITY,rarity)));
+        DeferredItem<Item> item =  ARMORS.register("armor/"+en, () -> new NormalArmorItem(material,type,new Item.Properties().stacksTo(1).durability(durability).component(ModDataComponentTypes.MOD_RARITY,rarity)
+
+        ));
         Rhyme.chineseProviders.add((c)->c.add(item.get(),zh));
         return item;
 

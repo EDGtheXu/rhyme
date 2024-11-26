@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.registry.items;
 
+import com.google.gson.JsonParser;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 
@@ -8,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.dataComponent.CardQualityComponent;
+import rhymestudio.rhyme.dataComponent.ItemDataMapComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.entity.AbstractPlant;
 import rhymestudio.rhyme.item.AbstractCardItem;
@@ -52,6 +54,14 @@ public class PlantItems {
                         .component(ModDataComponentTypes.CARD_QUALITY, CardQualityComponent.COPPER)
                         .stacksTo(1)
                         .durability(duration)
+                        .component(ModDataComponentTypes.ITEM_DAT_MAP,
+                                ItemDataMapComponent.builder()
+                                        .add("key","name","1.23")
+                                        .add("key","name2","1.24")
+                                        .add("key","name3","1.25")
+                                        .add("key2","name","1.26")
+                                        .build()
+                        )
                 ,entityType,consumeSun));
 //        Optional.ofNullable(cardItems).ifPresent(list -> list.add(item));
         Rhyme.chineseProviders.add((c)->c.add(item.get(),zh));

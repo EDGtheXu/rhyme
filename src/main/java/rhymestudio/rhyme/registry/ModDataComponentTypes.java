@@ -4,6 +4,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.dataComponent.CardQualityComponent;
+import rhymestudio.rhyme.dataComponent.ItemDataMapComponent;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 
 import java.util.function.Supplier;
@@ -17,5 +18,7 @@ public final class ModDataComponentTypes {
             TYPES.register("mod_rarity_component", () -> DataComponentType.<ModRarity>builder().persistent(ModRarity.CODEC).networkSynchronized(ModRarity.STREAM_CODEC).cacheEncoding().build());
     public static final Supplier<DataComponentType<CardQualityComponent>> CARD_QUALITY =
             TYPES.register("card_quality_component", () -> DataComponentType.<CardQualityComponent>builder().persistent(CardQualityComponent.CODEC).networkSynchronized(CardQualityComponent.STREAM_CODEC).cacheEncoding().build());
+    public static final Supplier<DataComponentType<ItemDataMapComponent>> ITEM_DAT_MAP =
+            TYPES.register("item_data_map_component", () -> DataComponentType.<ItemDataMapComponent>builder().persistent(ItemDataMapComponent.CODEC).networkSynchronized(ItemDataMapComponent.STREAM_CODEC).cacheEncoding().build());
 
 }
