@@ -1,4 +1,17 @@
 package rhymestudio.rhyme.registry;
 
-public class ModMenus {
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.flag.FeatureFlags;
+import net.minecraft.world.inventory.MenuType;
+import net.neoforged.neoforge.registries.DeferredRegister;
+import rhymestudio.rhyme.menu.SunCreatorMenu;
+
+import java.util.function.Supplier;
+
+import static rhymestudio.rhyme.Rhyme.MODID;
+
+public final class ModMenus {
+    public static final DeferredRegister<MenuType<?>> TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
+
+    public static final Supplier<MenuType<SunCreatorMenu>> WORKSHOP = TYPES.register("sun_creator", () -> new MenuType<>(SunCreatorMenu::new, FeatureFlags.VANILLA_SET));
 }

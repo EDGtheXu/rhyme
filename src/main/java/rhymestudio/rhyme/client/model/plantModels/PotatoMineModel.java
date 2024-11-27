@@ -99,17 +99,12 @@ public class PotatoMineModel extends AbstractPlantModel<AbstractPlant> {
 	float ageInTicksO = 0;
 	@Override
 	public void setupAnim(@NotNull AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-
 		String pose = entity.getCafeAnimState().curName;
-
 		if(pose.equals("up" )&& entity.tickCount - entity.getCafeAnimState().tick== 30 && ageInTicksO + 0.5f > ageInTicks){
 			return;
 		}
 		ageInTicksO = ageInTicks;
-
 		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-
-		System.out.println("pose: " + pose);
 	}
 
 	@Override

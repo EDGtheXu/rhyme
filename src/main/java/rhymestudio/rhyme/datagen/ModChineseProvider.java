@@ -18,6 +18,8 @@ public class ModChineseProvider extends LanguageProvider {
         add("creativetab.rhyme.blocks", "开花与终结有限公司：方块");
         add("creativetab.rhyme.armors", "开花与终结有限公司：护具");
 
+        add("container.rhyme.sun_creator", "光萃台");
+
         Rhyme.chineseProviders.forEach(a->a.accept(this));
 
     }

@@ -31,6 +31,8 @@ public class ModEnglishProvider extends LanguageProvider {
         add("creativetab.rhyme.blocks", "pvz blocks");
         add("creativetab.rhyme.armors", "pvz armors");
 
+        add("container.rhyme.sun_creator", "Sun Creator");
+
         PlantItems.PLANTS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
         MaterialItems.MATERIALS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
         ModBlocks.BLOCK_ITEMS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));

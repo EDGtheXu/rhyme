@@ -10,11 +10,13 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.client.gui.SunCreatorScreen;
 import rhymestudio.rhyme.client.model.ModelUtils;
 import rhymestudio.rhyme.client.post.PostUtil;
+import rhymestudio.rhyme.registry.ModMenus;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 import static rhymestudio.rhyme.client.model.ModelUtils.HEAD_MODEL_ITEMS;
@@ -52,15 +54,9 @@ public class ModClientEvent {
 
         });
     }
-    private static void parseAll(File file){
-        File[] fs = file.listFiles();
-        if (fs != null) {
-            for(File f: fs){
-                if(f.isDirectory())	//若是目录，则递归打印该目录下的文件
-                    parseAll(f);
-                if(f.isFile())		//若是文件，直接打印
-                    System.out.println(f);
-            }
-        }
+
+    @SubscribeEvent
+    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenus.WORKSHOP.get(), SunCreatorScreen::new);
     }
 }
