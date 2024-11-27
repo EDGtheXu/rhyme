@@ -17,7 +17,7 @@ public class MaterialItems {
     public static final DeferredItem<Item> GENERAL_SEED =register("general_seed","通用种子");
     public static final DeferredItem<Item> PLANT_GENE =register("plant_gene","植物基因");
     public static final DeferredItem<Item> PEA_GENE =register("pea_gene","豌豆基因",ModRarity.GREEN);
-    public static final DeferredItem<Item> ANGER_GENE =register("anger_gene","愤怒基因",ModRarity.RED);
+    public static final DeferredItem<Item> ANGER_GENE =register("anger_gene","易怒基因",ModRarity.RED);
 
 
 

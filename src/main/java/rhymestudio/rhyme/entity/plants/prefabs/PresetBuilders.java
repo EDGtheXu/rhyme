@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 public class PresetBuilders {
     public static final Supplier<AbstractPlant.Builder> NORMAL_PEA_PLANT = () -> new AbstractPlant.Builder()
             .setAnimSpeed(2)
-            .setAttackDamage(10)//子弹伤害
+            .setAttackDamage(3)//子弹伤害
             .setAttackInternalTick(20)//idle_on
 
             .setAttackTriggerTick(15)

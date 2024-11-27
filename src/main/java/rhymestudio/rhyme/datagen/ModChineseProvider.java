@@ -13,10 +13,10 @@ public class ModChineseProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-        add("creativetab.rhyme.materials", "PVZ 材料");
-        add("creativetab.rhyme.cards", "PVZ 卡包");
-        add("creativetab.rhyme.blocks", "pvz 方块");
-        add("creativetab.rhyme.armors", "pvz 护甲");
+        add("creativetab.rhyme.materials", "开花与终结有限公司：产品");
+        add("creativetab.rhyme.cards", "开花与终结有限公司：种子包");
+        add("creativetab.rhyme.blocks", "开花与终结有限公司：方块");
+        add("creativetab.rhyme.armors", "开花与终结有限公司：护具");
 
         Rhyme.chineseProviders.forEach(a->a.accept(this));
 
