@@ -27,15 +27,16 @@ public class ModRecipe extends RecipeProvider {
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
 
+
+        //路障
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.CONE_HELMET.get())
-                .pattern(" A ")
                 .pattern(" A ")
                 .pattern("AAA")
                 .define('A',Items.TERRACOTTA)
                 .unlockedBy("has_terracotta",has(Items.TERRACOTTA))
                 .save(recipeOutput);
 
-
+        //僵尸的铁桶
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.IRON_BUCKET_HELMET.get())
                 .pattern("AAA")
                 .pattern("A A")

@@ -22,7 +22,7 @@ public class ModArmorMaterials {
 
     public static final Holder<ArmorMaterial> CONE_ARMOR_MATERIALS = ARMOR_MATERIALS.register("cone_armor_materials", () -> new ArmorMaterial(
             Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                map.put(ArmorItem.Type.HELMET, 1);
+                map.put(ArmorItem.Type.HELMET, 2);
 //                map.put(ArmorItem.Type.CHESTPLATE, 2);
 //                map.put(ArmorItem.Type.LEGGINGS, 2);
 //                map.put(ArmorItem.Type.BOOTS, 1);
@@ -33,7 +33,7 @@ public class ModArmorMaterials {
 
     public static final Holder<ArmorMaterial> IRON_BUCKET_ARMOR_MATERIALS = ARMOR_MATERIALS.register("iron_bucket_armor_materials", () -> new ArmorMaterial(
         Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-            map.put(ArmorItem.Type.HELMET, 2);
+            map.put(ArmorItem.Type.HELMET, 4);
 //            map.put(ArmorItem.Type.CHESTPLATE, 2);
 //            map.put(ArmorItem.Type.LEGGINGS, 2);
 //            map.put(ArmorItem.Type.BOOTS, 1);

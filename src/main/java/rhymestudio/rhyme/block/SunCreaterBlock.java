@@ -24,9 +24,13 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rhymestudio.rhyme.entity.SunItemEntity;
 import rhymestudio.rhyme.registry.ModBlocks;
+import rhymestudio.rhyme.registry.items.MaterialItems;
+import rhymestudio.rhyme.registry.items.PlantItems;
 
 import static net.minecraft.world.level.block.BarrelBlock.FACING;
 import static net.minecraft.world.level.block.state.properties.BlockStateProperties.WATERLOGGED;
@@ -55,13 +59,19 @@ public class SunCreaterBlock extends BaseEntityBlock  {
     public <T extends BlockEntity> BlockEntityTicker getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
         return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
             if(!level.isClientSide){
-                blockEntity.time++;
-                if(blockEntity.time >= blockEntity.interval && blockEntity.count < blockEntity.MAX_COUNT){
-                    blockEntity.time = 0;
-                    Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-                    Component component = Component.literal("当前产能："+blockEntity.count++);
-                    if(nearestPlayer!=null){
-                        nearestPlayer.sendSystemMessage(component);
+                if(!level.isNight()) {
+                    blockEntity.time++;
+                    if(blockEntity.time >= blockEntity.interval){
+                        if(blockEntity.count < blockEntity.MAX_COUNT){
+                            blockEntity.count++;
+                        }
+                        blockEntity.time = 0;
+                        Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+                        Component component = Component.literal("当前产能："+blockEntity.count +"/" + blockEntity.MAX_COUNT);
+
+                        if(nearestPlayer!=null){
+                            nearestPlayer.sendSystemMessage(component);
+                        }
                     }
                 }
             }
@@ -69,8 +79,14 @@ public class SunCreaterBlock extends BaseEntityBlock  {
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(!level.isClientSide && state.hasBlockEntity()){
             BlockEntity blockEntity = level.getBlockEntity(pos);
-            System.out.println(blockEntity);
+
             if(blockEntity instanceof SunCreaterBlockEntity entity){
+                SunItemEntity sun = new SunItemEntity(level, entity.getBlockPos().getCenter().add(0,0.5f,0));
+                sun.setItem(new ItemStack(MaterialItems.SUN_ITEM.get(),entity.count));
+                Vec3 dir = sun.position().subtract(player.position().add(0, player.getEyeHeight(), 0));
+
+                sun.setDeltaMovement(dir.normalize().scale(-0.5f));
+                level.addFreshEntity(sun);
                 entity.count = 0;
             }
 
@@ -80,8 +96,8 @@ public class SunCreaterBlock extends BaseEntityBlock  {
     }
 
     public static final class SunCreaterBlockEntity extends BlockEntity {
-        public int MAX_COUNT = 20;
-        public int interval = 20 * 2;
+        public int MAX_COUNT = 64;
+        public int interval = 20 * 30;
         public int time = 0;
         public int count = 0;
         public SunCreaterBlockEntity(BlockEntityType<SunCreaterBlockEntity> type, BlockPos pos, BlockState state) {
