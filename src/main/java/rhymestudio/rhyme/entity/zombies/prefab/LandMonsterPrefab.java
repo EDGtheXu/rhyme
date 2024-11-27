@@ -3,6 +3,7 @@ package rhymestudio.rhyme.entity.zombies.prefab;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 
@@ -22,8 +23,9 @@ public class LandMonsterPrefab extends AbstractPrefab {
                     .setStepHeight(2.4f)
                     .setJumpStrength(0.5f)
                     .addTarget((t,e)->{
-                        t.addGoal(1, new NearestAttackableTargetGoal<>(e, AbstractPlant.class,false, LivingEntity::canBeSeenAsEnemy));
-                        t.addGoal(1, new NearestAttackableTargetGoal<>(e, Player.class,false, LivingEntity::canBeSeenAsEnemy));
+                        t.addGoal(1,new HurtByTargetGoal(e));
+                        t.addGoal(2, new NearestAttackableTargetGoal<>(e, AbstractPlant.class,false, LivingEntity::canBeSeenAsEnemy));
+                        t.addGoal(3, new NearestAttackableTargetGoal<>(e, Player.class,false, LivingEntity::canBeSeenAsEnemy));
 
                     })
                     .addGoal((g,e)-> {

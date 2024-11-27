@@ -5,16 +5,16 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.IcePeaAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
-public class IcePeaModel extends HierarchicalModel<AbstractPlant> {
+public class IcePeaModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "ice_pea_model"), "main");
 	private final ModelPart bone3;
@@ -85,23 +85,18 @@ public class IcePeaModel extends HierarchicalModel<AbstractPlant> {
 	}
 
 	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.head.yRot = netHeadYaw * 0.017453292F;
-		this.head.zRot = headPitch * 0.017453292F;
-
-		this.animate(entity.animState.getAnim("idle_on"), IcePeaAnimation.idle_normal, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), IcePeaAnimation.shoot, ageInTicks);
-	}
-
-	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
-		bone3.render(poseStack, vertexConsumer, packedLight, packedOverlay, c);
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, c);
+
 	}
 
 	@Override
 	public ModelPart root() {
 		return bone3;
+	}
+
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 }

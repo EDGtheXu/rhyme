@@ -21,13 +21,13 @@ import rhymestudio.rhyme.entity.proj.ThrowableProj;
 
 import java.util.function.Consumer;
 
-public abstract class AbstractPlant extends Mob{
+public abstract class AbstractPlant extends Mob implements ICafeMob{
 
     public String namePath;
     public Player owner;
     public Builder builder;
 
-    public CafeAnimationState animState = new CafeAnimationState();
+    public CafeAnimationState animState = new CafeAnimationState(this);
     public CircleSkills<AbstractPlant> skills = new CircleSkills<>(this);
 
     public void setOwner(Player player) {
@@ -60,7 +60,9 @@ public abstract class AbstractPlant extends Mob{
         super.onAddedToLevel();
     }
 
-
+    public CafeAnimationState getCafeAnimState(){
+        return animState;
+    }
 
     public void registerGoals(){
         //this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 20.0F));
@@ -91,16 +93,7 @@ public abstract class AbstractPlant extends Mob{
 
     public void tick(){
 
-        if (level().isClientSide) {
-            skills.index = this.entityData.get(DATA_SKILL_INDEX);
-            skills.tick = this.entityData.get(DATA_SKILL_TICK);
-
-        } else {
-            skills.tick();
-
-            this.entityData.set(DATA_SKILL_INDEX, skills.index);
-            this.entityData.set(DATA_SKILL_TICK, skills.tick);
-        }
+        if (!level().isClientSide) skills.tick();
 
         super.tick();
         if(this.getTarget()!=null && getTarget().isAlive()){
@@ -110,7 +103,6 @@ public abstract class AbstractPlant extends Mob{
             }
             this.setYBodyRot(this.yHeadRot);
         }
-
 
     }
 
@@ -136,11 +128,8 @@ public abstract class AbstractPlant extends Mob{
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (this.level().isClientSide() && DATA_CAFE_POSE_NAME.equals(key)) {
-
-            this.animState.resetAnim();
-
             String name = entityData.get(DATA_CAFE_POSE_NAME);
-            this.animState.playAnim(name,this.tickCount);
+            this.animState.playAnim(name, this.tickCount);
 
         }
         super.onSyncedDataUpdated(key);

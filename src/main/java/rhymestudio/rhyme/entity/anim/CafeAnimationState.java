@@ -2,28 +2,36 @@ package rhymestudio.rhyme.entity.anim;
 
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.world.entity.AnimationState;
+import net.minecraft.world.entity.Mob;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class CafeAnimationState {
-    public record Tuple(AnimationState animationState, float duration, float animationSpeed, boolean isLooping){}
+    public record Tuple(AnimationDefinition animDef ,float duration, float animationSpeed, boolean isLooping){}
     public Map<String ,Tuple> animationMap;
-    public String curName = "idle_on";
-    public String prevName = "idle_on";
+
     public int tick = 0;
-    public int prevTick = 0;
     public float globalAnimSpeed = 1;
-    public CafeAnimationState(Map<String, Tuple> animationMap) {
+    public String curName = "idle";
+    public String prevName = "idle";
+    public AnimationState curAnimState = new AnimationState();
+    public AnimationDefinition curAnimDef = null;
+    public Mob mob;
+
+    public CafeAnimationState(Mob mob,Map<String, Tuple> animationMap) {
+        this.mob = mob;
         this.animationMap = animationMap;
     }
 
-    public CafeAnimationState() {
+    public CafeAnimationState(Mob mob) {
         this.animationMap = new HashMap<>();
+        this.mob = mob;
     }
 
     public void addAnimation(String name, AnimationDefinition anim, float speed) {
-        if(anim!=null) this.animationMap.put(name, new Tuple(new AnimationState(),anim.lengthInSeconds(),speed,anim.looping()));
+        if(anim!=null) this.animationMap.put(name, new Tuple(anim,anim.lengthInSeconds(),speed,anim.looping()));
     }
     public void addAnimation(String name, AnimationDefinition anim) {addAnimation(name, anim, 1);    }
 
@@ -39,18 +47,16 @@ public class CafeAnimationState {
         return animationMap.get(animationName).isLooping;
     }
 
-    public AnimationState getAnim(String name){
-        return this.animationMap.get(name).animationState();
-    }
 
-    public void resetAnim(){
-        this.animationMap.forEach((k,v)->v.animationState().stop());
+
+    public void stopAnim(){
+        this.curAnimState.stop();
     }
 
     public void playAnim(String name, int tick){
         if(!this.animationMap.isEmpty()){
-            this.animationMap.get(name).animationState().start(tick);
-            this.prevTick = this.tick;
+            curAnimState.start(tick);
+            this.curAnimDef = this.animationMap.get(name).animDef;
             this.prevName = this.curName;
             this.curName = name;
             this.tick = tick;
@@ -61,9 +67,6 @@ public class CafeAnimationState {
         return this.tick;
     }
 
-    public void stopAnim(String name){
-        this.animationMap.get(name).animationState().stop();
-    }
 
 
 

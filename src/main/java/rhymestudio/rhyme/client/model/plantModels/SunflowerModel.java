@@ -5,16 +5,16 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.SunflowerAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
-public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
+public class SunflowerModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "sunflower"), "main");
 	private final ModelPart all;
@@ -69,16 +69,6 @@ public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.head.yRot = netHeadYaw * 0.017453292F;
-		this.head.zRot = headPitch * 0.017453292F;
-
-		this.animate(entity.animState.getAnim("idle_on"), SunflowerAnimation.idle, ageInTicks, entity.animState.getAnimSpeed());
-		this.animate(entity.animState.getAnim("sun"), SunflowerAnimation.sun, ageInTicks, entity.animState.getAnimSpeed());
-	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
@@ -88,6 +78,10 @@ public class SunflowerModel extends HierarchicalModel<AbstractPlant> {
 	@Override
 	public ModelPart root() {
 		return all;
+	}
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 
 

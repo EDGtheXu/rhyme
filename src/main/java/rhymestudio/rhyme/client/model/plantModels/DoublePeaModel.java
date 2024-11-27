@@ -5,17 +5,17 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.DoublePeaAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
 
-public class DoublePeaModel extends HierarchicalModel<AbstractPlant> {
+public class DoublePeaModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "repeater"), "main");
 	private final ModelPart bone4;
@@ -27,9 +27,11 @@ public class DoublePeaModel extends HierarchicalModel<AbstractPlant> {
 	private final ModelPart eyeclosed;
 	private final ModelPart bone6;
 	private final ModelPart bone2;
+	private final ModelPart root;
 
 
 	public DoublePeaModel(ModelPart root) {
+		this.root = root;
 		this.bone4 = root.getChild("bone4");
 		this.Yezi = this.bone4.getChild("Yezi");
 		this.Genh = this.bone4.getChild("Genh");
@@ -71,25 +73,19 @@ public class DoublePeaModel extends HierarchicalModel<AbstractPlant> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.head.yRot = netHeadYaw * 0.017453292F;
-		this.head.zRot = headPitch * 0.017453292F;
-
-		this.animate(entity.animState.getAnim("idle_on"), DoublePeaAnimation.idle_normal, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), DoublePeaAnimation.shoot, ageInTicks);
-	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
-		bone4.render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
+		root().render(poseStack, vertexConsumer, packedLight, packedOverlay, color);
 
 	}
 
 	@Override
 	public ModelPart root() {
-		return bone4;
+		return root;
+	}
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 }

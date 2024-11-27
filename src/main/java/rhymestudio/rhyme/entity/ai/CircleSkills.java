@@ -50,7 +50,7 @@ public class CircleSkills<T extends AbstractPlant> {
         //初次进入状态
         if(bossSkills.get(index).stateInit!=null) bossSkills.get(index).stateInit.accept(owner);
         owner.getEntityData().set(AbstractPlant.DATA_CAFE_POSE_NAME,getCurSkill());
-        owner.animState.playAnim(bossSkills.get(index).skill,owner.tickCount);
+
     }
     /** 强制跳转状态 **/
     public void forceStartIndex(int index){

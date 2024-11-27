@@ -5,19 +5,17 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraft.world.entity.AnimationState;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.PeaAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
-public class PeaModel extends HierarchicalModel<AbstractPlant> {
+public class PeaModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "pea_model"), "main");
 	private final ModelPart bone2;
@@ -41,8 +39,6 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 		this.bone = this.head.getChild("bone");
 		this.bone5 = this.head.getChild("bone5");
 		this.eyeclosed = this.head.getChild("eyeclosed");
-
-		state.start(0);
 
 		lastTime = System.currentTimeMillis();
 	}
@@ -89,31 +85,6 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.head.yRot = netHeadYaw * 0.017453292F;
-		this.head.zRot = headPitch * 0.017453292F;
-
-		this.animate(entity.animState.getAnim("idle_on"), PeaAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), PeaAnimation.shoot, ageInTicks);
-
-	}
-	private AnimationState state = new AnimationState();
-
-	public void defaultAnimate(PoseStack pose){
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-		pose.scale(-0.65F,-0.65F,-0.65F);
-		pose.translate(-0.1,0.6,0);
-		pose.rotateAround(Axis.YN.rotationDegrees(-30), 0,0,0);
-		pose.rotateAround(Axis.XN.rotationDegrees(-10), 0,0,0);
-
-
-		float time = (System.currentTimeMillis() - lastTime)/1000f;
-		this.animate(state,PeaAnimation.idle, 0);
-
-	}
 
 
 	@Override
@@ -128,5 +99,8 @@ public class PeaModel extends HierarchicalModel<AbstractPlant> {
 	}
 
 
-
+	@Override
+	public ModelPart getHead() {
+		return head;
+	}
 }

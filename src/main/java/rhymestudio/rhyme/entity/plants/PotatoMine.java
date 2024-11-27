@@ -62,6 +62,7 @@ public class PotatoMine extends AbstractPlant {
         super.onSyncedDataUpdated(var1);
         if (var1 == DATA_SPEED && level().isClientSide) {
             this.animState.globalAnimSpeed = this.entityData.get(DATA_SPEED);
+
         }
     }
 
@@ -81,7 +82,7 @@ public class PotatoMine extends AbstractPlant {
                             float distance = distanceTo(e);
                             if(distance < 8){
                                 if(e instanceof Mob mob && mob instanceof Enemy){
-                                    if(distance < 1.2f){
+                                    if(distance < 1.5f){
                                         flag.set(true);
                                     }
                                     minDistance.set(Math.min(minDistance.get(), distance));
@@ -94,7 +95,10 @@ public class PotatoMine extends AbstractPlant {
                         if(distance < 8f){
                             this.entityData.set(DATA_SPEED, 1/distance/distance*64);
                         }else this.entityData.set(DATA_SPEED, 1f);
-                        if(flag.get()) skills.forceEnd();
+                        if(flag.get()) {
+                            this.entityData.set(DATA_SPEED, 1f);
+                            skills.forceEnd();
+                        }
                     }
                 },
                 a->{}
@@ -104,9 +108,7 @@ public class PotatoMine extends AbstractPlant {
                 a-> {
                     if(skills.canTrigger()){
                         this.discard();
-                        if (!this.level().isClientSide) {
-                            this.explode();
-                        }
+                        this.explode();
                     }
                 },
                 a->{}
@@ -146,9 +148,6 @@ public class PotatoMine extends AbstractPlant {
         super.tick();
         if(this.readyTime > 0){
             this.readyTime--;
-        }
-        if(!level().isClientSide){
-            this.entityData.set(DATA_CAFE_POSE_NAME, animState.curName);
         }
 
     }

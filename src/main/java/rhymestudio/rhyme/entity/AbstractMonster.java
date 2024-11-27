@@ -5,6 +5,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -33,12 +34,13 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class AbstractMonster extends Monster {
+public class AbstractMonster extends Monster implements ICafeMob{
     public String namePath;
     public int attackInternal = 0;
     private int _attackInternal = 20;
     public Builder builder;
-    public CafeAnimationState animState = new CafeAnimationState();
+    public CafeAnimationState animState = new CafeAnimationState(this);
+
     public AbstractMonster(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level);
         this.builder = builder;
@@ -80,8 +82,8 @@ public class AbstractMonster extends Monster {
 
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+
         if (this.level().isClientSide() && DATA_CAFE_POSE_NAME.equals(key)) {
-            this.animState.resetAnim();
             String name = entityData.get(DATA_CAFE_POSE_NAME);
             this.animState.playAnim(name,this.tickCount);
         }
@@ -140,9 +142,11 @@ public class AbstractMonster extends Monster {
 
     public void aiStep() {
         super.aiStep();
-        attackInternal--;
-
         if(!level().isClientSide) {
+
+            attackInternal--;
+            if(hurtTime>0){return;}
+
             if(swingTime > 0 ){
                 if(attackInternal < 0){
                     attackInternal = _attackInternal;
@@ -152,16 +156,12 @@ public class AbstractMonster extends Monster {
             }
             if(attackInternal>0)return;
             if (navigation.isInProgress()) {
-                if (!animState.curName.equals("walk")) {
-                    this.animState.playAnim("walk", this.tickCount);
-                    this.entityData.set(DATA_CAFE_POSE_NAME, "walk");
-                }
+                this.animState.playAnim("walk", this.tickCount);
+                this.entityData.set(DATA_CAFE_POSE_NAME, "walk");
 
             } else {
-                if (!animState.curName.equals("idle")) {
-                    this.animState.playAnim("idle", this.tickCount);
-                    this.entityData.set(DATA_CAFE_POSE_NAME, "idle");
-                }
+                this.animState.playAnim("idle", this.tickCount);
+                this.entityData.set(DATA_CAFE_POSE_NAME, "idle");
             }
         }
     }
@@ -218,15 +218,22 @@ public class AbstractMonster extends Monster {
     }
 
     public boolean canAttack(LivingEntity entity) {
-        return attackInternal < 0 &&
-                (entity instanceof Player && !entity.isInvulnerable() && !((Player) entity).isCreative()||
-                        getTarget() != null && getTarget().is(entity) && entity != this);
+        return attackInternal < 0 && entity.canBeSeenAsEnemy();
     }
 
     public boolean hurt(DamageSource source, float amount){
         boolean flag = super.hurt(source, amount);
-        this.animState.playAnim("hurt",this.tickCount);
+        if(!level().isClientSide){
+            this.animState.playAnim("hurt",this.tickCount);
+            entityData.set(DATA_CAFE_POSE_NAME, "hurt");
+        }
+
         return flag;
+    }
+
+    @Override
+    public CafeAnimationState getCafeAnimState() {
+        return animState;
     }
 
     public static class Builder {

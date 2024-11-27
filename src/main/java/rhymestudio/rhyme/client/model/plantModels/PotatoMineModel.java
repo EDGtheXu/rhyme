@@ -5,17 +5,18 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.animation.plantAnimations.PotatoMineAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.PotatoMine;
 
-public class PotatoMineModel extends HierarchicalModel<AbstractPlant> {
+public class PotatoMineModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "potato_mine_model"), "main");
 	private final ModelPart all;
@@ -27,9 +28,8 @@ public class PotatoMineModel extends HierarchicalModel<AbstractPlant> {
 	private final ModelPart root;
 
 	public PotatoMineModel(ModelPart root) {
-
-		this.all = root.getChild("all");
 		this.root = root;
+		this.all = root.getChild("all");
 		this.body = this.all.getChild("body");
 		this.red = this.body.getChild("red");
 		this.grey = this.body.getChild("grey");
@@ -98,31 +98,30 @@ public class PotatoMineModel extends HierarchicalModel<AbstractPlant> {
 
 	float ageInTicksO = 0;
 	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+	public void setupAnim(@NotNull AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 
-		String pose = entity.getEntityData().get(AbstractPlant.DATA_CAFE_POSE_NAME);
-		int time =  entity.getEntityData().get(AbstractPlant.DATA_SKILL_TICK);
+		String pose = entity.getCafeAnimState().curName;
 
-		if(pose.equals("up") && time == 29){
-			if(ageInTicksO + 1 > ageInTicks) return;
+		if(pose.equals("up" )&& entity.tickCount - entity.getCafeAnimState().tick== 30 && ageInTicksO + 0.5f > ageInTicks){
+			return;
 		}
 		ageInTicksO = ageInTicks;
 
+		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.animate(entity.animState.getAnim("idle"), PotatoMineAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("up"), PotatoMineAnimation.up, ageInTicks);
-		this.animate(entity.animState.getAnim("idle_on"), PotatoMineAnimation.idle_on, ageInTicks, entity.animState.getAnimSpeed() * entity.animState.globalAnimSpeed);
-		this.animate(entity.animState.getAnim("bomb"), PotatoMineAnimation.bomb, ageInTicks);
+		System.out.println("pose: " + pose);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
-		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, c);
+		super.renderToBuffer(poseStack, vertexConsumer, packedLight, packedOverlay, c);
 	}
 	@Override
 	public ModelPart root() {
 		return root;
+	}
+	@Override
+	public ModelPart getHead() {
+		return null;
 	}
 }

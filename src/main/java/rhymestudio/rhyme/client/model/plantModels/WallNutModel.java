@@ -5,17 +5,16 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.WallNutAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.entity.plants.WallNut;
 
-public class WallNutModel extends HierarchicalModel<AbstractPlant> {
+public class WallNutModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space("wall_nut_model"), "main");
 	private final ModelPart head;
@@ -48,14 +47,6 @@ public class WallNutModel extends HierarchicalModel<AbstractPlant> {
 		return LayerDefinition.create(meshdefinition, 128, 128);
 	}
 
-	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
-
-		this.animate(entity.animState.getAnim("idle1"), WallNutAnimation.idle1, ageInTicks, entity.animState.getAnimSpeed());
-		this.animate(entity.animState.getAnim("idle2"), WallNutAnimation.idle2, ageInTicks, entity.animState.getAnimSpeed());
-		this.animate(entity.animState.getAnim("idle3"), WallNutAnimation.idle3, ageInTicks, entity.animState.getAnimSpeed());
-	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
@@ -64,6 +55,10 @@ public class WallNutModel extends HierarchicalModel<AbstractPlant> {
 
 	@Override
 	public ModelPart root() {
+		return head;
+	}
+	@Override
+	public ModelPart getHead() {
 		return head;
 	}
 }

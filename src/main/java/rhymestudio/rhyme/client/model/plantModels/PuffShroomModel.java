@@ -5,16 +5,16 @@ package rhymestudio.rhyme.client.model.plantModels;// Made with Blockbench 4.11.
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.PuffShroomAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
+import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.entity.AbstractPlant;
 
-public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
+public class PuffShroomModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "puff_shroom_model"), "main");
 	private final ModelPart head;
@@ -43,18 +43,7 @@ public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
 
-	@Override
-	public void setupAnim(AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
 
-		this.head.yRot = netHeadYaw * 0.017453292F +1.5708F;
-//		this.head.xRot = headPitch * 0.017453292F;
-
-		this.animate(entity.animState.getAnim("sleep"), PuffShroomAnimation.sleeping, ageInTicks);
-		this.animate(entity.animState.getAnim("idle"), PuffShroomAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("shoot"), PuffShroomAnimation.attack, ageInTicks);
-
-	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int c) {
@@ -64,5 +53,9 @@ public class PuffShroomModel extends HierarchicalModel<AbstractPlant> {
 	@Override
 	public ModelPart root() {
 		return root;
+	}
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 }

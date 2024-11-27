@@ -5,16 +5,16 @@ package rhymestudio.rhyme.client.model.zombieModels;// Made with Blockbench 4.11
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.zombieAnimations.NormalZombieAnimation;
+import rhymestudio.rhyme.client.model.AbstractAnimModel;
 import rhymestudio.rhyme.entity.AbstractMonster;
 
-public class NormalZombieModel<T extends AbstractMonster> extends HierarchicalModel<T> {
+public class NormalZombieModel<T extends AbstractMonster> extends AbstractAnimModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "normal_zombie_model"), "main");
 	private final ModelPart all;
@@ -67,35 +67,14 @@ public class NormalZombieModel<T extends AbstractMonster> extends HierarchicalMo
 
 
 	@Override
-	public void setupAnim(AbstractMonster entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		this.root().getAllParts().forEach(ModelPart::resetPose);
+	public void setupAnim(@NotNull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
+	}
 
-		if(entity.tickCount - entity.animState.tick < 10){
-
-
-//			System.out.println("smooth");
-		}
-
-
-
-		this.head.yRot = netHeadYaw * ((float)Math.PI / 180F);
-		this.head.xRot = headPitch * ((float)Math.PI / 180F);
-
-		if(entity.animState.curName.equals("attack")){
-			this.animate(entity.animState.getAnim("attack"), NormalZombieAnimation.attack, ageInTicks);
-			return;
-		}
-
-		if(entity.hurtTime>0){
-			this.animate(entity.animState.getAnim("hurt"), NormalZombieAnimation.hurt, ageInTicks);
-		}
-
-
-		this.animate(entity.animState.getAnim("idle"), NormalZombieAnimation.idle, ageInTicks);
-		this.animate(entity.animState.getAnim("walk"), NormalZombieAnimation.walk, ageInTicks);
-		this.animate(entity.animState.getAnim("run"), NormalZombieAnimation.run, ageInTicks);
-
+	@Override
+	public ModelPart getHead() {
+		return head;
 	}
 
 	@Override
