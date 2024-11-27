@@ -56,6 +56,6 @@ public class PuffShroomModel extends AbstractPlantModel<AbstractPlant> {
 	}
 	@Override
 	public ModelPart getHead() {
-		return head;
+		return null;
 	}
 }

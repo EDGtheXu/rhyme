@@ -39,7 +39,7 @@ public class RegisterRenderer {
         registerOne(event,PEA.get(),getRenderSup(PeaModel.class));
         registerOne(event,ICE_PEA.get(),getRenderSup(IcePeaModel.class));
         registerOne(event,DOUBLE_PEA.get(),getRenderSup(DoublePeaModel.class));
-        registerOne(event,WALL_NUT.get(),getRenderSup(WallNutModel.class));
+        registerOne(event,WALL_NUT.get(),getRenderSup(WallNutModel.class),0.5f,1f);
         registerOne(event,POTATO_MINE.get(),getRenderSup(PotatoMineModel.class),0,1f);
         registerOne(event,PUFF_SHROOM.get(),getRenderSup(PuffShroomModel.class),0.2f,0.5f);
 
@@ -58,7 +58,7 @@ public class RegisterRenderer {
 
 
     public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model){
-        registerOne(event,entityType,model,0.3f,1f);
+        registerOne(event,entityType,model,0.35f,1f);
     }
 
     public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model,float shadowRadius,float scale){

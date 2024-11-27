@@ -3,6 +3,7 @@ package rhymestudio.rhyme.entity.plants;
 import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -30,11 +31,10 @@ public class PuffShroom extends AbstractPlant {
         this.attackCallback = doAttack;
     }
 
-    public void cafeDefineAnimations(){
-        super.addSkills();
-
-
+    public void registerGoals(){
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,false, entity->entity.canBeSeenAsEnemy() && this.skills.index!=0));
     }
+
     private LivingEntity target;
     @Override
     public void addSkills() {

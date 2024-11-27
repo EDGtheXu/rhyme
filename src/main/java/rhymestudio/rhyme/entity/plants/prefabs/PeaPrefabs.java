@@ -9,12 +9,12 @@ import rhymestudio.rhyme.utils.Computer;
 
 import java.util.function.Supplier;
 
-public class peaPrefabs {
-    public static final Supplier<AbstractPlant.Builder> PEA = () -> new peaPrefabs(1,1,10,10,10).getPrefab();
+public class PeaPrefabs {
+    public static final Supplier<AbstractPlant.Builder> PEA = () -> new PeaPrefabs(1,1,10,10,10).getPrefab();
 
 
     private AbstractPlant.Builder  builder;
-    public peaPrefabs(int attack,int health,int idleTick,int attackTriggerTick,int attackAnimTick){
+    public PeaPrefabs(int attack, int health, int idleTick, int attackTriggerTick, int attackAnimTick){
         builder = new AbstractPlant.Builder()
                 .setAnimSpeed(2)
                 .setAttackDamage(attack)

@@ -1,14 +1,11 @@
 package rhymestudio.rhyme.registry.items;
 
-import com.google.gson.JsonObject;
-import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.openjdk.nashorn.internal.parser.JSONParser;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.dataComponent.ModRarity;
 import rhymestudio.rhyme.item.armor.NormalArmorItem;

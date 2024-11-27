@@ -16,7 +16,7 @@ public class PresetBuilders {
 
     public static final Supplier<AbstractPlant.Builder> NORMAL_SUNFLOWER_PLANT = () -> new AbstractPlant.Builder()
             .setAnimSpeed(5)//动画倍速
-            .setAttackInternalTick(100)//产阳光间隔/tick
+            .setAttackInternalTick(15 * 20)//产阳光间隔/tick
 
             .setAttackTriggerTick(10)//攻击动画触发时间
             .setAttackAnimTick(20);//攻击动画持续时间
