@@ -57,6 +57,6 @@ public class ModClientEvent {
 
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenus.WORKSHOP.get(), SunCreatorScreen::new);
+        event.register(ModMenus.SUN_CREATOR_MENU.get(), SunCreatorScreen::new);
     }
 }

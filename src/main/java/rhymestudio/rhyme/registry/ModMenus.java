@@ -13,5 +13,5 @@ import static rhymestudio.rhyme.Rhyme.MODID;
 public final class ModMenus {
     public static final DeferredRegister<MenuType<?>> TYPES = DeferredRegister.create(BuiltInRegistries.MENU, MODID);
 
-    public static final Supplier<MenuType<SunCreatorMenu>> WORKSHOP = TYPES.register("sun_creator", () -> new MenuType<>(SunCreatorMenu::new, FeatureFlags.VANILLA_SET));
+    public static final Supplier<MenuType<SunCreatorMenu>> SUN_CREATOR_MENU = TYPES.register("sun_creator", () -> new MenuType<>(SunCreatorMenu::new, FeatureFlags.VANILLA_SET));
 }

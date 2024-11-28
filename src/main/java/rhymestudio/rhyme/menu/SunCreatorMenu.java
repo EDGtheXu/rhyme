@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.menu;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -9,12 +10,19 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import rhymestudio.rhyme.block.SunCreaterBlock;
+import rhymestudio.rhyme.entity.SunItemEntity;
 import rhymestudio.rhyme.recipe.AbstractAmountRecipe;
 import rhymestudio.rhyme.recipe.SunCreatorRecipe;
 import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.ModRecipes;
 import rhymestudio.rhyme.registry.ModMenus;
+import rhymestudio.rhyme.registry.items.MaterialItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +46,7 @@ public class SunCreatorMenu extends AbstractContainerMenu {
      * 09 08 07 06
      */
     public SunCreatorMenu(int pContainerId, Inventory pPlayerInventory, final ContainerLevelAccess pAccess) {
-        super(ModMenus.WORKSHOP.get(), pContainerId);
+        super(ModMenus.SUN_CREATOR_MENU.get(), pContainerId);
         this.player = pPlayerInventory.player;
         this.access = pAccess;
         addSlot(new AmountResultSlot(craftSlots, resultSlot, 0, 62, 35) {
@@ -135,6 +143,25 @@ public class SunCreatorMenu extends AbstractContainerMenu {
         if (isValidRecipeIndex(pId)) {
             selectedRecipeIndex.set(pId);
             setupResultSlot();
+        }
+        if(pId == 114){
+            Vec3 ori = player.getEyePosition();
+            Vec3 end = ori.add(player.getForward().normalize().scale(10));
+            BlockHitResult blockHitResult = player.level().clip(new ClipContext(ori,end, ClipContext.Block.VISUAL,ClipContext.Fluid.NONE, player));
+            BlockPos pos = blockHitResult.getBlockPos();
+            BlockEntity blockEntity = player.level().getBlockEntity(pos);
+            if(!(blockEntity instanceof SunCreaterBlock.SunCreaterBlockEntity entity)){
+                player.closeContainer();
+                return true;
+            }
+
+            SunItemEntity sun = new SunItemEntity( player.level(), entity.getBlockPos().getCenter().add(0,0.5f,0));
+            sun.setItem(new ItemStack(MaterialItems.SUN_ITEM.get(),entity.count));
+            Vec3 dir = sun.position().subtract( player.position().add(0,  player.getEyeHeight(), 0));
+
+            sun.setDeltaMovement(dir.normalize().scale(-0.5f));
+            player.level().addFreshEntity(sun);
+            entity.count = 0;
         }
         return true;
     }

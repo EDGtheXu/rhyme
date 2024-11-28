@@ -1,16 +1,24 @@
 package rhymestudio.rhyme.client.gui;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.block.SunCreaterBlock;
 import rhymestudio.rhyme.menu.SunCreatorMenu;
 
 public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
@@ -19,9 +27,25 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
     private ItemStack upItem = null;
     private boolean downButtonClicked = false;
     private ItemStack downItem = null;
+    private SunCreaterBlock.SunCreaterBlockEntity creator;
+    private Button fetchSunButton;
 
     public SunCreatorScreen(SunCreatorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
+        Player owner = pPlayerInventory.player;
+        Vec3 ori = owner.getEyePosition();
+        Vec3 end = ori.add(owner.getForward().normalize().scale(10));
+        BlockHitResult blockHitResult = owner.level().clip(new ClipContext(ori,end, ClipContext.Block.VISUAL,ClipContext.Fluid.NONE, owner));
+        BlockPos pos = blockHitResult.getBlockPos();
+        BlockEntity blockEntity = owner.level().getBlockEntity(pos);
+        if(blockEntity instanceof SunCreaterBlock.SunCreaterBlockEntity entity){
+            creator = entity;
+        }
+
+        fetchSunButton = Button.builder(Component.literal("fetch"), (p_onPress_1_) -> {
+            creator.count = 0;
+        }).pos(130,50).size(25,16).build();
+
     }
 
     @Override
@@ -35,6 +59,7 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
     public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         renderTooltip(pGuiGraphics, pMouseX, pMouseY);
+
         if (isOverUpButton(pMouseX - leftPos, pMouseY - topPos)) {
             if (upItem == null) this.upItem = menu.getUpResult();
             pGuiGraphics.renderFakeItem(upItem, leftPos + 125, topPos + 35);
@@ -48,8 +73,20 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
             this.upItem = null;
             this.downItem = null;
         }
+
+        fetchSunButton.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         String text = menu.getRecipesAmount() == 0 ? "0/0" : menu.getCurrentIndex() + 1 + "/" + menu.getRecipesAmount();
+
+
         pGuiGraphics.drawString(font, text, leftPos + 144, topPos + 37 + (16 - font.lineHeight) / 2, 4210752, false);
+        text = "error";
+        if(creator != null){
+            text = creator.count + "/" + SunCreaterBlock.SunCreaterBlockEntity.MAX_COUNT;
+            pGuiGraphics.drawString(font, text, leftPos + 6, topPos + 30 + (16 - font.lineHeight) / 2, 4210752, false);
+        }else{
+            pGuiGraphics.drawString(font, text, leftPos + 6, topPos + 30 + (16 - font.lineHeight) / 2, 4210752, false);
+        }
+
     }
 
     @Override
@@ -86,7 +123,17 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
                 return true;
             }
             return false;
-        } else {
+        } else if (fetchSunButton.isHovered()) {
+            if (menu.clickMenuButton(minecraft.player, 0)) {
+                minecraft.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
+                minecraft.gameMode.handleInventoryButtonClick((this.menu).containerId, 114);
+                fetchSunButton.onPress();
+                return true;
+            }
+
+            return true;
+        }
+        else {
             return super.mouseClicked(pMouseX, pMouseY, pButton);
         }
     }

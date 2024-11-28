@@ -3,7 +3,15 @@ package rhymestudio.rhyme.block;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
@@ -43,7 +51,6 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
     public static final MapCodec<SunCreaterBlock> CODEC = simpleCodec(SunCreaterBlock::new);
 
-
     @Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
@@ -62,71 +69,75 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
-            if(!level.isClientSide){
-                if(!level.isNight()) {
-                    blockEntity.time++;
-                    if(blockEntity.time >= blockEntity.interval){
-                        if(blockEntity.count < blockEntity.MAX_COUNT){
-                            blockEntity.count++;
-                        }
-                        blockEntity.time = 0;
-                        Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-                        Component component = Component.literal("当前产能："+blockEntity.count +"/" + blockEntity.MAX_COUNT);
+        return pLevel.isClientSide ? createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
 
-                        if(nearestPlayer!=null){
-                            nearestPlayer.sendSystemMessage(component);
-                        }
+        }) : createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
+            if(!level.isNight()) {
+                blockEntity.time++;
+                if(blockEntity.time >= blockEntity.interval){
+                    blockEntity.time = 0;
+                    if(blockEntity.count < blockEntity.MAX_COUNT){
+                        blockEntity.count++;
+                        pLevel.sendBlockUpdated(pos,pLevel.getBlockState(pos),pLevel.getBlockState(pos),3);
                     }
+
+/*
+                    Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+                    Component component = Component.literal("当前产能："+blockEntity.count +"/" + blockEntity.MAX_COUNT);
+                    if(nearestPlayer!=null){
+                        nearestPlayer.sendSystemMessage(component);
+                    }*/
+
                 }
             }
         });}
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(!level.isClientSide && state.hasBlockEntity()){
             player.openMenu(state.getMenuProvider(level, pos));
-            BlockEntity blockEntity = level.getBlockEntity(pos);
-
-            if(blockEntity instanceof SunCreaterBlockEntity entity){
-                SunItemEntity sun = new SunItemEntity(level, entity.getBlockPos().getCenter().add(0,0.5f,0));
-                sun.setItem(new ItemStack(MaterialItems.SUN_ITEM.get(),entity.count));
-                Vec3 dir = sun.position().subtract(player.position().add(0, player.getEyeHeight(), 0));
-
-                sun.setDeltaMovement(dir.normalize().scale(-0.5f));
-                level.addFreshEntity(sun);
-                entity.count = 0;
-            }
-
             return ItemInteractionResult.SUCCESS;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     public static final class SunCreaterBlockEntity extends BlockEntity {
-        public int MAX_COUNT = 64;
-        public int interval = 20 * 30;
+        public static int MAX_COUNT = 64;
+        public int interval = 20 * 2;
         public int time = 0;
         public int count = 0;
+
         public SunCreaterBlockEntity(BlockEntityType<SunCreaterBlockEntity> type, BlockPos pos, BlockState state) {
             super(type, pos, state);
         }
-
-
 
         public SunCreaterBlockEntity(BlockPos pos, BlockState state) {
             this(ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), pos, state);
         }
 
+        @Override
+        public Packet<ClientGamePacketListener> getUpdatePacket() {
+            return ClientboundBlockEntityDataPacket.create(this);
+        }
 
+        @Override
+        public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+            CompoundTag tag = pkt.getTag();
+            count = tag.getInt("count");
+        }
+
+        @Override
+        public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
+            CompoundTag compoundNBT = super.getUpdateTag(lookupProvider);
+            compoundNBT.putInt("count", count);
+            return compoundNBT;
+        }
     }
-
 
 
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    protected RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pPos, @NotNull BlockState pState) {
         return new SunCreaterBlockEntity(pPos, pState);
@@ -138,7 +149,6 @@ public class SunCreaterBlock extends BaseEntityBlock  {
     }
 
     @Override
-    @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext placeContext) {
         FluidState fluidstate = placeContext.getLevel().getFluidState(placeContext.getClickedPos());
         return defaultBlockState()
@@ -146,14 +156,14 @@ public class SunCreaterBlock extends BaseEntityBlock  {
                 .setValue(WATERLOGGED, fluidstate.getType() == Fluids.WATER);
     }
     @Override
-    public @NotNull BlockState updateShape(BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
+    public BlockState updateShape(BlockState pState, @NotNull Direction pDirection, @NotNull BlockState pNeighborState, @NotNull LevelAccessor pLevel, @NotNull BlockPos pPos, @NotNull BlockPos pNeighborPos) {
         if (pState.getValue(WATERLOGGED)) {
             pLevel.scheduleTick(pPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
         }
         return pState;
     }
 
-    public @NotNull FluidState getFluidState(BlockState pState) {
+    public FluidState getFluidState(BlockState pState) {
         return pState.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : Fluids.EMPTY.defaultFluidState();
     }
 
