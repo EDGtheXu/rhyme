@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.registry;
+package rhymestudio.rhyme.datagen.recipe;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -8,8 +8,6 @@ import net.neoforged.neoforge.common.crafting.IngredientType;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.recipe.AmountIngredient;
-import rhymestudio.rhyme.recipe.SunCreatorRecipe;
 
 import java.util.function.Supplier;
 

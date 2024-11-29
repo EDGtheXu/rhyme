@@ -1,7 +1,9 @@
 package rhymestudio.rhyme.datagen;
 
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.tags.BiomeTagsProvider;
 import net.neoforged.neoforge.common.data.LanguageProvider;
+import net.neoforged.neoforge.common.data.internal.NeoForgeBiomeTagsProvider;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.items.MaterialItems;
@@ -23,6 +25,7 @@ public class ModEnglishProvider extends LanguageProvider {
     }
     @Override
     protected void addTranslations() {
+
 
 
         add("rhyme.item.sun", "sun");

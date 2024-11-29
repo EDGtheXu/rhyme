@@ -79,18 +79,17 @@ public class SunCreaterBlock extends BaseEntityBlock  {
                     if(blockEntity.count < blockEntity.MAX_COUNT){
                         blockEntity.count++;
                         pLevel.sendBlockUpdated(pos,pLevel.getBlockState(pos),pLevel.getBlockState(pos),3);
+                    }else{
+                        Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
+                        Component component = Component.literal("creator full: "+blockEntity.count +"/" + blockEntity.MAX_COUNT);
+                        if(nearestPlayer!=null){
+                            nearestPlayer.sendSystemMessage(component);
+                        }
                     }
-
-/*
-                    Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
-                    Component component = Component.literal("当前产能："+blockEntity.count +"/" + blockEntity.MAX_COUNT);
-                    if(nearestPlayer!=null){
-                        nearestPlayer.sendSystemMessage(component);
-                    }*/
-
                 }
             }
         });}
+
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if(!level.isClientSide && state.hasBlockEntity()){
             player.openMenu(state.getMenuProvider(level, pos));
@@ -101,7 +100,7 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
     public static final class SunCreaterBlockEntity extends BlockEntity {
         public static int MAX_COUNT = 64;
-        public int interval = 20 * 2;
+        public int interval = 20 * 60;
         public int time = 0;
         public int count = 0;
 

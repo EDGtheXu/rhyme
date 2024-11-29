@@ -40,8 +40,8 @@ public class ModClientEvent {
             ResourceManager provider = Minecraft.getInstance().getResourceManager();
             try{
                 ResourceLocation location1 = BuiltInRegistries.ITEM.getKey(item);
-                String name =  "models/item/" + location1.getPath() + "_head";
-                location1 = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), name+".json");
+                String name =  "models/item/" + location1.getPath() + "_head.json";
+                location1 = ResourceLocation.fromNamespaceAndPath(location.getNamespace(), name);
                 provider.getResourceOrThrow(location1);
 
                 var modelResourceLocation = ModelResourceLocation.standalone(location);

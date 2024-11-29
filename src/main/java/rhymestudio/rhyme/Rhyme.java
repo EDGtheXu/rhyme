@@ -3,17 +3,14 @@ package rhymestudio.rhyme;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 
-import net.minecraft.world.item.crafting.RecipeType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 import rhymestudio.rhyme.datagen.ModChineseProvider;
+import rhymestudio.rhyme.datagen.biome.ModBiomes;
+import rhymestudio.rhyme.datagen.recipe.ModRecipes;
 import rhymestudio.rhyme.registry.*;
-import rhymestudio.rhyme.registry.Entities.PlantEntities;
-import rhymestudio.rhyme.registry.items.IconItems;
-import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +38,7 @@ public class Rhyme {
         ModEffects.EFFECTS.register(modEventBus);
         ModRecipes.register(modEventBus);
         ModMenus.TYPES.register(modEventBus);
+        ModBiomes.register(modEventBus);
     }
 
 }

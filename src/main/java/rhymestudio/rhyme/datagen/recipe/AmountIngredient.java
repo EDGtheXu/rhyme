@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.recipe;
+package rhymestudio.rhyme.datagen.recipe;
 
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,7 +12,6 @@ import net.neoforged.neoforge.common.crafting.ICustomIngredient;
 import net.neoforged.neoforge.common.crafting.IngredientType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import rhymestudio.rhyme.registry.ModRecipes;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.recipe;
+package rhymestudio.rhyme.datagen.recipe;
 
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.MapCodec;
@@ -12,7 +12,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import org.jetbrains.annotations.NotNull;
-import rhymestudio.rhyme.registry.ModRecipes;
 
 public class SunCreatorRecipe extends AbstractAmountRecipe {
     public SunCreatorRecipe(ItemStack pResult, NonNullList<Ingredient> pIngredients) {

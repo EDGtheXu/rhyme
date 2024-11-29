@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.items.ArmorItems;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 
@@ -17,9 +18,9 @@ import java.util.concurrent.CompletableFuture;
 
 import static rhymestudio.rhyme.Rhyme.MODID;
 
-public class ModRecipe extends RecipeProvider {
+public class ModRecipeProvider extends RecipeProvider {
 
-    public ModRecipe(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
+    public ModRecipeProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
         super(output, registries);
     }
 
@@ -27,9 +28,18 @@ public class ModRecipe extends RecipeProvider {
     protected void buildRecipes(RecipeOutput recipeOutput) {
 
 
-
+        //光萃台
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SUN_CREATOR_BLOCK.get())
+                .pattern(" C ")
+                .pattern("BAB")
+                .pattern("AAA")
+                .define('A',Items.IRON_INGOT)
+                .define('B',Items.WHEAT_SEEDS)
+                .define('C',Items.EMERALD)
+                .unlockedBy("has_emerald",has(Items.EMERALD))
+                .save(recipeOutput);
         //路障
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.CONE_HELMET.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ArmorItems.CONE_HELMET.get())
                 .pattern(" A ")
                 .pattern("AAA")
                 .define('A',Items.TERRACOTTA)
@@ -37,7 +47,7 @@ public class ModRecipe extends RecipeProvider {
                 .save(recipeOutput);
 
         //僵尸的铁桶
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ArmorItems.IRON_BUCKET_HELMET.get())
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ArmorItems.IRON_BUCKET_HELMET.get())
                 .pattern("AAA")
                 .pattern("A A")
                 .pattern(" A ")

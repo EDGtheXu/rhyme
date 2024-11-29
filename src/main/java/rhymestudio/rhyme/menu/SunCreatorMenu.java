@@ -17,10 +17,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.block.SunCreaterBlock;
 import rhymestudio.rhyme.entity.SunItemEntity;
-import rhymestudio.rhyme.recipe.AbstractAmountRecipe;
-import rhymestudio.rhyme.recipe.SunCreatorRecipe;
+import rhymestudio.rhyme.datagen.recipe.AbstractAmountRecipe;
+import rhymestudio.rhyme.datagen.recipe.SunCreatorRecipe;
 import rhymestudio.rhyme.registry.ModBlocks;
-import rhymestudio.rhyme.registry.ModRecipes;
+import rhymestudio.rhyme.datagen.recipe.ModRecipes;
 import rhymestudio.rhyme.registry.ModMenus;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 

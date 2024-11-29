@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#c:is_overworld",
+  "spawners": [
+    {
+      "type": "rhyme:normal_zombie",
+      "weight": 400,
+      "minCount": 10,
+      "maxCount": 20
+    }
+  ]
+}

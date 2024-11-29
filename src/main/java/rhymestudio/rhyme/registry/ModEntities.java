@@ -1,10 +1,17 @@
 package rhymestudio.rhyme.registry;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -16,6 +23,7 @@ import rhymestudio.rhyme.entity.AbstractMonster;
 import rhymestudio.rhyme.registry.Entities.PlantEntities;
 import rhymestudio.rhyme.registry.Entities.Zombies;
 
+import static net.minecraft.world.entity.Mob.checkMobSpawnRules;
 import static rhymestudio.rhyme.registry.Entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD)
@@ -54,10 +62,26 @@ public class ModEntities {
 
     }
 
+    public static boolean checkBloodCrawlerSpawn(EntityType<? extends Mob> type, LevelAccessor pLevel, MobSpawnType pSpawnType, BlockPos pPos, RandomSource pRandom) {
+        if (!(pLevel instanceof Level level)) {
+            return false; // 如果 pLevel 不是 Level 的实例，返回 false
+        }
+
+        if (!checkMobSpawnRules(type, pLevel, pSpawnType, pPos, pRandom)) {
+            return false; // 如果不满足基本生成规则，返回 false
+        }
+
+        int y = pPos.getY();
+        if (y >= 260) {
+            return false; // 不能生成在 y = 260 或更高的位置
+        }
+
+        return true;
+    }
     //tip 生成位置
     @SubscribeEvent
     public static void spawnPlacementRegister(RegisterSpawnPlacementsEvent event) {
-
+        event.register(Zombies.NORMAL_ZOMBIE.get(),  SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::checkBloodCrawlerSpawn, RegisterSpawnPlacementsEvent.Operation.OR);
 
     }
 
