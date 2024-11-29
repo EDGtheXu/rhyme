@@ -13,6 +13,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
@@ -35,10 +36,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import rhymestudio.rhyme.dataSaver.levelSaved.SunCreatorSaver;
 import rhymestudio.rhyme.entity.SunItemEntity;
 import rhymestudio.rhyme.menu.SunCreatorMenu;
+import rhymestudio.rhyme.registry.ModAttachments;
 import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 
@@ -82,6 +86,8 @@ public class SunCreaterBlock extends BaseEntityBlock  {
                     blockEntity.time = 0;
                     if(blockEntity.count < blockEntity.MAX_COUNT){
                         blockEntity.count++;
+                        blockEntity.getData(ModAttachments.PLAYER_STORAGE).sunCount = blockEntity.count;
+
                         pLevel.sendBlockUpdated(pos,pLevel.getBlockState(pos),pLevel.getBlockState(pos),3);
                     }else{
                         Player nearestPlayer = pLevel.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10, false);
@@ -110,6 +116,7 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
         public SunCreaterBlockEntity(BlockEntityType<SunCreaterBlockEntity> type, BlockPos pos, BlockState state) {
             super(type, pos, state);
+            //this.count = this.getData(ModAttachments.PLAYER_STORAGE).sunCount;
         }
 
         public SunCreaterBlockEntity(BlockPos pos, BlockState state) {
@@ -133,6 +140,15 @@ public class SunCreaterBlock extends BaseEntityBlock  {
             compoundNBT.putInt("count", count);
             return compoundNBT;
         }
+        protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+            super.loadAdditional(tag, registries);
+            count = this.getData(ModAttachments.PLAYER_STORAGE).sunCount;
+        }
+        protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+            super.saveAdditional(tag, registries);
+            tag.putInt("count", count);
+        }
+
     }
 
 

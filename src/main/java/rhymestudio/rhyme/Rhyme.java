@@ -39,6 +39,7 @@ public class Rhyme {
         ModRecipes.register(modEventBus);
         ModMenus.TYPES.register(modEventBus);
         ModBiomes.register(modEventBus);
+        ModAttachments.TYPES.register(modEventBus);
     }
 
 }

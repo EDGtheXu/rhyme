@@ -65,7 +65,7 @@ public class AbstractCardItem extends CustomRarityItem {
 
         if(!level.getBlockState(pos.below()).is(BlockTags.DIRT)) return false;
         if(!level.getBlockState(pos).is(BlockTags.AIR)) return false;
-        if(!level.getEntities(player,new AABB(pos)).isEmpty()) return false;
+        if(!level.getEntities(player,new AABB(pos).inflate(-0.2f)).isEmpty()) return false;
 
         var entity = entityType.get().create(level);
         entity.setOwner(player);

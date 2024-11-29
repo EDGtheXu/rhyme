@@ -45,6 +45,7 @@ public class Pea extends AbstractPlant {
                 a->{},
                 // tip进入状态触发时间
                 a-> {
+
                     if(skills.canContinue() &&
                             getTarget() != null && getTarget().isAlive() &&
                             Computer.angle(this.getForward(), getTarget().getEyePosition().subtract(this.getEyePosition())) < 20){

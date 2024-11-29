@@ -8,6 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.ModAttachments;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 import rhymestudio.rhyme.utils.Computer;
 
@@ -107,7 +108,8 @@ public class CardHUD {
         long time = System.currentTimeMillis();
         if(time > lastCacheTime + 500){
             lastCacheTime = time;
-            int cacheSunNumber = Computer.getInventoryItemCount(player, MaterialItems.SUN_ITEM.get());
+//            int cacheSunNumber = Computer.getInventoryItemCount(player, MaterialItems.SUN_ITEM.get());
+            int cacheSunNumber =player.getData(ModAttachments.PLAYER_STORAGE).sunCount;
             cacheSunStr =String.valueOf(cacheSunNumber) ;
             StrSize = cacheSunStr.length();
         }

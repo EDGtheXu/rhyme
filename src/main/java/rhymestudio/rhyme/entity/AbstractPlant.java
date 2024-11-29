@@ -6,6 +6,8 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
@@ -59,6 +61,7 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
         this.setHealth(builder.health);
         addSkills();
         animState.playAnim(skills.getCurSkill(),tickCount);
+        if(!level().isClientSide)this.skills.tick+= random.nextIntBetweenInclusive(0,50);
         super.onAddedToLevel();
     }
 
@@ -69,6 +72,15 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
     public void registerGoals(){
         //this.goalSelector.addGoal(1, new LookAtPlayerGoal(this, LivingEntity.class, 20.0F));
         this.targetSelector.addGoal(0, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,true,true, this::canAttack));
+        this.goalSelector.addGoal(5,new LookAtPlayerGoal(this, Player.class,3){
+            @Override
+            public boolean canUse() {
+                return (getTarget()==null || !getTarget().isAlive())&& super.canUse();
+            }});
+        this.goalSelector.addGoal(6,new RandomLookAroundGoal(this));
+
+
+        ;
         //this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Slime.class, true));
     }
 
@@ -105,7 +117,6 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
             }
             this.setYBodyRot(this.yHeadRot);
         }
-
     }
 
     public void addSkill(CircleSkill bossSkill) {skills.pushSkill(bossSkill);}

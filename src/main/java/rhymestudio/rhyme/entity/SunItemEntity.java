@@ -6,14 +6,21 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.entity.player.PlayerXpEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
+import rhymestudio.rhyme.network.s2c.SunCountPacketS2C;
 import rhymestudio.rhyme.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.registry.ModAttachments;
 import rhymestudio.rhyme.registry.items.MaterialItems;
 
 
-public class SunItemEntity extends ItemEntity {
+public class SunItemEntity extends ExperienceOrb {
     private boolean wasOnGround;
     int age = 20*20;
 
@@ -25,11 +32,6 @@ public class SunItemEntity extends ItemEntity {
     public SunItemEntity(Level level, Vec3 pos) {
         this(PlantEntities.SUN_ITEM_ENTITY.get(), level);
         setPos(pos);
-        setItem(MaterialItems.SUN_ITEM.get().getDefaultInstance());
-        float r =  0.2F;
-        float f = random.nextFloat() * 3.1415927F * 2.0F;
-        setDeltaMovement(r*Math.sin(f*10),0.2f,r*Math.cos(f*10));
-        this.lifespan = 12000;
 
     }
 
@@ -51,6 +53,16 @@ public class SunItemEntity extends ItemEntity {
     public void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.wasOnGround = pCompound.getBoolean("wasOnGround");
+    }
+
+    public void playerTouch(Player entity) {
+        if (entity instanceof ServerPlayer serverplayer) {
+            if (entity.takeXpDelay == 0) {
+                int c = ++serverplayer.getData(ModAttachments.PLAYER_STORAGE).sunCount;
+                PacketDistributor.sendToPlayer(serverplayer, new SunCountPacketS2C(c));
+                discard();
+            }
+        }
     }
 
     public static void summon(ServerLevel serverLevel) {
