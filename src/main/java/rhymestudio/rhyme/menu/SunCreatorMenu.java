@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundContainerSetSlotPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
@@ -154,9 +155,8 @@ public class SunCreatorMenu extends AbstractContainerMenu {
                 player.closeContainer();
                 return true;
             }
-
-            SunItemEntity sun = new SunItemEntity( player.level(), entity.getBlockPos().getCenter().add(0,0.5f,0));
-            sun.setItem(new ItemStack(MaterialItems.SUN_ITEM.get(),entity.count));
+            ItemStack itemStack = new ItemStack(MaterialItems.SOLID_SUN.get(),entity.count);
+            ItemEntity sun = new ItemEntity( player.level(), entity.getBlockPos().getCenter().x,entity.getBlockPos().getCenter().y+0.5,entity.getBlockPos().getCenter().z,itemStack);
             Vec3 dir = sun.position().subtract( player.position().add(0,  player.getEyeHeight(), 0));
 
             sun.setDeltaMovement(dir.normalize().scale(-0.5f));

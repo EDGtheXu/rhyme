@@ -6,6 +6,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class PresetBuilders {
+
+
     public static final Supplier<AbstractPlant.Builder> NORMAL_PEA_PLANT = () -> new AbstractPlant.Builder()
             .setAnimSpeed(2)
             .setAttackDamage(3)//子弹伤害
@@ -22,8 +24,11 @@ public class PresetBuilders {
             .setAttackAnimTick(20);//攻击动画持续时间
 
     public static final Function<Integer,AbstractPlant.Builder> DEFENSE_PLANT = (hp) -> new AbstractPlant.Builder()
-            .setHealth(hp)
-            .setAttackTriggerTick(10)//攻击动画触发时间
-            .setAttackAnimTick(20);//攻击动画持续时间
+            .setHealth(hp);
+
+    public static final Function<Integer,AbstractPlant.Builder> EXPLORE_PLANT = (attack) -> new AbstractPlant.Builder()
+            .setHealth(50)
+            .setAttackDamage(attack);
+
 
 }

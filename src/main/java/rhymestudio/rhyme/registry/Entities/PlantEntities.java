@@ -52,7 +52,7 @@ public class PlantEntities {
     //      tip 土豆雷类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> POTATO_MINE = registerPlants("potato_mine",(type,level)->
             new PotatoMine(type,level, PotatoMineAnimation.idle, PotatoMineAnimation.up, PotatoMineAnimation.idle_on, PotatoMineAnimation.bomb,
-                    15 * 20,2,DEFENSE_PLANT.apply(50)),1f,0.5f);
+                    15 * 20,2,EXPLORE_PLANT.apply(50)),1f,0.5f);
 
     //      tip 蘑菇类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> PUFF_SHROOM = registerPlants("puff_shroom",(type, level)->
@@ -61,8 +61,8 @@ public class PlantEntities {
 
     //      tip 投手类
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> CABBAGE_PULT = registerPlants("cabbage_pult",(type,level)->
-            new Pea(type,level, PeaAnimation.idle, PeaAnimation.shoot,
-                    THROWN_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
+            new Pea(type,level, CabbageAnimation.idle, CabbageAnimation.attack,
+                    THROWN_PEA_SHOOT, NORMAL_PEA_PLANT.get().setAttackDamage(10)));
 
 
 
@@ -83,7 +83,7 @@ public class PlantEntities {
             new LineProj(e,l,20,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5), BaseProj.TextureLib.ICE_PEA));
 
         // tip 投掷
-    public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> THROWN_PEA_PROJ = registerProj("thrown_pea_proj",
+    public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> CABBAGE_PROJ = registerProj("cabbage_proj",
                 ThrowableProj::new);
 
 

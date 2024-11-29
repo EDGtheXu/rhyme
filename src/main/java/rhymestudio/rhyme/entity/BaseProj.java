@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.registry.ModDamageTypes;
 
 public abstract class BaseProj extends AbstractHurtingProjectile{
 
@@ -50,8 +51,9 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
             for (var e:entities) {
                 if(canHitEntity(e)) {
                     if(e instanceof LivingEntity living) {
-                        living.hurt(this.damageSources().mobProjectile(this, getOwner() instanceof LivingEntity livingentity ? livingentity : null), getDamage());
-                        doKnockBack(living);
+                        living.hurt(this.damageSources().source(ModDamageTypes.PLANT_PROJ), getDamage());
+
+                        //doKnockBack(living);
                         penetration--;
                         if(penetration <= 0) discard();
                     }
@@ -114,7 +116,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
             if(effect!= null && entity1 != entity && entity1 instanceof LivingEntity living){
                 living.addEffect(effect);
             }
-            entity1.hurt(this.damageSources().mobProjectile(this, entity instanceof LivingEntity livingentity ? livingentity : null), getDamage());
+            entity1.hurt(this.damageSources().source(ModDamageTypes.PLANT_PROJ), getDamage());
             this.discard();
 
         }

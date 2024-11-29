@@ -9,6 +9,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.entity.BaseProj;
 import rhymestudio.rhyme.entity.anim.curve.Bezier2Curse;
 import rhymestudio.rhyme.entity.anim.curve.Curve;
@@ -29,13 +30,10 @@ public class ThrowableProj extends BaseProj {
         this.targetPos = targetPos;
     }
 
-    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos,  MobEffectInstance pEffect) {
-        this(pEntityType,pLevel,targetPos,pEffect,null);
+    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos, ResourceLocation texture) {
+        this(pEntityType,pLevel,targetPos,null,texture);
     }
 
-    public ThrowableProj(EntityType<? extends ThrowableProj> pEntityType, Level pLevel, Vec3 targetPos) {
-        this(pEntityType,pLevel,targetPos,null);
-    }
 
     public Vec3 getNexPos(){
         step += 0.05f;
@@ -93,5 +91,9 @@ public class ThrowableProj extends BaseProj {
         this.setPos(getNexPos());
     }
 
+    public static class TextureLib{
+        public static final ResourceLocation CABBAGE_TEXTURE = Rhyme.space("textures/entity/cabbage_pult.png");
 
+
+    }
 }

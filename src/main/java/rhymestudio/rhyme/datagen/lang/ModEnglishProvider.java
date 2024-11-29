@@ -1,9 +1,7 @@
-package rhymestudio.rhyme.datagen;
+package rhymestudio.rhyme.datagen.lang;
 
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.BiomeTagsProvider;
 import net.neoforged.neoforge.common.data.LanguageProvider;
-import net.neoforged.neoforge.common.data.internal.NeoForgeBiomeTagsProvider;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.registry.ModBlocks;
 import rhymestudio.rhyme.registry.items.MaterialItems;
@@ -35,6 +33,15 @@ public class ModEnglishProvider extends LanguageProvider {
         add("creativetab.rhyme.armors", "pvz armors");
 
         add("container.rhyme.sun_creator", "Sun Creator");
+        add("plantcard.tooltip.consumed_sun","consume sun");
+        add("plantcard.tooltip.card_quality","quality");
+        add("plantcard.tooltip.card_quality.card_quality_0","copper");
+        add("plantcard.tooltip.card_quality.card_quality_1","silver");
+        add("plantcard.tooltip.card_quality.card_quality_2","gold");
+        add("plantcard.tooltip.card_quality.card_quality_3","diamond");
+        add("plantcard.tooltip.card_quality.card_quality_4","emerald");
+
+
 
         PlantItems.PLANTS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));
         MaterialItems.MATERIALS.getEntries().forEach(entity -> add(entity.get(), toTitleCase(entity.getId().getPath())));

@@ -35,9 +35,10 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
         Player owner = pPlayerInventory.player;
         Vec3 ori = owner.getEyePosition();
         Vec3 end = ori.add(owner.getForward().normalize().scale(10));
-        BlockHitResult blockHitResult = owner.level().clip(new ClipContext(ori,end, ClipContext.Block.VISUAL,ClipContext.Fluid.NONE, owner));
+        BlockHitResult blockHitResult = owner.level().clip(new ClipContext(ori,end, ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE, owner));
         BlockPos pos = blockHitResult.getBlockPos();
         BlockEntity blockEntity = owner.level().getBlockEntity(pos);
+
         if(blockEntity instanceof SunCreaterBlock.SunCreaterBlockEntity entity){
             creator = entity;
         }

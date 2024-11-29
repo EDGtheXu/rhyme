@@ -9,6 +9,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import rhymestudio.rhyme.client.model.plantModels.*;
+import rhymestudio.rhyme.client.model.proj.CabbageProjModel;
 import rhymestudio.rhyme.client.model.proj.PeaProjModel;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 
@@ -24,6 +25,8 @@ public class RegisterModel {
 
         // 弹幕模型
         register(evt, PeaProjModel.class);
+        register(evt, CabbageProjModel.class);
+
 
         // 注册植物模型
         register(evt, SunflowerModel.class);
@@ -33,7 +36,7 @@ public class RegisterModel {
         register(evt, DoublePeaModel.class);
         register(evt, PuffShroomModel.class);
         register(evt, WallNutModel.class);
-
+        register(evt, CabbageModel.class);
 
         // 僵尸模型
         register(evt, NormalZombieModel.class);

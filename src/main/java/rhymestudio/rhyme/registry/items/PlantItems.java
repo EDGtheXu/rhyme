@@ -37,6 +37,8 @@ public class PlantItems {
     // tip 坚果类
     public static final DeferredItem<Item> NUT_WALL_ITEM = registerPlant("nut_wall","坚果墙", PlantEntities.WALL_NUT,2);
 
+    // tip 投手类
+    public static final DeferredItem<Item> CABBAGE_PULT_ITEM = registerPlant("cabbage_pult", "卷心菜投手", PlantEntities.CABBAGE_PULT,4);
 
     /**
      * @param en id

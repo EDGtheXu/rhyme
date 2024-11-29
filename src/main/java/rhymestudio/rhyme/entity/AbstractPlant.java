@@ -10,14 +10,13 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
-import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 import rhymestudio.rhyme.entity.anim.CafeAnimationState;
 import rhymestudio.rhyme.entity.ai.CircleSkills;
 import rhymestudio.rhyme.entity.ai.CircleSkill;
-import rhymestudio.rhyme.entity.proj.ThrowableProj;
 
 import java.util.function.Consumer;
 
@@ -48,7 +47,10 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
 
     }
 
-    public boolean isPushable(){return false;}
+    public boolean isPushable(){
+
+        return !level().getEntities(this,this.getBoundingBox(),e->e instanceof AbstractPlant).isEmpty();
+    }
 
     public void onAddedToLevel(){
         this.cafeDefineAnimations();
@@ -123,6 +125,10 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
         builder.define(DATA_SKILL_TICK, 0);
         builder.define(DATA_ROTATE, new Vector3f());
         builder.define(DATA_CAFE_POSE_NAME, "idle");
+    }
+
+    public boolean ignoreExplosion(Explosion e){
+        return !(e.getIndirectSourceEntity() instanceof AbstractPlant);
     }
 
 

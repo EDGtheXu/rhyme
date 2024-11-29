@@ -42,12 +42,13 @@ public class RegisterRenderer {
         registerOne(event,WALL_NUT.get(),getRenderSup(WallNutModel.class),0.5f,1f);
         registerOne(event,POTATO_MINE.get(),getRenderSup(PotatoMineModel.class),0,1f);
         registerOne(event,PUFF_SHROOM.get(),getRenderSup(PuffShroomModel.class),0.2f,0.5f);
+        registerOne(event,CABBAGE_PULT.get(),getRenderSup(CabbageModel.class));
 
 
         // tip 子弹
         event.registerEntityRenderer(PlantEntities.PEA_PROJ.get(), PeaProjRenderer::new);
         event.registerEntityRenderer(PlantEntities.ICE_PEA_PROJ.get(), PeaProjRenderer::new);
-        event.registerEntityRenderer(THROWN_PEA_PROJ.get(), PeaProjRenderer::new);
+        event.registerEntityRenderer(CABBAGE_PROJ.get(), PeaProjRenderer::new);
 
 
         // 僵尸

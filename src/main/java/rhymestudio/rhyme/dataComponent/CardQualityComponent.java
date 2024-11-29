@@ -24,19 +24,19 @@ import java.util.List;
  * @param level
  * @param source
  */
-public record CardQualityComponent(int level, ResourceLocation source) implements DataComponentType<CardQualityComponent> {
+public record CardQualityComponent(int level,int color, ResourceLocation source) implements DataComponentType<CardQualityComponent> {
 
     public static List<CardQualityComponent> _levels = new ArrayList<>();
-    public static final CardQualityComponent COPPER     = register(0, IconItems.COPPER);
-    public static final CardQualityComponent SILVER     = register(1, IconItems.SILVER);
-    public static final CardQualityComponent GOLD       = register(2, IconItems.GOLD);
-    public static final CardQualityComponent DIAMOND    = register(3, IconItems.DIAMOND);
-    public static final CardQualityComponent EMERALD    = register(4, IconItems.EMERALD);
+    public static final CardQualityComponent COPPER     = register(0,0xc49a49,IconItems.COPPER);
+    public static final CardQualityComponent SILVER     = register(1,0xb6c2c6 ,IconItems.SILVER);
+    public static final CardQualityComponent GOLD       = register(2, 0xfce804,IconItems.GOLD);
+    public static final CardQualityComponent DIAMOND    = register(3, 0x04a7fc,IconItems.DIAMOND);
+    public static final CardQualityComponent EMERALD    = register(4,0x04fc4a ,IconItems.EMERALD);
 
 
 
-    public static CardQualityComponent register(int level, DeferredItem<Item> qualityItem) {
-        var q = new CardQualityComponent(level, qualityItem.getId());
+    public static CardQualityComponent register(int level,int color, DeferredItem<Item> qualityItem) {
+        var q = new CardQualityComponent(level, color,qualityItem.getId());
         _levels.add(q);
         return q;
     }
@@ -46,6 +46,7 @@ public record CardQualityComponent(int level, ResourceLocation source) implement
     public CardQualityComponent decreaseLevel() {return _levels.get(level > 0 ? level - 1 : 0);}
 
     public Item getQualityItem() {return BuiltInRegistries.ITEM.get(source);}
+    public int getQualityColor() {;return color;}
 
     public static boolean tryUpLevel(ItemStack stack){
         var data = stack.getComponents().get(ModDataComponentTypes.CARD_QUALITY.get());
@@ -66,11 +67,13 @@ public record CardQualityComponent(int level, ResourceLocation source) implement
 
     public static final Codec<CardQualityComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Codec.INT.fieldOf("card_level").forGetter(CardQualityComponent::level),
+            Codec.INT.fieldOf("card_color").forGetter(CardQualityComponent::color),
             ResourceLocation.CODEC.fieldOf("card_source").forGetter(CardQualityComponent::source)
     ).apply(instance, CardQualityComponent::new));
 
     public static final StreamCodec<ByteBuf, CardQualityComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT, CardQualityComponent::level,
+            ByteBufCodecs.INT, CardQualityComponent::color,
             ResourceLocation.STREAM_CODEC, CardQualityComponent::source,
             CardQualityComponent::new
     );

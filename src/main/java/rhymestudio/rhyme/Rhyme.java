@@ -7,7 +7,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
-import rhymestudio.rhyme.datagen.ModChineseProvider;
+import rhymestudio.rhyme.datagen.lang.ModChineseProvider;
 import rhymestudio.rhyme.datagen.biome.ModBiomes;
 import rhymestudio.rhyme.datagen.recipe.ModRecipes;
 import rhymestudio.rhyme.registry.*;

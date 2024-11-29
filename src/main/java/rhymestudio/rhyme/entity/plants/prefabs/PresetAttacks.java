@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.entity.plants.prefabs;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -22,6 +23,7 @@ public class PresetAttacks {
         BaseProj proj1 = proj.get().create(me.level());
         proj1.setOwner(me);
         proj1.setPos(me.getEyePosition().add(0,offsetY,0));
+        proj1.setDamage(me.builder.attackDamage);
         Vec3 dir = pos.subtract(me.getEyePosition());
         proj1.shoot(dir.x, dir.y, dir.z, me.builder.projSpeed, 1.0F);
         me.level().addFreshEntity(proj1);
@@ -51,26 +53,31 @@ public class PresetAttacks {
         PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.PEA_PROJ, -0.3f);
     };
 
-    //投手豌豆
-    public static final  QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<ThrowableProj>>, Float> THROWN_SHOOT = (me, tar, proj, offsetY) -> {
+    //投手
+    public static final  FifConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<ThrowableProj>>, Float, ResourceLocation> THROWN_SHOOT = (me, tar, proj, offsetY,texture) -> {
         Vec3 dir = tar.getDeltaMovement().normalize().scale(2.5f);
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0).add(dir);
 
-        ThrowableProj proj1 = new ThrowableProj(proj.get(),me.level(),pos);
+        ThrowableProj proj1 = new ThrowableProj(proj.get(),me.level(),pos, texture);
         proj1.setOwner(me);
         proj1.setPos(me.getEyePosition().add(0,offsetY,0));
+        proj1.setDamage(me.builder.attackDamage);
         me.level().addFreshEntity(proj1);
     };
 
-    //普通豌豆
+    //卷心菜
     public static final BiConsumer<AbstractPlant, LivingEntity> THROWN_PEA_SHOOT = (me, tar) -> {
-        THROWN_SHOOT.accept(me, tar, PlantEntities.THROWN_PEA_PROJ, 1f);
+        THROWN_SHOOT.accept(me, tar, PlantEntities.CABBAGE_PROJ, 1f,ThrowableProj.TextureLib.CABBAGE_TEXTURE);
     };
 
 
     @FunctionalInterface
     public interface QuaConsumer<A,B,C,D>{
         void accept(A a, B b, C c, D d);
+    }
+    @FunctionalInterface
+    public interface FifConsumer<A,B,C,D,E>{
+        void accept(A a, B b, C c, D d, E e);
     }
 
 }

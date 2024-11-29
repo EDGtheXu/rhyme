@@ -119,7 +119,7 @@ public class PotatoMine extends AbstractPlant {
         this.addSkill(boom);
     }
     protected void explode() {
-        this.level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), USED_PORTAL_DAMAGE_CALCULATOR , this.getX(), this.getY(0.0625), this.getZ(), explosionRadius, false, Level.ExplosionInteraction.TNT);
+        this.level().explode(this, Explosion.getDefaultDamageSource(this.level(), this), USED_PORTAL_DAMAGE_CALCULATOR , this.getX(), this.getY(0.0625), this.getZ(), explosionRadius, false, Level.ExplosionInteraction.TRIGGER);
     }
 
     private  final ExplosionDamageCalculator USED_PORTAL_DAMAGE_CALCULATOR = new ExplosionDamageCalculator() {
@@ -139,7 +139,7 @@ public class PotatoMine extends AbstractPlant {
         }
         @Override
         public float getEntityDamageAmount(Explosion explosion, Entity entity) {
-            return super.getEntityDamageAmount(explosion, entity)+builder.attackDamage;
+            return super.getEntityDamageAmount(explosion, entity) + builder.attackDamage;
         }
 
     };
