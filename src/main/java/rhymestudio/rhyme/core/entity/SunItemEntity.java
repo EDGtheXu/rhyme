@@ -12,7 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import rhymestudio.rhyme.network.s2c.SunCountPacketS2C;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 import rhymestudio.rhyme.core.registry.ModAttachments;
 
 

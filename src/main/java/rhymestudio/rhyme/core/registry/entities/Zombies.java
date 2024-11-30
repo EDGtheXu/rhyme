@@ -1,11 +1,10 @@
-package rhymestudio.rhyme.core.registry.Entities;
+package rhymestudio.rhyme.core.registry.entities;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import org.apache.http.client.entity.EntityBuilder;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
 import rhymestudio.rhyme.core.entity.zombies.NormalZombie;
 import rhymestudio.rhyme.core.entity.zombies.prefab.LandMonsterPrefab;

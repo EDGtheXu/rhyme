@@ -5,7 +5,7 @@ import rhymestudio.rhyme.client.animation.plantAnimations.SunflowerAnimation;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.entity.SunItemEntity;
 import rhymestudio.rhyme.core.entity.ai.CircleSkill;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 
 
 public class SunFlower extends AbstractPlant {

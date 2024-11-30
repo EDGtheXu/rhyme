@@ -18,18 +18,20 @@ import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
+import rhymestudio.rhyme.client.render.entity.misc.HelmetEntityRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.ProjRenderer;
 import rhymestudio.rhyme.client.render.entity.zombie.NormalZombieRenderer;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.entity.BaseProj;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
-import rhymestudio.rhyme.core.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.registry.entities.MiscEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.Zombies;
 
 import java.lang.reflect.Constructor;
 import java.util.function.Function;
 
 import static rhymestudio.rhyme.client.RegisterModel.getModelDefine;
-import static rhymestudio.rhyme.core.registry.Entities.PlantEntities.*;
+import static rhymestudio.rhyme.core.registry.entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegisterRenderer {
@@ -60,6 +62,9 @@ public class RegisterRenderer {
         event.registerEntityRenderer(Zombies.CONE_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
         event.registerEntityRenderer(Zombies.IRON_BUCKET_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
 
+
+        // 其他
+        event.registerEntityRenderer(MiscEntities.HELMET_ENTITY.get(),HelmetEntityRenderer::new);
 
     }
 

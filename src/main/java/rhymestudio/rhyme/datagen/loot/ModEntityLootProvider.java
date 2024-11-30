@@ -15,7 +15,7 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerC
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import rhymestudio.rhyme.core.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.registry.entities.Zombies;
 
 import java.util.stream.Stream;
 

@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.neoforged.neoforge.common.world.BiomeModifier;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.core.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.registry.entities.Zombies;
 
 public class ModBiomeModifier {
     private static ResourceKey<BiomeModifier> createModifierKey(String name) {return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Rhyme.space(name));}

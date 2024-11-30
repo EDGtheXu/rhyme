@@ -1,4 +1,4 @@
-package rhymestudio.rhyme.core.registry.Entities;
+package rhymestudio.rhyme.core.registry.entities;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.effect.MobEffectInstance;

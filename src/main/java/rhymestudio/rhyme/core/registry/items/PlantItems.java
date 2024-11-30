@@ -12,7 +12,7 @@ import rhymestudio.rhyme.core.dataSaver.dataComponent.ItemDataMapComponent;
 import rhymestudio.rhyme.core.dataSaver.dataComponent.ModRarity;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.item.AbstractCardItem;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 import rhymestudio.rhyme.core.registry.ModDataComponentTypes;
 
 import java.util.ArrayList;

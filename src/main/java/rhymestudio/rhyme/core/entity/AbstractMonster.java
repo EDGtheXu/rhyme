@@ -51,8 +51,7 @@ public class AbstractMonster extends Monster implements ICafeMob{
         this.builder.animation.accept(animState);
         this.animState.playAnim("idle",0);
 
-
-
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(builder.MAX_HEALTH);
         this.setHealth(builder.MAX_HEALTH);
         this.getAttribute(Attributes.ARMOR).setBaseValue(builder.ARMOR);
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(builder.ATTACK_DAMAGE);
@@ -66,6 +65,8 @@ public class AbstractMonster extends Monster implements ICafeMob{
         this.getAttribute(Attributes.SAFE_FALL_DISTANCE).setBaseValue(builder.SAFE_FALL);
         this.getAttribute(Attributes.JUMP_STRENGTH).setBaseValue(builder.JUMP_STRENGTH);
         this.getAttribute(Attributes.STEP_HEIGHT).setBaseValue(builder.STEP_HEIGHT);
+
+
 
     }
 
@@ -223,6 +224,10 @@ public class AbstractMonster extends Monster implements ICafeMob{
         return animState;
     }
 
+    public void onAddedToLevel(){
+        super.onAddedToLevel();
+
+    }
     public static class Builder {
         public int ATTACK_DAMAGE = 15;
         public int MAX_HEALTH = 31;

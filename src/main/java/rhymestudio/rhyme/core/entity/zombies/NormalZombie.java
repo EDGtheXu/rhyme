@@ -2,15 +2,16 @@ package rhymestudio.rhyme.core.entity.zombies;
 
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
-import rhymestudio.rhyme.core.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.entity.misc.HelmetEntity;
+import rhymestudio.rhyme.core.registry.entities.MiscEntities;
+import rhymestudio.rhyme.core.registry.entities.Zombies;
 import rhymestudio.rhyme.core.registry.items.ArmorItems;
 
 import javax.annotation.Nullable;
@@ -22,6 +23,22 @@ public class NormalZombie extends AbstractMonster {
 
     public String getNamePath() {
         return "normal_zombie";
+    }
+
+    public boolean hurt(DamageSource source, float amount){
+        ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
+//        Rhyme.LOGGER.info(String.valueOf(this.getHealth()));
+        if(!level().isClientSide && this.getHealth() < 35 && !stack.isEmpty()){
+
+            HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
+            entity.setPos(this.getEyePosition());
+            entity.setOwner(this);
+            entity.setHelmetStack(stack);
+            level().addFreshEntity(entity);
+            this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+        }
+
+        return super.hurt(source, amount);
     }
 
     @Nullable

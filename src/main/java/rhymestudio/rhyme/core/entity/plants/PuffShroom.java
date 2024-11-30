@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.entity.ai.CircleSkill;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 import rhymestudio.rhyme.utils.Computer;
 
 import java.util.function.BiConsumer;

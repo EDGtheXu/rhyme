@@ -19,11 +19,12 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
-import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
-import rhymestudio.rhyme.core.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.registry.entities.MiscEntities;
+import rhymestudio.rhyme.core.registry.entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.Zombies;
 
 import static net.minecraft.world.entity.Mob.checkMobSpawnRules;
-import static rhymestudio.rhyme.core.registry.Entities.PlantEntities.*;
+import static rhymestudio.rhyme.core.registry.entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD)
 public class ModEntities {
@@ -90,5 +91,6 @@ public class ModEntities {
     public static void registerEntities(IEventBus modEventBus) {
         PlantEntities.ENTITIES.register(modEventBus);
         Zombies.ZOMBIES.register(modEventBus);
+        MiscEntities.Entities.register(modEventBus);
     }
 }
