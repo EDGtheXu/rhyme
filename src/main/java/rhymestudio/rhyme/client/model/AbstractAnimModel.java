@@ -4,8 +4,7 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.world.entity.Mob;
 import org.jetbrains.annotations.NotNull;
-import rhymestudio.rhyme.client.animation.plantAnimations.IcePeaAnimation;
-import rhymestudio.rhyme.entity.ICafeMob;
+import rhymestudio.rhyme.core.entity.ICafeMob;
 
 public abstract class AbstractAnimModel<T extends Mob & ICafeMob> extends HierarchicalModel<T> {
 

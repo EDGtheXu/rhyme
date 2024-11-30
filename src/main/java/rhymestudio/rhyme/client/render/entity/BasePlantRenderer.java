@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.core.entity.AbstractPlant;
 
 
 public class BasePlantRenderer<T extends AbstractPlant,U extends EntityModel<T>> extends MobRenderer<T, U> {

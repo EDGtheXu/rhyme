@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.*;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.AbstractAnimModel;
-import rhymestudio.rhyme.entity.AbstractMonster;
+import rhymestudio.rhyme.core.entity.AbstractMonster;
 
 public class NormalZombieModel<T extends AbstractMonster> extends AbstractAnimModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

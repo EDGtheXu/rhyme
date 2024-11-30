@@ -3,9 +3,9 @@ package rhymestudio.rhyme.datagen.lang;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.ModBlocks;
-import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
+import rhymestudio.rhyme.core.registry.ModBlocks;
+import rhymestudio.rhyme.core.registry.items.MaterialItems;
+import rhymestudio.rhyme.core.registry.items.PlantItems;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

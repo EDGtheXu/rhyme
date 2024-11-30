@@ -6,7 +6,7 @@ import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.ModBlocks;
+import rhymestudio.rhyme.core.registry.ModBlocks;
 
 
 import java.util.List;

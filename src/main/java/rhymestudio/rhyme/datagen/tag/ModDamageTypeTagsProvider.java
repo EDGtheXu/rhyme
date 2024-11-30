@@ -6,7 +6,6 @@ import net.minecraft.data.tags.DamageTypeTagsProvider;
 import net.minecraft.tags.DamageTypeTags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
-import rhymestudio.rhyme.registry.ModDamageTypes;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -20,8 +19,11 @@ public class ModDamageTypeTagsProvider extends DamageTypeTagsProvider {
     protected void addTags(HolderLookup.Provider holderLookup) {
 
         tag(DamageTypeTags.NO_KNOCKBACK)
-                .add(ModDamageTypes.PLANT_PROJ)
-                .add(ModDamageTypes.PLANT_EXPLORE);
+                .add(ModTags.DamageTypes.PLANT_PROJ)
+                .add(ModTags.DamageTypes.PLANT_EXPLORE);
 
     }
+
+
+
 }

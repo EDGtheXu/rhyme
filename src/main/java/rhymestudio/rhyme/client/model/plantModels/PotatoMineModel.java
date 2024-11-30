@@ -11,10 +11,8 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.animation.plantAnimations.PotatoMineAnimation;
-import rhymestudio.rhyme.client.model.AbstractAnimModel;
 import rhymestudio.rhyme.client.model.AbstractPlantModel;
-import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.core.entity.AbstractPlant;
 
 public class PotatoMineModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
@@ -100,7 +98,7 @@ public class PotatoMineModel extends AbstractPlantModel<AbstractPlant> {
 	@Override
 	public void setupAnim(@NotNull AbstractPlant entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
 		String pose = entity.getCafeAnimState().curName;
-		if(pose.equals("up" )&& entity.tickCount - entity.getCafeAnimState().tick== 30 && ageInTicksO + 0.5f > ageInTicks){
+		if(pose.equals("up" )&& entity.tickCount - entity.getCafeAnimState().tick== 30 && ageInTicksO + 1f > ageInTicks){
 			return;
 		}
 		ageInTicksO = ageInTicks;

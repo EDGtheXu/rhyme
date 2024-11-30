@@ -12,10 +12,10 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.client.gui.SunCreatorScreen;
+import rhymestudio.rhyme.client.render.gui.SunCreatorScreen;
 import rhymestudio.rhyme.client.model.ModelUtils;
-import rhymestudio.rhyme.client.post.PostUtil;
-import rhymestudio.rhyme.registry.ModMenus;
+import rhymestudio.rhyme.client.render.post.PostUtil;
+import rhymestudio.rhyme.core.registry.ModMenus;
 
 import java.io.FileNotFoundException;
 

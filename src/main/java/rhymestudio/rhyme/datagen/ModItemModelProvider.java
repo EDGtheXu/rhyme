@@ -6,10 +6,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.items.ArmorItems;
-import rhymestudio.rhyme.registry.items.IconItems;
-import rhymestudio.rhyme.registry.items.MaterialItems;
-import rhymestudio.rhyme.registry.items.PlantItems;
+import rhymestudio.rhyme.core.registry.items.ArmorItems;
+import rhymestudio.rhyme.core.registry.items.IconItems;
+import rhymestudio.rhyme.core.registry.items.MaterialItems;
+import rhymestudio.rhyme.core.registry.items.PlantItems;
 
 
 import static rhymestudio.rhyme.Rhyme.MODID;

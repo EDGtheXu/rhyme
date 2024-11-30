@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import rhymestudio.rhyme.registry.ModDataComponentTypes;
+import rhymestudio.rhyme.core.registry.ModDataComponentTypes;
 
 import static rhymestudio.rhyme.client.model.ModelUtils.HEAD_MODEL_ITEMS;
 

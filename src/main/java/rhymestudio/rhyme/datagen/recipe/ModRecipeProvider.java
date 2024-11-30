@@ -10,9 +10,9 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
-import rhymestudio.rhyme.registry.ModBlocks;
-import rhymestudio.rhyme.registry.items.ArmorItems;
-import rhymestudio.rhyme.registry.items.MaterialItems;
+import rhymestudio.rhyme.core.registry.ModBlocks;
+import rhymestudio.rhyme.core.registry.items.ArmorItems;
+import rhymestudio.rhyme.core.registry.items.MaterialItems;
 
 import java.util.concurrent.CompletableFuture;
 

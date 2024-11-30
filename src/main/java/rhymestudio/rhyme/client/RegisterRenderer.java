@@ -1,6 +1,7 @@
 package rhymestudio.rhyme.client;
 
 
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -11,21 +12,24 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.plantModels.*;
+import rhymestudio.rhyme.client.model.proj.CabbageProjModel;
+import rhymestudio.rhyme.client.model.proj.PeaProjModel;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
-import rhymestudio.rhyme.client.render.entity.proj.PeaProjRenderer;
+import rhymestudio.rhyme.client.render.entity.proj.ProjRenderer;
 import rhymestudio.rhyme.client.render.entity.zombie.NormalZombieRenderer;
-import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.registry.Entities.PlantEntities;
-import rhymestudio.rhyme.registry.Entities.Zombies;
+import rhymestudio.rhyme.core.entity.AbstractPlant;
+import rhymestudio.rhyme.core.entity.BaseProj;
+import rhymestudio.rhyme.core.registry.Entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.Entities.Zombies;
 
 import java.lang.reflect.Constructor;
 import java.util.function.Function;
 
 import static rhymestudio.rhyme.client.RegisterModel.getModelDefine;
-import static rhymestudio.rhyme.registry.Entities.PlantEntities.*;
+import static rhymestudio.rhyme.core.registry.Entities.PlantEntities.*;
 
 @EventBusSubscriber(modid = Rhyme.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class RegisterRenderer {
@@ -46,17 +50,27 @@ public class RegisterRenderer {
 
 
         // tip 子弹
-        event.registerEntityRenderer(PlantEntities.PEA_PROJ.get(), PeaProjRenderer::new);
-        event.registerEntityRenderer(PlantEntities.ICE_PEA_PROJ.get(), PeaProjRenderer::new);
-        event.registerEntityRenderer(CABBAGE_PROJ.get(), PeaProjRenderer::new);
+        registerProj(event,PEA_PROJ.get(),c->new PeaProjModel<>(c.bakeLayer(PeaProjModel.LAYER_LOCATION)),1,-0.6F);
+        registerProj(event,ICE_PEA_PROJ.get(),c->new PeaProjModel<>(c.bakeLayer(PeaProjModel.LAYER_LOCATION)),1,-0.6F);
+        registerProj(event,CABBAGE_PROJ.get(),c->new CabbageProjModel<>(c.bakeLayer(CabbageProjModel.LAYER_LOCATION)));
 
 
         // 僵尸
         event.registerEntityRenderer(Zombies.NORMAL_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
+        event.registerEntityRenderer(Zombies.CONE_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
+        event.registerEntityRenderer(Zombies.IRON_BUCKET_ZOMBIE.get(), c-> new NormalZombieRenderer<>(c, new NormalZombieModel<>(c.bakeLayer(NormalZombieModel.LAYER_LOCATION))));
+
+
     }
 
 
+    public static <T extends BaseProj>void registerProj(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, EntityModel<T>> model){
+        event.registerEntityRenderer(entityType, (dispatcher)-> new ProjRenderer<>(dispatcher, model.apply(dispatcher),1,0));
+    }
 
+    public static <T extends BaseProj>void registerProj(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, EntityModel<T>> model,float size,float offsetY){
+        event.registerEntityRenderer(entityType, (dispatcher)-> new ProjRenderer<>(dispatcher, model.apply(dispatcher),size,offsetY));
+    }
 
     public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model){
         registerOne(event,entityType,model,0.35f,1f);
@@ -67,7 +81,7 @@ public class RegisterRenderer {
     }
 
     public static <T extends AbstractPlant>void registerOne(EntityRenderersEvent.RegisterRenderers event, EntityType<T> entityType, Function<EntityRendererProvider.Context, HierarchicalModel<T>> model,float shadowRadius,float scale,boolean rotY){
-        event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher), shadowRadius,scale, rotY));
+        event.registerEntityRenderer(entityType, (dispatcher)-> new BasePlantRenderer<>(dispatcher, model.apply(dispatcher), shadowRadius, scale, rotY));
     }
 
 

@@ -9,10 +9,10 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.registry.ModAttachments;
+import rhymestudio.rhyme.core.registry.ModAttachments;
 
 public record SunCountPacketS2C(int count) implements CustomPacketPayload {
-    public static final Type<SunCountPacketS2C> TYPE = new Type<>(Rhyme.space("mana"));
+    public static final Type<SunCountPacketS2C> TYPE = new Type<>(Rhyme.space("sun_count_packet_s2c"));
     public static final StreamCodec<ByteBuf, SunCountPacketS2C> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.INT,
             SunCountPacketS2C::count,

@@ -2,34 +2,16 @@ package rhymestudio.rhyme.client.render.entity.zombie;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Overlay;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.layers.CustomHeadLayer;
-import net.minecraft.client.renderer.entity.layers.ElytraLayer;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
-import net.neoforged.neoforge.client.ClientHooks;
-import org.checkerframework.checker.units.qual.A;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.layerModels.ZombieArmorLayer;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
-import rhymestudio.rhyme.entity.AbstractMonster;
-import rhymestudio.rhyme.entity.AbstractPlant;
-import rhymestudio.rhyme.registry.items.ArmorItems;
+import rhymestudio.rhyme.core.entity.AbstractMonster;
 
 
 public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZombieModel<T>> extends MobRenderer<T, M> {
@@ -89,7 +71,7 @@ public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZom
 
         @Override
     public ResourceLocation getTextureLocation(T entity) {
-        String s = "textures/entity/zombies/"+entity.namePath+".png";
+        String s = "textures/entity/zombies/"+entity.getNamePath()+".png";
         return Rhyme.space(s);
     }
 /*

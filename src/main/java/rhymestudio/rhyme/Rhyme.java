@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import rhymestudio.rhyme.datagen.lang.ModChineseProvider;
 import rhymestudio.rhyme.datagen.biome.ModBiomes;
 import rhymestudio.rhyme.datagen.recipe.ModRecipes;
-import rhymestudio.rhyme.registry.*;
+import rhymestudio.rhyme.core.registry.*;
 
 import java.util.ArrayList;
 import java.util.List;

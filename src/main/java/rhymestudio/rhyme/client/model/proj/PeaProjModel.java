@@ -11,7 +11,7 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.entity.BaseProj;
+import rhymestudio.rhyme.core.entity.BaseProj;
 
 public class PeaProjModel<T extends BaseProj> extends EntityModel<T> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor

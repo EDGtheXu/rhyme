@@ -9,7 +9,7 @@ import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.AbstractPlantModel;
-import rhymestudio.rhyme.entity.AbstractPlant;
+import rhymestudio.rhyme.core.entity.AbstractPlant;
 
 public class CabbageModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
