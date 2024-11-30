@@ -27,9 +27,7 @@ public class NormalZombie extends AbstractMonster {
 
     public boolean hurt(DamageSource source, float amount){
         ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
-//        Rhyme.LOGGER.info(String.valueOf(this.getHealth()));
         if(!level().isClientSide && this.getHealth() < 35 && !stack.isEmpty()){
-
             HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
             entity.setPos(this.getEyePosition());
             entity.setOwner(this);
@@ -37,7 +35,6 @@ public class NormalZombie extends AbstractMonster {
             level().addFreshEntity(entity);
             this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
         }
-
         return super.hurt(source, amount);
     }
 

@@ -15,13 +15,16 @@ import rhymestudio.rhyme.core.registry.entities.Zombies;
 public class ModBiomeModifier {
     private static ResourceKey<BiomeModifier> createModifierKey(String name) {return ResourceKey.create(NeoForgeRegistries.Keys.BIOME_MODIFIERS, Rhyme.space(name));}
 
-    public static final ResourceKey<BiomeModifier> ZOMBIE_SPAWN = createModifierKey("spawn/zombie_spawns");
+    public static final ResourceKey<BiomeModifier> NORMAL_ZOMBIE_SPAWN = createModifierKey("spawn/normal_zombie_spawns");
+    public static final ResourceKey<BiomeModifier> CONE_ZOMBIE_SPAWN = createModifierKey("spawn/cone_zombie_spawns");
+    public static final ResourceKey<BiomeModifier> IRON_BUCKET_ZOMBIE_SPAWN = createModifierKey("spawn/iron_bucket_zombie_spawns");
 
 
     public static void createBiomeModifier(BootstrapContext<BiomeModifier> context) {
         HolderGetter<Biome> biomeLookup = context.lookup(Registries.BIOME);
         HolderGetter<PlacedFeature> placedFeatureLookup = context.lookup(Registries.PLACED_FEATURE);
-        context.register(ZOMBIE_SPAWN, ExtendedAddSpawnsBiomeModifier.singleSpawn(
+
+        context.register(NORMAL_ZOMBIE_SPAWN, ExtendedAddSpawnsBiomeModifier.singleSpawn(
                 biomeLookup.getOrThrow(BiomeTags.IS_OVERWORLD),
                 biomeLookup.getOrThrow(BiomeTags.IS_END),
                 new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(Zombies.NORMAL_ZOMBIE.get(),
@@ -30,7 +33,24 @@ public class ModBiomeModifier {
                 )
         );
 
+        context.register(CONE_ZOMBIE_SPAWN, ExtendedAddSpawnsBiomeModifier.singleSpawn(
+                        biomeLookup.getOrThrow(BiomeTags.IS_OVERWORLD),
+                        biomeLookup.getOrThrow(BiomeTags.IS_END),
+                        new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(Zombies.CONE_ZOMBIE.get(),
+                                30, 1, 3,
+                                Zombies.NORMAL_ZOMBIE.get().getCategory())
+                )
+        );
 
+
+        context.register(IRON_BUCKET_ZOMBIE_SPAWN , ExtendedAddSpawnsBiomeModifier.singleSpawn(
+                        biomeLookup.getOrThrow(BiomeTags.IS_OVERWORLD),
+                        biomeLookup.getOrThrow(BiomeTags.IS_END),
+                        new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(Zombies.IRON_BUCKET_ZOMBIE.get(),
+                                10, 1, 2,
+                                Zombies.NORMAL_ZOMBIE.get().getCategory())
+                )
+        );
 
 
     }

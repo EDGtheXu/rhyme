@@ -24,11 +24,11 @@ public class ArmorItems {
 
     public static final DeferredItem<Item> CONE_HELMET = register("cone_helmet","路障头盔", ModArmorMaterials.CONE_ARMOR_MATERIALS,ArmorItem.Type.HELMET,50,
             ModRarity.BLUE, p->p
-                    .add(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("cone_helmet_max_health"),0.5f,AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.HEAD)
+                    .add(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("cone_helmet_max_health"),0.1f,AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.HEAD)
     );
     public static final DeferredItem<Item> IRON_BUCKET_HELMET = register("iron_bucket_helmet","废桶头盔", ModArmorMaterials.IRON_BUCKET_ARMOR_MATERIALS,ArmorItem.Type.HELMET,100,
             ModRarity.BLUE, p->p
-                    .add(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("iron_bucket_helmet_max_health"),1f,AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.HEAD)
+                    .add(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("iron_bucket_helmet_max_health"),0.2f,AttributeModifier.Operation.ADD_MULTIPLIED_BASE), EquipmentSlotGroup.HEAD)
             );
 
 
