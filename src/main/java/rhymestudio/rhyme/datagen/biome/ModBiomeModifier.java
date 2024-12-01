@@ -37,7 +37,7 @@ public class ModBiomeModifier {
                         biomeLookup.getOrThrow(BiomeTags.IS_OVERWORLD),
                         biomeLookup.getOrThrow(BiomeTags.IS_END),
                         new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(Zombies.CONE_ZOMBIE.get(),
-                                30, 1, 3,
+                                15, 1, 3,
                                 Zombies.NORMAL_ZOMBIE.get().getCategory())
                 )
         );
@@ -47,7 +47,7 @@ public class ModBiomeModifier {
                         biomeLookup.getOrThrow(BiomeTags.IS_OVERWORLD),
                         biomeLookup.getOrThrow(BiomeTags.IS_END),
                         new ExtendedAddSpawnsBiomeModifier.ExtendedSpawnData(Zombies.IRON_BUCKET_ZOMBIE.get(),
-                                10, 1, 2,
+                                5, 1, 2,
                                 Zombies.NORMAL_ZOMBIE.get().getCategory())
                 )
         );

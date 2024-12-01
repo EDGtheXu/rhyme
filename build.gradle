@@ -109,7 +109,9 @@ repositories {
             includeGroup("software.bernie.geckolib")
         }
     }
-
+    maven {
+        url = "https://www.cursemaven.com"
+    }
     maven {
         // location of the maven that hosts JEI files since January 2023
         name = "Jared's maven"
@@ -127,6 +129,9 @@ dependencies {
     compileOnly("mezz.jei:jei-1.21-common-api:${jei_version}")
     compileOnly "mezz.jei:jei-1.21-neoforge-api:${jei_version}"
     runtimeOnly "mezz.jei:jei-1.21-neoforge:${jei_version}"
+
+    compileOnly "curse.maven:jade-324717:5639932"
+    runtimeOnly "curse.maven:jade-324717:5639932"
 
 }
 
