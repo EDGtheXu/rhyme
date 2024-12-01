@@ -1,12 +1,17 @@
 package rhymestudio.rhyme.core.item;
 
+import com.google.common.collect.HashMultimap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -16,6 +21,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.dataSaver.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.registry.ModDataComponentTypes;
@@ -38,15 +44,15 @@ public class AbstractCardItem extends CustomRarityItem {
         if (!level.isClientSide()) {
 
             ItemStack itemstack = player.getItemInHand(hand);
-            CardQualityComponent.tryUpLevel(itemstack);
+
             if(!player.canBeSeenAsEnemy()){ // 创造
-                summon(player, level);
+                summon(player, level, itemstack);
                 return InteractionResultHolder.success(itemstack);
             }
             if(!Computer.tryCombineInventoryItem(player, MaterialItems.SUN_ITEM.get(), consume)){
                 return InteractionResultHolder.fail(itemstack);
             }
-            if(!summon(player, level)) return InteractionResultHolder.fail(itemstack);
+            if(!summon(player, level, itemstack)) return InteractionResultHolder.fail(itemstack);
             itemstack.setDamageValue(itemstack.getDamageValue() + 1);
             if(itemstack.getDamageValue() >= itemstack.getMaxDamage())
                 itemstack.shrink(1);
@@ -55,7 +61,7 @@ public class AbstractCardItem extends CustomRarityItem {
         return super.use(level, player, hand);
     }
 
-    public boolean summon(Player player, Level level){
+    public boolean summon(Player player, Level level,ItemStack stack){
         final BlockHitResult result = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         final BlockHitResult raytraceResult = result.withPosition(result.getBlockPos().above());
         final BlockPos pos = raytraceResult.getBlockPos();
@@ -67,7 +73,16 @@ public class AbstractCardItem extends CustomRarityItem {
         var entity = entityType.get().create(level);
         entity.setOwner(player);
         entity.setPos(new Vec3(pos.getX() + 0.5+player.getRandom().nextFloat()*0.1f, pos.getY(), pos.getZ() + 0.5+player.getRandom().nextFloat()*0.1f));
+        int lvl = stack.getComponents().get(ModDataComponentTypes.CARD_QUALITY.get()).level();
+        HashMultimap<Holder<Attribute>, AttributeModifier> hashmultimap = HashMultimap.create();
+        hashmultimap.put(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("card_health_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        hashmultimap.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(Rhyme.space("card_attack_damage_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+
+        entity.getAttributes().addTransientAttributeModifiers(hashmultimap);
         level.addFreshEntity(entity);
+        entity.setHealth(entity.getMaxHealth());
+
+        CardQualityComponent.tryUpLevel(stack);
         return true;
     }
 

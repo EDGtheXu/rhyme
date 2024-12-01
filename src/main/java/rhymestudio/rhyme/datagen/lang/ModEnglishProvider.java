@@ -24,13 +24,11 @@ public class ModEnglishProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
-
-
-        add("rhyme.item.sun", "sun");
-        add("creativetab.rhyme.materials", "pvz materials");
-        add("creativetab.rhyme.cards", "pvz cards");
-        add("creativetab.rhyme.blocks", "pvz blocks");
-        add("creativetab.rhyme.armors", "pvz armors");
+        add("creativetab.rhyme", "Rhyme| PVZ");
+        add("creativetab.rhyme.materials", "Rhyme| materials");
+        add("creativetab.rhyme.cards", "Rhyme| cards");
+        add("creativetab.rhyme.blocks", "Rhyme| blocks");
+        add("creativetab.rhyme.armors", "Rhyme| armors");
 
         add("container.rhyme.sun_creator", "Sun Creator");
         add("plantcard.tooltip.consumed_sun","consume sun");

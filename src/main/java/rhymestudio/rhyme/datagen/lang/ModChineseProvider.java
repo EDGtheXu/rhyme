@@ -13,6 +13,7 @@ public class ModChineseProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
 
+        add("creativetab.rhyme", "开花与终结有限公司");
         add("creativetab.rhyme.materials", "开花与终结有限公司：产品");
         add("creativetab.rhyme.cards", "开花与终结有限公司：种子包");
         add("creativetab.rhyme.blocks", "开花与终结有限公司：方块");

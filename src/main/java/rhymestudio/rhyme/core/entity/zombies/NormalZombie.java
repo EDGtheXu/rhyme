@@ -19,6 +19,11 @@ import javax.annotation.Nullable;
 public class NormalZombie extends AbstractMonster {
     public NormalZombie(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level, builder);
+        if(this.getType() == Zombies.CONE_ZOMBIE.get()){
+            this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.CONE_HELMET.toStack());
+        }else if(this.getType() == Zombies.IRON_BUCKET_ZOMBIE.get()){
+            this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.IRON_BUCKET_HELMET.toStack());
+        }
     }
 
     public String getNamePath() {
@@ -54,11 +59,7 @@ public class NormalZombie extends AbstractMonster {
             }
         }*/
 
-        if(this.getType() == Zombies.CONE_ZOMBIE.get()){
-            this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.CONE_HELMET.toStack());
-        }else if(this.getType() == Zombies.IRON_BUCKET_ZOMBIE.get()){
-            this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.IRON_BUCKET_HELMET.toStack());
-        }
+
 
         return spawnGroupData;
     }

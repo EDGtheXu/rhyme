@@ -19,42 +19,45 @@ public class ModTabs {
     public static final Supplier<CreativeModeTab> CARD = TABS.register("cards",
             () -> CreativeModeTab.builder()
                     .icon(() -> PlantItems.SUN_FLOWER.get().getDefaultInstance())
-                    .title(Component.translatable("creativetab.rhyme.cards"))
-                    .displayItems((parameters, output) -> {
-                        PlantItems.PLANTS.getEntries().forEach(item -> output.accept(item.get()));
-                    })
-                    .build()
-    );
-
-    public static final Supplier<CreativeModeTab> MATERIALS = TABS.register("materials",
-            () -> CreativeModeTab.builder()
-                    .icon(() -> MaterialItems.SOLID_SUN.get().getDefaultInstance())
-                    .title(Component.translatable("creativetab.rhyme.materials"))
-                    .displayItems((parameters, output) -> {
-                        MaterialItems.MATERIALS.getEntries().forEach(item -> output.accept(item.get()));
-                    })
-                    .build()
-    );
-
-    public static final Supplier<CreativeModeTab> BLOCKS = TABS.register("blocks",
-            () -> CreativeModeTab.builder()
-                    .icon(() -> ModBlocks.BLOCK_ITEMS.getEntries().stream().filter(i->i.is(Rhyme.space("sun_creator_block"))).findFirst().get().get().getDefaultInstance())
-                    .title(Component.translatable("creativetab.rhyme.blocks"))
+                    .title(Component.translatable("creativetab.rhyme"))
                     .displayItems((parameters, output) -> {
                         ModBlocks.BLOCKS.getEntries().forEach(item -> output.accept(item.get()));
-                    })
-                    .build()
-    );
-
-    public static final Supplier<CreativeModeTab> ARMOR = TABS.register("armors",
-            () -> CreativeModeTab.builder()
-                    .icon(() -> ArmorItems.IRON_BUCKET_HELMET.asItem().getDefaultInstance())
-                    .title(Component.translatable("creativetab.rhyme.armors"))
-                    .displayItems((parameters, output) -> {
+                        MaterialItems.MATERIALS.getEntries().forEach(item -> output.accept(item.get()));
+                        PlantItems.PLANTS.getEntries().forEach(item -> output.accept(item.get()));
                         ArmorItems.ARMORS.getEntries().forEach(item -> output.accept(item.get()));
                     })
                     .build()
     );
+
+//    public static final Supplier<CreativeModeTab> MATERIALS = TABS.register("materials",
+//            () -> CreativeModeTab.builder()
+//                    .icon(() -> MaterialItems.SOLID_SUN.get().getDefaultInstance())
+//                    .title(Component.translatable("creativetab.rhyme.materials"))
+//                    .displayItems((parameters, output) -> {
+//
+//                    })
+//                    .build()
+//    );
+//
+//    public static final Supplier<CreativeModeTab> BLOCKS = TABS.register("blocks",
+//            () -> CreativeModeTab.builder()
+//                    .icon(() -> ModBlocks.BLOCK_ITEMS.getEntries().stream().filter(i->i.is(Rhyme.space("sun_creator_block"))).findFirst().get().get().getDefaultInstance())
+//                    .title(Component.translatable("creativetab.rhyme.blocks"))
+//                    .displayItems((parameters, output) -> {
+//
+//                    })
+//                    .build()
+//    );
+//
+//    public static final Supplier<CreativeModeTab> ARMOR = TABS.register("armors",
+//            () -> CreativeModeTab.builder()
+//                    .icon(() -> ArmorItems.IRON_BUCKET_HELMET.asItem().getDefaultInstance())
+//                    .title(Component.translatable("creativetab.rhyme.armors"))
+//                    .displayItems((parameters, output) -> {
+//
+//                    })
+//                    .build()
+//    );
 
 
 }

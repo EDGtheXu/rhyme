@@ -201,7 +201,7 @@ public class AbstractMonster extends Monster implements ICafeMob{
 
     public void tick(){
         super.tick();
-
+        if(!level().isClientSide && tickCount == 1) this.setHealth(this.getMaxHealth());
 
     }
 
@@ -226,7 +226,6 @@ public class AbstractMonster extends Monster implements ICafeMob{
 
     public void onAddedToLevel(){
         super.onAddedToLevel();
-
     }
     public static class Builder {
         public int ATTACK_DAMAGE = 15;
