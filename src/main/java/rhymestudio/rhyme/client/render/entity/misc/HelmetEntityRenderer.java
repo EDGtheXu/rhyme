@@ -30,6 +30,8 @@ public class HelmetEntityRenderer extends EntityRenderer<HelmetEntity> {
             poseStack.scale(0.65f, 0.65f, 0.65f);
             poseStack.translate(0.0D, 0.5D, 0.0D);
             if(entity.onGround()){
+                float y = Mth.lerp((entity.tickCount+partialTick - 80)/20.0f, 0, 1);
+                if(y>0) poseStack.translate(0, -y, 0);
                 poseStack.mulPose(Axis.XN.rotationDegrees(entity.cachedPitch));
                 poseStack.mulPose(Axis.YN.rotationDegrees(entity.cachedYaw));
             }else{
