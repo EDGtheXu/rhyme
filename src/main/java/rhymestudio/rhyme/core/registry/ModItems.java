@@ -1,10 +1,7 @@
 package rhymestudio.rhyme.core.registry;
 
 import net.neoforged.bus.api.IEventBus;
-import rhymestudio.rhyme.core.registry.items.ArmorItems;
-import rhymestudio.rhyme.core.registry.items.IconItems;
-import rhymestudio.rhyme.core.registry.items.MaterialItems;
-import rhymestudio.rhyme.core.registry.items.PlantItems;
+import rhymestudio.rhyme.core.registry.items.*;
 
 public class ModItems {
 
@@ -15,5 +12,7 @@ public class ModItems {
         MaterialItems.MATERIALS.register(modEventBus);
         IconItems.QUALITY_ITEMS.register(modEventBus);
         ArmorItems.ARMORS.register(modEventBus);
+        ToolItems.TOOLS.register(modEventBus);
+        SpawnEggItems.EGGS.register(modEventBus);
     }
 }

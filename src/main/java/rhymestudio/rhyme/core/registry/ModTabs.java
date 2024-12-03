@@ -6,9 +6,7 @@ import net.minecraft.world.item.CreativeModeTab;
 
 import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.Rhyme;
-import rhymestudio.rhyme.core.registry.items.ArmorItems;
-import rhymestudio.rhyme.core.registry.items.MaterialItems;
-import rhymestudio.rhyme.core.registry.items.PlantItems;
+import rhymestudio.rhyme.core.registry.items.*;
 
 import java.util.function.Supplier;
 
@@ -24,7 +22,9 @@ public class ModTabs {
                         ModBlocks.BLOCKS.getEntries().forEach(item -> output.accept(item.get()));
                         MaterialItems.MATERIALS.getEntries().forEach(item -> output.accept(item.get()));
                         PlantItems.PLANTS.getEntries().forEach(item -> output.accept(item.get()));
+                        SpawnEggItems.EGGS.getEntries().forEach(item -> output.accept(item.get()));
                         ArmorItems.ARMORS.getEntries().forEach(item -> output.accept(item.get()));
+                        ToolItems.TOOLS.getEntries().forEach(item -> output.accept(item.get()));
                     })
                     .build()
     );
