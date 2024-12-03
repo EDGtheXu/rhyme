@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 物品等级组件，用于渲染背景
+ * 物品等级组件，用于渲染背景和属性加成
  * @param level
  * @param source
  */

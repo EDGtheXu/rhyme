@@ -75,13 +75,10 @@ public class AbstractCardItem extends CustomRarityItem {
         entity.setPos(new Vec3(pos.getX() + 0.5+player.getRandom().nextFloat()*0.1f, pos.getY(), pos.getZ() + 0.5+player.getRandom().nextFloat()*0.1f));
         int lvl = stack.getComponents().get(ModDataComponentTypes.CARD_QUALITY.get()).level();
         HashMultimap<Holder<Attribute>, AttributeModifier> hashmultimap = HashMultimap.create();
-        hashmultimap.put(Attributes.MAX_HEALTH,new AttributeModifier(Rhyme.space("card_health_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-        hashmultimap.put(Attributes.ATTACK_DAMAGE,new AttributeModifier(Rhyme.space("card_attack_damage_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
-
-        entity.getAttributes().addTransientAttributeModifiers(hashmultimap);
+        entity.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(new AttributeModifier(Rhyme.space("card_health_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
+        entity.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(new AttributeModifier(Rhyme.space("card_attack_damage_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         level.addFreshEntity(entity);
         entity.setHealth(entity.getMaxHealth());
-
         CardQualityComponent.tryUpLevel(stack);
         return true;
     }

@@ -58,7 +58,7 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
         this.cafeDefineAnimations();
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(builder.health);
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(builder.attackDamage);
-        this.setHealth(builder.health);
+
         addSkills();
         animState.playAnim(skills.getCurSkill(),tickCount);
         if(!level().isClientSide)this.skills.tick+= random.nextIntBetweenInclusive(0,50);

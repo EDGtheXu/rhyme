@@ -69,9 +69,7 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker getTicker(@NotNull Level pLevel, @NotNull BlockState pState, @NotNull BlockEntityType<T> pBlockEntityType) {
-        return pLevel.isClientSide ? createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
-
-        }) : createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
+        return pLevel.isClientSide ? null : createTickerHelper(pBlockEntityType, ModBlocks.SUN_CREATOR_BLOCK_ENTITY.get(), (level, pos, state, blockEntity)->{
             if(!level.isNight()) {
                 blockEntity.time++;
                 if(blockEntity.time >= blockEntity.interval){
@@ -93,8 +91,12 @@ public class SunCreaterBlock extends BaseEntityBlock  {
         });}
 
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(!level.isClientSide && state.hasBlockEntity()){
-            player.openMenu(state.getMenuProvider(level, pos));
+        if(state.hasBlockEntity()){
+            if(!level.isClientSide) player.openMenu(state.getMenuProvider(level, pos));
+            var data = player.getData(ModAttachments.PLAYER_STORAGE);
+            data.x = pos.getX();
+            data.y = pos.getY();
+            data.z = pos.getZ();
             return ItemInteractionResult.SUCCESS;
         }
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -108,7 +110,6 @@ public class SunCreaterBlock extends BaseEntityBlock  {
 
         public SunCreaterBlockEntity(BlockEntityType<SunCreaterBlockEntity> type, BlockPos pos, BlockState state) {
             super(type, pos, state);
-            //this.count = this.getData(ModAttachments.PLAYER_STORAGE).sunCount;
         }
 
         public SunCreaterBlockEntity(BlockPos pos, BlockState state) {
@@ -134,7 +135,7 @@ public class SunCreaterBlock extends BaseEntityBlock  {
         }
         protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
             super.loadAdditional(tag, registries);
-            count = this.getData(ModAttachments.PLAYER_STORAGE).sunCount;
+            count =tag.getInt("count");
         }
         protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
             super.saveAdditional(tag, registries);

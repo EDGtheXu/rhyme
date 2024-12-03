@@ -11,12 +11,11 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.core.block.SunCreaterBlock;
+import rhymestudio.rhyme.core.registry.ModAttachments;
 import rhymestudio.rhyme.datagen.recipe.AbstractAmountRecipe;
 import rhymestudio.rhyme.datagen.recipe.SunCreatorRecipe;
 import rhymestudio.rhyme.core.registry.ModBlocks;
@@ -145,11 +144,8 @@ public class SunCreatorMenu extends AbstractContainerMenu {
             setupResultSlot();
         }
         if(pId == 114){
-            Vec3 ori = player.getEyePosition();
-            Vec3 end = ori.add(player.getForward().normalize().scale(10));
-            BlockHitResult blockHitResult = player.level().clip(new ClipContext(ori,end, ClipContext.Block.VISUAL,ClipContext.Fluid.NONE, player));
-            BlockPos pos = blockHitResult.getBlockPos();
-            BlockEntity blockEntity = player.level().getBlockEntity(pos);
+            var data = player.getData(ModAttachments.PLAYER_STORAGE);
+            BlockEntity blockEntity = player.level().getBlockEntity(new BlockPos(data.x,data.y,data.z));
             if(!(blockEntity instanceof SunCreaterBlock.SunCreaterBlockEntity entity)){
                 player.closeContainer();
                 return true;

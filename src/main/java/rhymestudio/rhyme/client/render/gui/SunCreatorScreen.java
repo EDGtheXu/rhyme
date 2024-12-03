@@ -12,14 +12,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.block.SunCreaterBlock;
 import rhymestudio.rhyme.core.menu.SunCreatorMenu;
+import rhymestudio.rhyme.core.registry.ModAttachments;
 
 public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
     private static final ResourceLocation BACKGROUND = Rhyme.space("textures/gui/sun_creator.png");
@@ -33,16 +31,11 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
     public SunCreatorScreen(SunCreatorMenu pMenu, Inventory pPlayerInventory, Component pTitle) {
         super(pMenu, pPlayerInventory, pTitle);
         Player owner = pPlayerInventory.player;
-        Vec3 ori = owner.getEyePosition();
-        Vec3 end = ori.add(owner.getForward().normalize().scale(10));
-        BlockHitResult blockHitResult = owner.level().clip(new ClipContext(ori,end, ClipContext.Block.COLLIDER,ClipContext.Fluid.NONE, owner));
-        BlockPos pos = blockHitResult.getBlockPos();
-        BlockEntity blockEntity = owner.level().getBlockEntity(pos);
-
+        var data = owner.getData(ModAttachments.PLAYER_STORAGE);
+        BlockEntity blockEntity = owner.level().getBlockEntity(new BlockPos( data.x, data.y, data.z));
         if(blockEntity instanceof SunCreaterBlock.SunCreaterBlockEntity entity){
             creator = entity;
         }
-
         fetchSunButton = Button.builder(Component.literal("fetch"), (p_onPress_1_) -> {
             creator.count = 0;
         }).pos(130,50).size(25,16).build();
