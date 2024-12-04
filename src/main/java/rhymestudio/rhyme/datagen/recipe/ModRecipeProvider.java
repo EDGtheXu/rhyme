@@ -10,6 +10,7 @@ import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import rhymestudio.rhyme.core.registry.ModBlocks;
 import rhymestudio.rhyme.core.registry.items.ArmorItems;
 import rhymestudio.rhyme.core.registry.items.MaterialItems;
@@ -71,6 +72,28 @@ public class ModRecipeProvider extends RecipeProvider {
 
 
 //        cookRecipes(recipeOutput, "campfire_cooking", RecipeSerializer.CAMPFIRE_COOKING_RECIPE, CampfireCookingRecipe::new, 100);
+
+        //test
+        // We use a builder pattern, therefore no variable is created. Create a new builder by calling
+// ShapelessRecipeBuilder#shapeless with the recipe category (found in the RecipeCategory enum)
+// and a result item, a result item and count, or a result item stack.
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.MUSHROOM_STEW)
+                // Add the recipe ingredients. This can either accept Ingredients, TagKey<Item>s or ItemLikes.
+                // Overloads also exist that additionally accept a count, adding the same ingredient multiple times.
+                .requires(Blocks.BROWN_MUSHROOM, 2)
+                .requires(Blocks.RED_MUSHROOM)
+                .requires(Items.BOWL)
+                // Creates the recipe advancement. While not mandated by the consuming background systems,
+                // the recipe builder will crash if you omit this. The first parameter is the advancement name,
+                // and the second one is the condition. Normally, you want to use the has() shortcut for the condition.
+                // Multiple advancement requirements can be added by calling #unlockedBy multiple times.
+                .unlockedBy("has_mushroom_stew", has(Items.MUSHROOM_STEW))
+                .unlockedBy("has_bowl", has(Items.BOWL))
+                .unlockedBy("has_brown_mushroom", has(Blocks.BROWN_MUSHROOM))
+                .unlockedBy("has_red_mushroom", has(Blocks.RED_MUSHROOM))
+                // Stores the recipe in the passed RecipeOutput, to be written to disk.
+                // If you want to add conditions to the recipe, those can be set on the output.
+                .save(recipeOutput);
     }
 
     protected static <T extends AbstractCookingRecipe> void cookRecipes(

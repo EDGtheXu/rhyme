@@ -1,0 +1,23 @@
+{
+  "type": "rhyme:sun_creator",
+  "ingredients": [
+    {
+      "item": "rhyme:material/general_seed"
+    },
+    {
+      "item": "rhyme:material/plant_gene"
+    },
+    {
+      "item": "rhyme:material/solid_sun"
+    },
+    {
+      "item": "rhyme:material/solid_sun"
+    },
+    {
+      "item": "rhyme:material/solid_sun"
+    }
+  ],
+  "result": {
+    "id": "rhyme:plant_card/sunflower"
+  }
+}
