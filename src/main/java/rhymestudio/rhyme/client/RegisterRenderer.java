@@ -15,6 +15,7 @@ import rhymestudio.rhyme.client.model.plantModels.*;
 import rhymestudio.rhyme.client.model.proj.CabbageProjModel;
 import rhymestudio.rhyme.client.model.proj.PeaProjModel;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
+import rhymestudio.rhyme.client.render.GeoNormalRenderer;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
@@ -43,12 +44,15 @@ public class RegisterRenderer {
 
         registerOne(event,SUN_FLOWER.get(),getRenderSup(SunflowerModel.class));
         registerOne(event,PEA.get(),getRenderSup(PeaModel.class));
-        registerOne(event,ICE_PEA.get(),getRenderSup(IcePeaModel.class));
+        registerOne(event, SNOW_PEA.get(),getRenderSup(SnowPeaModel.class));
         registerOne(event,DOUBLE_PEA.get(),getRenderSup(DoublePeaModel.class));
         registerOne(event,WALL_NUT.get(),getRenderSup(WallNutModel.class),0.5f,1f);
         registerOne(event,POTATO_MINE.get(),getRenderSup(PotatoMineModel.class),0,1f);
         registerOne(event,PUFF_SHROOM.get(),getRenderSup(PuffShroomModel.class),0.2f,0.5f);
         registerOne(event,CABBAGE_PULT.get(),getRenderSup(CabbageModel.class));
+
+        event.registerEntityRenderer(CHOMPER.get(), c -> new GeoNormalRenderer<>(c, "chomper",false));
+
 
 
         // tip 子弹

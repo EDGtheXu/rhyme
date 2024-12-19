@@ -166,7 +166,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
     public static class TextureLib{
         public static final ResourceLocation PEA = Rhyme.space("textures/entity/pea_bullet.png");
-        public static final ResourceLocation ICE_PEA = Rhyme.space("textures/entity/ice_pea_bullet.png");
+        public static final ResourceLocation SNOW_PEA = Rhyme.space("textures/entity/snow_pea_bullet.png");
         public static final ResourceLocation FIRE_PEA = Rhyme.space("textures/entity/fire_pea_bullet.png");
 
     }

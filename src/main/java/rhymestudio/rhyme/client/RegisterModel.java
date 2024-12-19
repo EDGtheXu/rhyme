@@ -32,7 +32,7 @@ public class RegisterModel {
         register(evt, SunflowerModel.class);
         register(evt, PeaModel.class);
         register(evt, PotatoMineModel.class);
-        register(evt, IcePeaModel.class);
+        register(evt, SnowPeaModel.class);
         register(evt, DoublePeaModel.class);
         register(evt, PuffShroomModel.class);
         register(evt, WallNutModel.class);

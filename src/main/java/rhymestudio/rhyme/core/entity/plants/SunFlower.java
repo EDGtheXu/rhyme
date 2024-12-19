@@ -11,9 +11,7 @@ import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 public class SunFlower extends AbstractPlant {
 
     public SunFlower(Level level, Builder builder) {
-        super(PlantEntities.SUN_FLOWER.get(), level);
-        this.builder = builder;
-
+        super(PlantEntities.SUN_FLOWER.get(), level,builder);
     }
 
     @Override
@@ -27,16 +25,13 @@ public class SunFlower extends AbstractPlant {
     public void addSkills() {
         super.addSkills();
         CircleSkill idleSkill = new CircleSkill("idle_on",builder.attackInternalTick,0);
-        CircleSkill sunSkill = new CircleSkill("sun",builder.attackAnimTick, builder.attackTriggerTick,
-            a->{},
-            a->{
-                if(skills.canTrigger()){
-                    SunItemEntity entity = new SunItemEntity(level(), position().add(0,1,0));
-                    level().addFreshEntity(entity);
-                }
-            },
-            a->{}
-        );
+        CircleSkill sunSkill = new CircleSkill("sun",builder.attackAnimTick, builder.attackTriggerTick)
+                .onTick(a->{
+                    if(skills.canTrigger()){
+                        SunItemEntity entity = new SunItemEntity(level(), position().add(0,1,0));
+                        level().addFreshEntity(entity);
+                    }
+                });
         addSkill(idleSkill);
         addSkill(sunSkill);
     }

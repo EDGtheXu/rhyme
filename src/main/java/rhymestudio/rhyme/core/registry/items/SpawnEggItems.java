@@ -3,7 +3,6 @@ package rhymestudio.rhyme.core.registry.items;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SpawnEggItem;
 import net.neoforged.neoforge.common.DeferredSpawnEggItem;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -12,8 +11,6 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.dataSaver.dataComponent.ModRarity;
 import rhymestudio.rhyme.core.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.core.registry.entities.Zombies;
-
-import java.util.function.Supplier;
 
 public class SpawnEggItems{
 
@@ -25,9 +22,7 @@ public class SpawnEggItems{
 
 
 
-    public static <T extends Mob>DeferredItem<Item> register(String en, String zh, DeferredHolder<EntityType<?>,EntityType<T>> entityType) {
-        return register(en, zh, entityType, 0xFFFFFF, 0x000000,ModRarity.COMMON);
-    }
+
     public static <T extends Mob>DeferredItem<Item> register(String en, String zh, DeferredHolder<EntityType<?>,EntityType<T>> entityType, int color1, int color2 , ModRarity rarity) {
         DeferredItem<Item> item =  EGGS .register("egg/"+en, () -> new DeferredSpawnEggItem(entityType,color1,color2,new Item.Properties().component(ModDataComponentTypes.MOD_RARITY,rarity)));
         Rhyme.chineseProviders.add((c)->c.add(item.get(),zh));
@@ -36,5 +31,7 @@ public class SpawnEggItems{
     public static <T extends Mob>DeferredItem<Item> register(String en, String zh,DeferredHolder<EntityType<?>,EntityType<T>> entityType,int color1,int color2) {
         return register(en, zh,entityType, color1, color2, ModRarity.COMMON);
     }
-
+    public static <T extends Mob>DeferredItem<Item> register(String en, String zh, DeferredHolder<EntityType<?>,EntityType<T>> entityType) {
+        return register(en, zh, entityType, 0xFFFFFF, 0x000000);
+    }
 }

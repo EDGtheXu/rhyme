@@ -27,7 +27,7 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
     public String namePath;
     public Player owner;
     public Builder builder;
-
+    public String lastAnimName = "idle";
     public CafeAnimationState animState = new CafeAnimationState(this);
     public CircleSkills<AbstractPlant> skills = new CircleSkills<>(this);
 
@@ -43,10 +43,10 @@ public abstract class AbstractPlant extends Mob implements ICafeMob{
         if(builder.defineSkill!=null) builder.defineSkill.accept(this);
     }
 
-    public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level) {
+    public <T extends AbstractPlant> AbstractPlant(EntityType<T> tEntityType, Level level,Builder builder) {
         super(tEntityType, level);
         this.namePath = getName().getString().split("\\.")[2];
-
+        this.builder = builder;
     }
 
     public boolean isPushable(){

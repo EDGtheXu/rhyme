@@ -36,9 +36,9 @@ public class PlantEntities {
             new Pea(type,level, PeaAnimation.idle,PeaAnimation.shoot,
                     PEA_SHOOT, NORMAL_PEA_PLANT.get()));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> ICE_PEA = registerPlants("ice_pea_shooter",(type, level)->
+    public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> SNOW_PEA = registerPlants("snow_pea_shooter",(type, level)->
             new Pea(type,level, IcePeaAnimation.idle_normal, IcePeaAnimation.shoot,
-                    ICE_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
+                    SNOW_PEA_SHOOT, NORMAL_PEA_PLANT.get()));
 
     public static final DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> DOUBLE_PEA = registerPlants("double_pea_shooter",(type,level)->
             new Pea(type,level, DoublePeaAnimation.idle_normal,DoublePeaAnimation.shoot,
@@ -64,6 +64,9 @@ public class PlantEntities {
             new Pea(type,level, CabbageAnimation.idle, CabbageAnimation.attack,
                     THROWN_PEA_SHOOT, NORMAL_PEA_PLANT.get().setAttackDamage(10)));
 
+    //      tip 大嘴花类
+    public static final DeferredHolder<EntityType<?>, EntityType<Chomper>> CHOMPER = registerPlants("chomper",(type,level)->
+            new Chomper(type,level, 100,200,NORMAL_PEA_PLANT.get()),1.1F,2.1F);
 
 
     public static <T extends AbstractPlant> DeferredHolder<EntityType<?>, EntityType<T>> registerPlants(String name, EntityType.EntityFactory<T> entityFactory) {
@@ -79,8 +82,8 @@ public class PlantEntities {
          // tip 直线
     public static final DeferredHolder<EntityType<?>, EntityType<LineProj>> PEA_PROJ = registerProj("pea_proj",(e,l)->
                 new LineProj(e,l,BaseProj.TextureLib.PEA),0.25F,0.25F);
-    public static final DeferredHolder<EntityType<?>, EntityType<LineProj>> ICE_PEA_PROJ = registerProj("ice_pea_proj",(e,l)->
-                new LineProj(e,l,BaseProj.TextureLib.ICE_PEA, new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5)),0.25F,0.25F);
+    public static final DeferredHolder<EntityType<?>, EntityType<LineProj>> ICE_PEA_PROJ = registerProj("snow_pea_proj",(e,l)->
+                new LineProj(e,l,BaseProj.TextureLib.SNOW_PEA, new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5)),0.25F,0.25F);
 
         // tip 投掷
     public static final DeferredHolder<EntityType<?>, EntityType<ThrowableProj>> CABBAGE_PROJ = registerProj("cabbage_proj",(e,l)->

@@ -22,7 +22,7 @@ public class PresetAttacks {
     private static final QuaConsumer<AbstractPlant, LivingEntity, DeferredHolder<EntityType<?>, EntityType<LineProj>>, Float> PEA_SHOOT_ATTACK_BASE = (me, tar, proj, offsetY) -> {
         Vec3 pos = tar.position().add(0,tar.getEyeHeight()/2,0);
         BaseProj proj1 = proj.get().create(me.level());
-//        BaseProj proj1 = new LineProj(PlantEntities.ICE_PEA_PROJ.get(), me.level(),BaseProj.TextureLib.ICE_PEA,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5));
+//        BaseProj proj1 = new LineProj(PlantEntities.ICE_PEA_PROJ.get(), me.level(),BaseProj.TextureLib.SNOW_PEA,new MobEffectInstance(ModEffects.FROZEN_EFFECT,20 * 5));
         proj1.setOwner(me);
         proj1.setPos(me.getEyePosition().add(0,offsetY,0));
         Vec3 dir = pos.subtract(me.getEyePosition());
@@ -35,7 +35,7 @@ public class PresetAttacks {
         PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.PEA_PROJ, 0.1f);
     };
     //冰豌豆
-    public static final BiConsumer<AbstractPlant, LivingEntity> ICE_PEA_SHOOT = (me, tar) -> {
+    public static final BiConsumer<AbstractPlant, LivingEntity> SNOW_PEA_SHOOT = (me, tar) -> {
         PEA_SHOOT_ATTACK_BASE.accept(me, tar, PlantEntities.ICE_PEA_PROJ, 0.1f);
     };
     //双豌豆

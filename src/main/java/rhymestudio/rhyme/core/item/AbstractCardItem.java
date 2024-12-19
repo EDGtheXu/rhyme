@@ -30,11 +30,11 @@ import rhymestudio.rhyme.utils.Computer;
 
 import java.util.List;
 
-public class AbstractCardItem extends CustomRarityItem {
-    public DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType;
+public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem {
+    public DeferredHolder<EntityType<?>, EntityType<T>> entityType;
 
     public int consume;
-    public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consume){
+    public AbstractCardItem(Properties properties, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consume){
         super(properties);
         this.entityType = entityType;
         this.consume = consume;

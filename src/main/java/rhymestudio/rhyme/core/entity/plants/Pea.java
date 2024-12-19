@@ -18,16 +18,11 @@ public class Pea extends AbstractPlant {
     private final AnimationDefinition shoot;
     private BiConsumer<AbstractPlant,LivingEntity> attackCallback;
 
-    public Pea(EntityType<? extends AbstractPlant> type,Level level, AnimationDefinition idle,AnimationDefinition shoot, Builder builder) {
-        super(type, level);
-        this.builder = builder;
+    public Pea(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition idle, AnimationDefinition shoot, BiConsumer<AbstractPlant,LivingEntity> doAttack, Builder builder) {
+        super(type, level, builder);
+        this.attackCallback = doAttack;
         this.idle = idle;
         this.shoot = shoot;
-    }
-
-    public Pea(EntityType<? extends AbstractPlant> type, Level level, AnimationDefinition idle, AnimationDefinition shoot, BiConsumer<AbstractPlant,LivingEntity> doAttack, Builder builder) {
-        this(type, level, idle, shoot, builder);
-        this.attackCallback = doAttack;
     }
 
     public void cafeDefineAnimations(){
@@ -40,35 +35,24 @@ public class Pea extends AbstractPlant {
     public void addSkills() {
         super.addSkills();
         //tip                                                  idle持续时间        触发攻击时间
-        CircleSkill  idle = new CircleSkill( "idle_on",  999999999, builder.attackInternalTick,
-                // tip刚进入状态
-                a->{},
-                // tip进入状态触发时间
-                a-> {
-
+        CircleSkill  idle = new CircleSkill( "idle_on",  999999999, builder.attackInternalTick).
+                onTick(a-> {
                     if(skills.canContinue() &&
                             getTarget() != null && getTarget().isAlive() &&
                             Computer.angle(this.getForward(), getTarget().getEyePosition().subtract(this.getEyePosition())) < 20){
                         target = getTarget();
-                        //tip触发攻击，进入射击状态
                         skills.forceEnd();
                     }
-                    },
-                // tip结束状态
-                a->{}
-        );
+                    });
         // tip                                                攻击持续时间        射击触发时间
-        CircleSkill  shoot = new CircleSkill( "shoot", builder.attackAnimTick, builder.attackTriggerTick,
-                a->{},
-                a->{
+        CircleSkill  shoot = new CircleSkill( "shoot", builder.attackAnimTick, builder.attackTriggerTick)
+                .onTick(a->{
                     if(skills.canTrigger() && target!= null && target.isAlive()){
                         //tip 触发射击，生成弹幕
                         if(attackCallback!= null) attackCallback.accept(this,target);
                         else doAttack(target);
                     }
-                },
-                a->{}
-        );
+                });
         this.addSkill(idle);
         this.addSkill(shoot);
     }

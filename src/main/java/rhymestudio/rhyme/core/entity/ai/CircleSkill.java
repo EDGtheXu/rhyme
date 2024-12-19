@@ -45,13 +45,16 @@ public class CircleSkill {
         this.stateOver = stateOver;
     }
 
-    public void addStateReset(Consumer<Mob> stateTick){
+    public CircleSkill onTick (Consumer<Mob> stateTick){
         this.stateTick = stateTick;
+        return this;
     };
-    public void addStateInit (Consumer<Mob> stateInit){
+    public CircleSkill onInit (Consumer<Mob> stateInit){
         this.stateInit = stateInit;
+        return this;
     };
-    public void addStateOver (Consumer<Mob> stateOver){
+    public CircleSkill onOver (Consumer<Mob> stateOver){
         this.stateOver = stateOver;
+        return this;
     };
 }

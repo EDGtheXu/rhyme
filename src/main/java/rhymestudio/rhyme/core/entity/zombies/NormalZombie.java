@@ -32,7 +32,7 @@ public class NormalZombie extends AbstractMonster {
 
     public boolean hurt(DamageSource source, float amount){
         ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
-        if(!level().isClientSide && this.getHealth() < 35 && !stack.isEmpty()){
+        if(!level().isClientSide && this.getHealth()-amount < 35 && !stack.isEmpty()){
             HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
             entity.setPos(this.getEyePosition());
             entity.setOwner(this);

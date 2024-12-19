@@ -24,7 +24,7 @@ public class PlantItems {
     // tip 植物基类
     public static final DeferredItem<Item> SUN_FLOWER = registerPlant("sunflower", "向日葵", PlantEntities.SUN_FLOWER, 2);
     public static final DeferredItem<Item> PEA_ITEM = registerPlant("pea_shooter", "豌豆射手", PlantEntities.PEA,4);
-    public static final DeferredItem<Item> ICE_PEA_ITEM = registerPlant("ice_pea_shooter", "寒冰射手", PlantEntities.ICE_PEA,7,10,ModRarity.BLUE);
+    public static final DeferredItem<Item> SNOW_PEA_ITEM = registerPlant("snow_pea_shooter", "寒冰射手", PlantEntities.SNOW_PEA,7,10,ModRarity.BLUE);
     public static final DeferredItem<Item> REPEATER_ITEM = registerPlant("repeater","双重射手", PlantEntities.DOUBLE_PEA,8,15,ModRarity.GREEN);
 
     // tip 蘑菇类
@@ -39,6 +39,8 @@ public class PlantItems {
     // tip 投手类
     public static final DeferredItem<Item> CABBAGE_PULT_ITEM = registerPlant("cabbage_pult", "卷心菜投手", PlantEntities.CABBAGE_PULT,4);
 
+    // tip 大嘴花类
+    public static final DeferredItem<Item> CHOMPER = registerPlant("chomper", "大嘴花", PlantEntities.CHOMPER,6);
     /**
      * @param en id
      * @param zh 中文名
@@ -48,8 +50,8 @@ public class PlantItems {
      * @param rarity 默认白色
      * @return
      */
-    public static  DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration, ModRarity rarity) {
-        DeferredItem<Item> item =  PLANTS.register("plant_card/"+en, () -> new AbstractCardItem(
+    public static  <T extends AbstractPlant> DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun, int duration, ModRarity rarity) {
+        DeferredItem<Item> item =  PLANTS.register("plant_card/"+en, () -> new AbstractCardItem<>(
                 new Item.Properties()
                         .component(ModDataComponentTypes.MOD_RARITY, rarity)
                         .component(ModDataComponentTypes.CARD_QUALITY, CardQualityComponent.COPPER)
@@ -57,23 +59,23 @@ public class PlantItems {
                         .durability(duration)
                         .component(ModDataComponentTypes.ITEM_DAT_MAP,
                                 ItemDataMapComponent.builder()
-                                        .add("key","name","1.23")
-                                        .add("key","name2","1.24")
-                                        .add("key","name3","1.25")
-                                        .add("key2","name","1.26")
+                                        .add("key", "name", "1.23")
+                                        .add("key", "name2", "1.24")
+                                        .add("key", "name3", "1.25")
+                                        .add("key2", "name", "1.26")
                                         .build()
                         )
-                ,entityType,consumeSun));
+                , entityType, consumeSun));
 //        Optional.ofNullable(cardItems).ifPresent(list -> list.add(item));
         Rhyme.chineseProviders.add((c)->c.add(item.get(),zh));
         return item;
     }
 
-    public static  DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun, int duration) {
+    public static  <T extends AbstractPlant>DeferredItem<Item> registerPlant(String en, String zh,DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun, int duration) {
         return registerPlant(en, zh,entityType, consumeSun, duration, ModRarity.COMMON);
     }
 
-    public static  DeferredItem<Item> registerPlant(String en, String zh, DeferredHolder<EntityType<?>, EntityType<AbstractPlant>> entityType, int consumeSun) {
+    public static  <T extends AbstractPlant>DeferredItem<Item> registerPlant(String en, String zh, DeferredHolder<EntityType<?>, EntityType<T>> entityType, int consumeSun) {
         return registerPlant(en, zh,entityType, consumeSun, 10);
     }
 

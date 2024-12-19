@@ -13,9 +13,9 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.AbstractPlantModel;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 
-public class IcePeaModel extends AbstractPlantModel<AbstractPlant> {
+public class SnowPeaModel extends AbstractPlantModel<AbstractPlant> {
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "ice_pea_model"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(Rhyme.space( "snow_pea_model"), "main");
 	private final ModelPart bone3;
 	private final ModelPart Yezi;
 	private final ModelPart Genh;
@@ -25,7 +25,7 @@ public class IcePeaModel extends AbstractPlantModel<AbstractPlant> {
 	private final ModelPart eyeclosed;
 	private final ModelPart bone6;
 
-	public IcePeaModel(ModelPart root) {
+	public SnowPeaModel(ModelPart root) {
 		this.bone3 = root.getChild("bone3");
 		this.Yezi = this.bone3.getChild("Yezi");
 		this.Genh = this.bone3.getChild("Genh");

@@ -36,8 +36,7 @@ public class PotatoMine extends AbstractPlant {
                       int readyTick,
                       float explosionRadius,
                       Builder builder) {
-        super(type, level);
-        this.builder = builder;
+        super(type, level,builder);
         this.readyTime = readyTick;
         this.explosionRadius = explosionRadius;
 
@@ -71,9 +70,8 @@ public class PotatoMine extends AbstractPlant {
         super.addSkills();
         CircleSkill idle = new CircleSkill( "idle",  readyTime, 0);
         CircleSkill up = new CircleSkill( "up",  29, 0);
-        CircleSkill on = new CircleSkill( "idle_on",  999999999, 0,
-                a->{},
-                a-> {
+        CircleSkill on = new CircleSkill( "idle_on",  999999999, 0)
+                .onTick(a-> {
                     if(readyTime<=0){
 
                         AtomicReference<Float> minDistance = new AtomicReference<>((float) 1000000000);
@@ -100,19 +98,14 @@ public class PotatoMine extends AbstractPlant {
                             skills.forceEnd();
                         }
                     }
-                },
-                a->{}
-        );
-        CircleSkill boom = new CircleSkill( "bomb",  999999999, 20,
-                a->{},
-                a-> {
+                });
+        CircleSkill boom = new CircleSkill( "bomb",  999999999, 20)
+                .onTick(a-> {
                     if(skills.canTrigger()){
                         this.discard();
                         this.explode();
                     }
-                },
-                a->{}
-        );
+                });
         this.addSkill(idle);
         this.addSkill(up);
         this.addSkill(on);

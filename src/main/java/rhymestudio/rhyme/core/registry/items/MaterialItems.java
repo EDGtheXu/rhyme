@@ -22,6 +22,7 @@ public class MaterialItems {
     public static final DeferredItem<Item> POTATO_GENE =register("potato_gene","土豆基因", ModRarity.YELLOW);
     public static final DeferredItem<Item> SPORE_GENE =register("spore_gene","孢子基因", ModRarity.PURPLE);
     public static final DeferredItem<Item> CABBAGE_GENE =register("cabbage_gene","卷心菜基因", ModRarity.GREEN);
+    public static final DeferredItem<Item> STRONG_GENE =register("strong_gene","壮力基因", ModRarity.ORANGE);
 
 
 
