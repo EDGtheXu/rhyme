@@ -4,8 +4,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -13,18 +11,11 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import rhymestudio.rhyme.core.entity.anim.CafeAnimationState;
-import rhymestudio.rhyme.core.registry.items.ArmorItems;
 
 
-import javax.annotation.Nullable;
-import java.time.LocalDate;
-import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -202,7 +193,6 @@ public class AbstractMonster extends Monster implements ICafeMob{
     public void tick(){
         super.tick();
         if(!level().isClientSide && tickCount == 1) this.setHealth(this.getMaxHealth());
-
     }
 
     public boolean canAttack(LivingEntity entity) {

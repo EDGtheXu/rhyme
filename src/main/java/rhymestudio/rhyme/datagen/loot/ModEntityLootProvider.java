@@ -9,7 +9,6 @@ import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.*;
-import net.minecraft.world.level.storage.loot.predicates.LootItemKilledByPlayerCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.BinomialDistributionGenerator;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -18,6 +17,7 @@ import rhymestudio.rhyme.core.registry.entities.Zombies;
 import rhymestudio.rhyme.core.registry.items.ArmorItems;
 import rhymestudio.rhyme.core.registry.items.MaterialItems;
 
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ModEntityLootProvider extends EntityLootSubProvider {
@@ -30,40 +30,23 @@ public class ModEntityLootProvider extends EntityLootSubProvider {
     @Override
     public void generate() {
 
-        this.add(Zombies.NORMAL_ZOMBIE.get(), LootTable.lootTable()
-                .withPool(LootPool.lootPool()
-                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.75F))
-                        .add(LootItem.lootTableItem(MaterialItems.GENERAL_SEED)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
-                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))))
-                .withPool(LootPool.lootPool()
-                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.5F))
-                        .add(LootItem.lootTableItem(MaterialItems.PLANT_GENE)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
-                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
-                        .when(LootItemRandomChanceCondition.randomChance(0.5F)))
-                .withPool(LootPool.lootPool()
-                        .setRolls(BinomialDistributionGenerator.binomial(1, 0.3F))
-                        .add(LootItem.lootTableItem(MaterialItems.PEA_GENE)
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
-                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
-                        .when(LootItemRandomChanceCondition.randomChance(0.5F))));
+        this.add(Zombies.NORMAL_ZOMBIE.get(),ZOMBIE_COMMON_LOOT_TABLE.apply(LootTable.lootTable()));
 
-        this.add(Zombies.CONE_ZOMBIE.get(), LootTable.lootTable()
+        this.add(Zombies.CONE_ZOMBIE.get(), ZOMBIE_COMMON_LOOT_TABLE.apply(LootTable.lootTable())
                 .withPool(LootPool.lootPool()
                         .setRolls(BinomialDistributionGenerator.binomial(1, 0.1F))
                         .add(LootItem.lootTableItem(ArmorItems.CONE_HELMET)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
                                 .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
-                        .when(LootItemKilledByPlayerCondition.killedByPlayer())));
+                        ));
 
-        this.add(Zombies.IRON_BUCKET_ZOMBIE.get(), LootTable.lootTable()
+        this.add(Zombies.IRON_BUCKET_ZOMBIE.get(), ZOMBIE_COMMON_LOOT_TABLE.apply(LootTable.lootTable())
                 .withPool(LootPool.lootPool()
                         .setRolls(BinomialDistributionGenerator.binomial(1, 0.1F))
                         .add(LootItem.lootTableItem(ArmorItems.IRON_BUCKET_HELMET)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1.0F)))
                                 .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
-                        .when(LootItemKilledByPlayerCondition.killedByPlayer())));
+                        ));
 
 /*
         this.add(EntityType.BOGGED, LootTable.lootTable()
@@ -100,6 +83,24 @@ public class ModEntityLootProvider extends EntityLootSubProvider {
 
 
     }
+
+    private final Function<LootTable.Builder, LootTable.Builder> ZOMBIE_COMMON_LOOT_TABLE = (loot)-> loot.withPool(LootPool.lootPool()
+            .setRolls(BinomialDistributionGenerator.binomial(1, 0.75F))
+            .add(LootItem.lootTableItem(MaterialItems.GENERAL_SEED)
+                    .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
+                    .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F)))))
+            .withPool(LootPool.lootPool()
+                    .setRolls(BinomialDistributionGenerator.binomial(1, 0.5F))
+                    .add(LootItem.lootTableItem(MaterialItems.PLANT_GENE)
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
+                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
+                    .when(LootItemRandomChanceCondition.randomChance(0.5F)))
+            .withPool(LootPool.lootPool()
+                    .setRolls(BinomialDistributionGenerator.binomial(1, 0.3F))
+                    .add(LootItem.lootTableItem(MaterialItems.PEA_GENE)
+                            .apply(SetItemCountFunction.setCount(UniformGenerator.between(0.0F, 1F)))
+                            .apply(EnchantedCountIncreaseFunction.lootingMultiplier(this.registries, UniformGenerator.between(0.0F, 1.0F))))
+                    .when(LootItemRandomChanceCondition.randomChance(0.5F)));
 
     @Override
     protected Stream<EntityType<?>> getKnownEntityTypes() {

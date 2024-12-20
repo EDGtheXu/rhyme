@@ -40,6 +40,7 @@ public class Rhyme {
         ModMenus.TYPES.register(modEventBus);
         ModBiomes.register(modEventBus);
         ModAttachments.TYPES.register(modEventBus);
+        ModParticles.PARTICLES.register(modEventBus);
     }
 
 }

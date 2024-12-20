@@ -92,6 +92,6 @@ public class ModEntities {
     public static void registerEntities(IEventBus modEventBus) {
         PlantEntities.ENTITIES.register(modEventBus);
         Zombies.ZOMBIES.register(modEventBus);
-        MiscEntities.Entities.register(modEventBus);
+        MiscEntities.ENTITIES.register(modEventBus);
     }
 }

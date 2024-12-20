@@ -9,7 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
 import rhymestudio.rhyme.core.entity.ai.CircleSkill;
-import rhymestudio.rhyme.core.registry.entities.PlantEntities;
+import rhymestudio.rhyme.core.registry.entities.MiscEntities;
 import rhymestudio.rhyme.utils.Computer;
 
 import java.util.function.BiConsumer;
@@ -72,7 +72,7 @@ public class PuffShroom extends AbstractPlant {
 
     public void doAttack(LivingEntity tar){
         Vec3 pos = tar.getEyePosition();
-        Projectile arrow = PlantEntities.PEA_PROJ.get().create(level());
+        Projectile arrow = MiscEntities.PEA_PROJ.get().create(level());
         arrow.setOwner(this);
         arrow.setPos(this.getEyePosition().add(0,0.1F,0));
         Vec3 dir = pos.subtract(getEyePosition());

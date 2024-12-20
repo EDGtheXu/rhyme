@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "rhyme.refmap.json",
   "mixins": [
+    "LivingEntityMixin",
     "MonsterMixin",
     "ShaderInstanceMixin"
   ],
@@ -13,7 +14,8 @@
     "GuiGraphicsMixin",
     "HumanoidArmorLayerMixin",
     "ItemEntityRendererMixin",
-    "ItemRendererMixin"
+    "ItemRendererMixin",
+    "LivingEntityRenderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -11,8 +11,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
+import rhymestudio.rhyme.core.registry.entities.MiscEntities;
 import rhymestudio.rhyme.network.s2c.SunCountPacketS2C;
-import rhymestudio.rhyme.core.registry.entities.PlantEntities;
 import rhymestudio.rhyme.core.registry.ModAttachments;
 
 
@@ -26,7 +26,7 @@ public class SunItemEntity extends ExperienceOrb {
     }
 
     public SunItemEntity(Level level, Vec3 pos) {
-        this(PlantEntities.SUN_ITEM_ENTITY.get(), level);
+        this(MiscEntities.SUN_ITEM_ENTITY.get(), level);
         setPos(pos);
 
     }

@@ -1,9 +1,10 @@
 package rhymestudio.rhyme.core.entity;
 
 
-import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.*;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -19,7 +20,10 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rhymestudio.rhyme.Rhyme;
+import rhymestudio.rhyme.core.particle.options.BrokenProjOptions;
+import rhymestudio.rhyme.core.registry.ModEffects;
 import rhymestudio.rhyme.datagen.tag.ModTags;
+import rhymestudio.rhyme.mixinauxiliary.ILivingEntity;
 
 public abstract class BaseProj extends AbstractHurtingProjectile{
     private final long starttime = System.currentTimeMillis();
@@ -45,14 +49,17 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
         //包围盒检测造成伤害
         var entities=level().getEntities(this,this.getBoundingBox());
         if(!entities.isEmpty() && penetration > 0){
+
             for (var e:entities) {
                 if(canHitEntity(e)) {
-                    if(e instanceof LivingEntity living) {
-                        living.hurt(this.damageSources().source(ModTags.DamageTypes.PLANT_PROJ), getDamage());
-
+                    if(e instanceof LivingEntity) {
+                        onHitEntity(new EntityHitResult(e, new Vec3(0,0,0)));
                         //doKnockBack(living);
                         penetration--;
-                        if(penetration <= 0) discard();
+                        if(penetration <= 0) {
+                            discard();
+                            return;
+                        }
                     }
                     break;
                 }
@@ -76,15 +83,15 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
 
     @Override
     public void tick() {
+        super.tick();
         if(!level().isClientSide){
             if(System.currentTimeMillis()-starttime > waveDur() * 50L) {
                 discard();
                 return;
             }
             doAABBHurt();
-            if(penetration <= 0) return;
         }
-        super.tick();
+
     }
 
     //弹幕设置
@@ -109,17 +116,32 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     @Override
     protected void onHitEntity(@NotNull EntityHitResult pResult) {
 
-        if(!this.level().isClientSide()) {
-            if(this.isRemoved()) return;
-            Entity entity1 = pResult.getEntity();
-            Entity entity = this.getOwner();
-            if(effect!= null && entity1 != entity && entity1 instanceof LivingEntity living){
-                living.addEffect(effect);
+        Entity hurter = pResult.getEntity();
+        Entity entity = this.getOwner();
+
+        if(effect!= null && hurter != entity && hurter instanceof LivingEntity living){
+            if(effect.getEffect().is(ModEffects.FROZEN_EFFECT.getId())){
+                ((ILivingEntity) hurter).rhyme$setFrozenTime(effect.getDuration());
             }
-            entity1.hurt(this.damageSources().source(ModTags.DamageTypes.PLANT_PROJ), getDamage());
-            this.discard();
+            living.addEffect(effect);
 
         }
+
+        hurter.hurt(this.damageSources().source(ModTags.DamageTypes.PLANT_PROJ), getDamage());
+        Vec3 pos = hurter.position();
+
+//            ((ServerLevel) level()).sendParticles(ParticleTypes.BUBBLE_POP,
+//                    pos.x,
+//                    pos.y+1,
+//                    pos.z,
+//                    20, 0.2, 0, 0.2, 0.1F);
+        if(this.level() instanceof ServerLevel serverlevel)
+            serverlevel.sendParticles(new BrokenProjOptions(this.texture.getPath()),
+                    pos.x,
+                    pos.y+1,
+                    pos.z,
+                    20, 0.2, 0, 0.2, 0.1F);
+
         super.onHitEntity(pResult);
     }
 
@@ -167,6 +189,7 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     public static class TextureLib{
         public static final ResourceLocation PEA = Rhyme.space("textures/entity/pea_bullet.png");
         public static final ResourceLocation SNOW_PEA = Rhyme.space("textures/entity/snow_pea_bullet.png");
+        public static final ResourceLocation PUFF_SHROOM_BULLET = Rhyme.space("textures/entity/puff_shroom_bullet.png");
         public static final ResourceLocation FIRE_PEA = Rhyme.space("textures/entity/fire_pea_bullet.png");
 
     }

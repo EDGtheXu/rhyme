@@ -65,6 +65,7 @@ public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZom
             poseStack.popPose();
         }
         */
+
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
     }
 
