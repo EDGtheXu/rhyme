@@ -56,7 +56,7 @@ public class EntityEvent {
         Level level = event.getLevel();
         if(level instanceof ServerLevel serverLevel){
             float f = event.getLevel().getDayTime();
-            if(level.isDay() && f % 20 * 15 == 0){
+            if(level.isDay() && f % (20 * 15) == 0){
                 SunItemEntity.summon(serverLevel);
             }
         }
