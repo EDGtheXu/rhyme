@@ -23,7 +23,6 @@ import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.constant.DefaultAnimations;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-
 public class SunItemEntity extends ItemEntity implements GeoEntity {
     public int touchTick;
     private Player followingPlayer;
@@ -40,7 +39,6 @@ public class SunItemEntity extends ItemEntity implements GeoEntity {
     public SunItemEntity(Level level, Vec3 pos) {
         this(MiscEntities.SUN_ITEM_ENTITY.get(), level);
         setPos(pos);
-
     }
 
     @Override
@@ -61,10 +59,8 @@ public class SunItemEntity extends ItemEntity implements GeoEntity {
             }
             if( h > 2){
                 this.setDeltaMovement(new Vec3(0,-Math.min(3,h/30f),0));
-
             }
         }
-
 
         if (this.tickCount % 20 == 1) {
             this.scanForEntities();
@@ -103,7 +99,6 @@ public class SunItemEntity extends ItemEntity implements GeoEntity {
             this.followingPlayer = level().getNearestPlayer(this, 16.0);
             System.out.println(followingPlayer);
         }
-
     }
 
     @Override

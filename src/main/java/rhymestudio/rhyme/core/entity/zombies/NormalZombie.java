@@ -20,6 +20,8 @@ import javax.annotation.Nullable;
 public class NormalZombie extends AbstractMonster {
     public static int healthToDropArm = 20;
     public static int healthToDropHead = 10;
+    boolean isDropArm = false;
+    boolean isDropHead = false;
     public NormalZombie(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level, builder);
         if(this.getType() == Zombies.CONE_ZOMBIE.get()){
@@ -44,13 +46,17 @@ public class NormalZombie extends AbstractMonster {
                 level().addFreshEntity(entity);
                 this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
 
-            }else if(this.getHealth() - amount < healthToDropArm && this.getHealth() >=healthToDropArm){
+            }
+            if(this.getHealth() - amount < healthToDropArm && !isDropArm){
+                isDropArm = true;
                 ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
                 modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
 
                 modelPartEntity.setOwner(this,"left_arm");
                 level().addFreshEntity(modelPartEntity);
-            }else if(this.getHealth() - amount < healthToDropHead && this.getHealth() >=healthToDropHead){
+            }
+            if(this.getHealth() - amount < healthToDropHead && !isDropHead){
+                isDropHead = true;
                 ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
                 modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
 
