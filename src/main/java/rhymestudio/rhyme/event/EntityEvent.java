@@ -1,5 +1,6 @@
 package rhymestudio.rhyme.event;
 
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.entity.NeutralMob;
@@ -7,13 +8,16 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
 
+import net.minecraft.world.level.Level;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
+import rhymestudio.rhyme.core.entity.SunItemEntity;
 import rhymestudio.rhyme.network.s2c.SunCountPacketS2C;
 import rhymestudio.rhyme.core.registry.ModAttachments;
 
@@ -44,6 +48,17 @@ public class EntityEvent {
         if (event.getEntity() instanceof Monster monster) {
             if(event.getSource().is(DamageTypeTags.NO_KNOCKBACK))
                 event.getEntity().hurtTime = 2;
+        }
+    }
+
+    @SubscribeEvent
+    public static void onLevelTickEvent(LevelTickEvent.Pre event){
+        Level level = event.getLevel();
+        if(level instanceof ServerLevel serverLevel){
+            float f = event.getLevel().getDayTime();
+            if(level.isDay() && f % 20 * 15 == 0){
+                SunItemEntity.summon(serverLevel);
+            }
         }
     }
 }

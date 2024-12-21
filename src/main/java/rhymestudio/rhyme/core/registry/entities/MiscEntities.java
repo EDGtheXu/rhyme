@@ -43,7 +43,7 @@ public class MiscEntities {
 
 
     // tip 阳光
-    public static final Supplier<EntityType<SunItemEntity>> SUN_ITEM_ENTITY = registerMisc("sun_entity", SunItemEntity::new, 0.25F,0.25F);
+    public static final Supplier<EntityType<SunItemEntity>> SUN_ITEM_ENTITY = registerMisc("sun", SunItemEntity::new, 1,1);
 
 
     private static <T extends Entity>DeferredHolder<EntityType<?>, EntityType<T>> registerMisc(String name, EntityType.EntityFactory<T> entityFactory) {

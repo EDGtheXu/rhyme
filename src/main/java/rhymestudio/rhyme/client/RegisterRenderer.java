@@ -18,7 +18,7 @@ import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.client.render.GeoNormalRenderer;
 import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
-import rhymestudio.rhyme.client.render.entity.SunRenderer;
+import rhymestudio.rhyme.client.render.entity.misc.SunRenderer;
 import rhymestudio.rhyme.client.render.entity.misc.HelmetEntityRenderer;
 import rhymestudio.rhyme.client.render.entity.misc.ModelPartRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.ProjRenderer;
