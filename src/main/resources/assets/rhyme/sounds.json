@@ -1,0 +1,14 @@
+{
+  "proj_hit": {
+    "sounds": [
+      "rhyme:splat",
+      "rhyme:splat2",
+      "rhyme:splat3"
+    ]
+  },
+  "snow_proj_hit": {
+    "sounds": [
+      "rhyme:snow_pea_sparkles"
+    ]
+  }
+}

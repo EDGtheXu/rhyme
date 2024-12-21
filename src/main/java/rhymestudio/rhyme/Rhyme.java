@@ -41,6 +41,7 @@ public class Rhyme {
         ModBiomes.register(modEventBus);
         ModAttachments.TYPES.register(modEventBus);
         ModParticles.PARTICLES.register(modEventBus);
+        ModSounds.SOUNDS.register(modEventBus);
     }
 
 }

@@ -5,6 +5,8 @@ import net.minecraft.core.particles.*;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -17,11 +19,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.particle.options.BrokenProjOptions;
 import rhymestudio.rhyme.core.registry.ModEffects;
+import rhymestudio.rhyme.core.registry.ModSounds;
 import rhymestudio.rhyme.datagen.tag.ModTags;
 import rhymestudio.rhyme.mixinauxiliary.ILivingEntity;
 
@@ -31,12 +35,16 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
     public int penetration = 1;
     protected MobEffectInstance effect;
     public ResourceLocation texture;
+    protected DeferredHolder<SoundEvent,SoundEvent> hitSound;
 
     public BaseProj(EntityType<? extends AbstractHurtingProjectile> pEntityType, Level pLevel, MobEffectInstance pEffect) {
         super(pEntityType, pLevel);
         this.effect = pEffect;
     }
-
+    public <T extends BaseProj> T setHitSound(DeferredHolder<SoundEvent,SoundEvent> hitSound){
+        this.hitSound = hitSound;
+        return (T) this;
+    }
 
     public float getDamage() {return damage;}
     public void setDamage(int damage) {this.damage = damage;}
@@ -122,10 +130,14 @@ public abstract class BaseProj extends AbstractHurtingProjectile{
         if(effect!= null && hurter != entity && hurter instanceof LivingEntity living){
             if(effect.getEffect().is(ModEffects.FROZEN_EFFECT.getId())){
                 ((ILivingEntity) hurter).rhyme$setFrozenTime(effect.getDuration());
+
             }
             living.addEffect(effect);
-
         }
+        if(hitSound != null) level().playSound(this,this.blockPosition(), hitSound.get(), SoundSource.MUSIC, 1.0f, 1.0f);
+
+
+//        level().playSound(this,this.blockPosition(), ModSounds.PROJ_HIT.get(), SoundSource.MUSIC, 1.0f, 1.0f);
 
         hurter.hurt(this.damageSources().source(ModTags.DamageTypes.PLANT_PROJ), getDamage());
         Vec3 pos = hurter.position();

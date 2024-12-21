@@ -26,6 +26,7 @@ public class ModelPartRenderer extends EntityRenderer<ModelPartEntity> {
     public void render(ModelPartEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
 
         LivingEntity living = entity.owner;
+        if (living == null) return;
         var render = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(living);
         var model = (HierarchicalModel<?>)((LivingEntityRenderer<?, ?>)render).getModel();
         ModelPart root = model.root();

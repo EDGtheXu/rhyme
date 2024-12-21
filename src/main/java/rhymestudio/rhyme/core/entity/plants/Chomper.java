@@ -48,8 +48,12 @@ public class Chomper extends AbstractPlant implements GeoEntity, IFSMGeoMob<Chom
         CircleSkill  attack = new CircleSkill( "attack.strike", 30, 25)
                 .onInit(a-> this.attackAnim = builder.attackAnimTick)
                 .onTick(a->{
-                    if(skills.canTrigger() && target!= null && target.isAlive()){
-                        doAttack(target);
+                    if(skills.canTrigger() ){
+                        if(target!= null && target.isAlive()){
+                            doAttack(target);
+                        }else{
+                            skills.forceStartIndex(0);
+                        }
                     }
                 });
         CircleSkill eating = new CircleSkill( "eating", eatTime, 0);

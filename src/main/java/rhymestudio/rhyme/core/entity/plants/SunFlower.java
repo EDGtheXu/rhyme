@@ -26,8 +26,8 @@ public class SunFlower extends AbstractPlant {
     @Override
     public void addSkills() {
         super.addSkills();
-        CircleSkill idleSkill = new CircleSkill("idle_on",40,0);
-//        CircleSkill idleSkill = new CircleSkill("idle_on",builder.attackInternalTick,0);
+//        CircleSkill idleSkill = new CircleSkill("idle_on",40,0);
+        CircleSkill idleSkill = new CircleSkill("idle_on",builder.attackInternalTick,0);
         CircleSkill sunSkill = new CircleSkill("sun",builder.attackAnimTick, builder.attackTriggerTick)
                 .onTick(a->{
                     if(skills.canTrigger()){

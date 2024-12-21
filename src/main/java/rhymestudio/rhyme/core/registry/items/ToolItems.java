@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 public class ToolItems {
     public static final DeferredRegister.Items TOOLS = DeferredRegister.createItems(Rhyme.MODID);
 
-    public static final DeferredItem<Item> KILLER = register("debug_killer", "杀死周围生物", () -> new DebugRangeKiller(new Item.Properties().stacksTo(1).component(ModDataComponentTypes.MOD_RARITY,ModRarity.MASTER)));
+//    public static final DeferredItem<Item> KILLER = register("debug_killer", "杀死周围生物", () -> new DebugRangeKiller(new Item.Properties().stacksTo(1).component(ModDataComponentTypes.MOD_RARITY,ModRarity.MASTER)));
 
 
 

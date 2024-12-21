@@ -24,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.dataSaver.dataComponent.CardQualityComponent;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
+import rhymestudio.rhyme.core.registry.ModAttachments;
 import rhymestudio.rhyme.core.registry.ModDataComponentTypes;
 import rhymestudio.rhyme.core.registry.items.MaterialItems;
 import rhymestudio.rhyme.utils.Computer;
@@ -49,9 +50,11 @@ public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem 
                 summon(player, level, itemstack);
                 return InteractionResultHolder.success(itemstack);
             }
-            if(!Computer.tryCombineInventoryItem(player, MaterialItems.SUN_ITEM.get(), consume)){
-                return InteractionResultHolder.fail(itemstack);
-            }
+//            if(!Computer.tryCombineInventoryItem(player, MaterialItems.SUN_ITEM.get(), consume)){
+//                return InteractionResultHolder.fail(itemstack);
+//            }
+            var flag = player.getData(ModAttachments.PLAYER_STORAGE).consumeSun(consume);
+            if(!flag) return InteractionResultHolder.fail(itemstack);
             if(!summon(player, level, itemstack)) return InteractionResultHolder.fail(itemstack);
             itemstack.setDamageValue(itemstack.getDamageValue() + 1);
             if(itemstack.getDamageValue() >= itemstack.getMaxDamage())
@@ -79,7 +82,7 @@ public class AbstractCardItem<T extends AbstractPlant> extends CustomRarityItem 
         entity.getAttribute(Attributes.ATTACK_DAMAGE).addPermanentModifier(new AttributeModifier(Rhyme.space("card_attack_damage_modifier"),0.5f*lvl,AttributeModifier.Operation.ADD_MULTIPLIED_BASE));
         level.addFreshEntity(entity);
         entity.setHealth(entity.getMaxHealth());
-        CardQualityComponent.tryUpLevel(stack);
+//        CardQualityComponent.tryUpLevel(stack);
         return true;
     }
 

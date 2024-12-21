@@ -97,7 +97,6 @@ public class SunItemEntity extends ItemEntity implements GeoEntity {
     private void scanForEntities() {
         if (this.followingPlayer == null || this.followingPlayer.distanceToSqr(this) > 64.0) {
             this.followingPlayer = level().getNearestPlayer(this, 16.0);
-            System.out.println(followingPlayer);
         }
     }
 

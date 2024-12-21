@@ -42,7 +42,6 @@ public interface IFSMGeoMob<T extends AbstractPlant> extends GeoEntity {
             if (!entity.isAlive()) return PlayState.STOP;
             if (getSelf().skills.count() == 0) return PlayState.STOP;
             String name = getSelf().getEntityData().get(DATA_CAFE_POSE_NAME);
-            System.out.println("name: " + name);
             RawAnimation skill = getAnimationMap().get(name);
             if(skill == null) return PlayState.STOP;
 
