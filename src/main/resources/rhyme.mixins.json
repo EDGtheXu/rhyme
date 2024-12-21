@@ -15,7 +15,8 @@
     "HumanoidArmorLayerMixin",
     "ItemEntityRendererMixin",
     "ItemRendererMixin",
-    "LivingEntityRenderMixin"
+    "LivingEntityRenderMixin",
+    "MinecraftMixin"
   ],
   "injectors": {
     "defaultRequire": 1

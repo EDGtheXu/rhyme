@@ -68,9 +68,7 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
             this.downItem = null;
         }
 
-        fetchSunButton.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
         String text = menu.getRecipesAmount() == 0 ? "0/0" : menu.getCurrentIndex() + 1 + "/" + menu.getRecipesAmount();
-
 
         pGuiGraphics.drawString(font, text, leftPos + 144, topPos + 37 + (16 - font.lineHeight) / 2, 4210752, false);
         text = "error";
@@ -80,6 +78,8 @@ public class SunCreatorScreen extends AbstractContainerScreen<SunCreatorMenu> {
         }else{
             pGuiGraphics.drawString(font, text, leftPos + 6, topPos + 30 + (16 - font.lineHeight) / 2, 4210752, false);
         }
+
+        fetchSunButton.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
 
     }
 

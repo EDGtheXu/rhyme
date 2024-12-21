@@ -10,5 +10,10 @@
     "sounds": [
       "rhyme:snow_pea_sparkles"
     ]
+  },
+  "grass_walk": {
+    "sounds": [
+      "rhyme:grass_walk"
+    ]
   }
 }
