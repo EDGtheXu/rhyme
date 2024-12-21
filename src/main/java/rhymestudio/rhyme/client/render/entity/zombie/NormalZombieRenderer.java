@@ -16,7 +16,7 @@ import rhymestudio.rhyme.core.entity.AbstractMonster;
 import rhymestudio.rhyme.core.entity.zombies.NormalZombie;
 
 
-public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZombieModel<T>> extends MobRenderer<T, M> {
+public class NormalZombieRenderer<T extends NormalZombie, M extends NormalZombieModel<T>> extends MobRenderer<T, M> {
     private boolean rotY;
     private float scale;
     public NormalZombieRenderer(EntityRendererProvider.Context renderManager, M model) {
@@ -79,10 +79,10 @@ public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZom
         }
 
         if(arm!= null) {
-            arm.visible = !(entity.getHealth() <= NormalZombie.healthToDropArm);
+            arm.visible = !entity.isDropArm;
         }
         if(head != null) {
-            head.visible = !(entity.getHealth() <= NormalZombie.healthToDropHead);
+            head.visible = !entity.isDropHead;
         }
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
         if(arm!= null) {

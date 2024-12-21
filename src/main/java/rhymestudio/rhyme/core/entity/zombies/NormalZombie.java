@@ -1,13 +1,14 @@
 package rhymestudio.rhyme.core.entity.zombies;
 
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.DifficultyInstance;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
 import rhymestudio.rhyme.core.entity.misc.HelmetEntity;
 import rhymestudio.rhyme.core.entity.misc.ModelPartEntity;
@@ -15,19 +16,37 @@ import rhymestudio.rhyme.core.registry.entities.MiscEntities;
 import rhymestudio.rhyme.core.registry.entities.Zombies;
 import rhymestudio.rhyme.core.registry.items.ArmorItems;
 
-import javax.annotation.Nullable;
-
 public class NormalZombie extends AbstractMonster {
     public static int healthToDropArm = 20;
     public static int healthToDropHead = 10;
-    boolean isDropArm = false;
-    boolean isDropHead = false;
+    public boolean isDropArm = false;
+    public boolean isDropHead = false;
     public NormalZombie(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level, builder);
         if(this.getType() == Zombies.CONE_ZOMBIE.get()){
             this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.CONE_HELMET.toStack());
         }else if(this.getType() == Zombies.IRON_BUCKET_ZOMBIE.get()){
             this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.IRON_BUCKET_HELMET.toStack());
+        }
+    }
+    public static final EntityDataAccessor<Boolean> DATA_DROP_ARM = SynchedEntityData.defineId(NormalZombie.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Boolean> DATA_DROP_HEAD = SynchedEntityData.defineId(NormalZombie.class, EntityDataSerializers.BOOLEAN);
+
+    // 动画数据同步
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_DROP_ARM, false);
+        builder.define(DATA_DROP_HEAD, false);
+    }
+
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
+         super.onSyncedDataUpdated(key);
+        if (this.level().isClientSide() && DATA_DROP_ARM.equals(key)) {
+            this.isDropArm = this.getEntityData().get(DATA_DROP_ARM);
+        }else if (this.level().isClientSide() && DATA_DROP_HEAD.equals(key)) {
+            this.isDropHead = this.getEntityData().get(DATA_DROP_HEAD);
         }
     }
 
@@ -37,7 +56,7 @@ public class NormalZombie extends AbstractMonster {
 
     public boolean hurt(DamageSource source, float amount){
         ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
-//        if(!level().isClientSide ){
+        if(!level().isClientSide ){
             if (this.getHealth() - amount < 35 && !stack.isEmpty()) {
                 HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
                 entity.setPos(this.getEyePosition());
@@ -47,8 +66,10 @@ public class NormalZombie extends AbstractMonster {
                 this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
 
             }
+        Rhyme.LOGGER.info("hurt"+isDropArm);
             if(this.getHealth() - amount < healthToDropArm && !isDropArm){
                 isDropArm = true;
+                this.entityData.set(DATA_DROP_ARM, true);
                 ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
                 modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
 
@@ -57,6 +78,7 @@ public class NormalZombie extends AbstractMonster {
             }
             if(this.getHealth() - amount < healthToDropHead && !isDropHead){
                 isDropHead = true;
+                this.entityData.set(DATA_DROP_HEAD, true);
                 ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
                 modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
 
@@ -64,7 +86,7 @@ public class NormalZombie extends AbstractMonster {
                 level().addFreshEntity(modelPartEntity);
             }
 
-//        }
+        }
 
         return super.hurt(source, amount);
     }
@@ -82,24 +104,4 @@ public class NormalZombie extends AbstractMonster {
 
     }
 
-    @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
-        RandomSource randomsource = level.getRandom();
-/*
-        if (this.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-            if(randomsource.nextFloat() < getAttributeBaseValue(Attributes.SPAWN_REINFORCEMENTS_CHANCE)){
-                if(randomsource.nextFloat() < 0.33f){
-                    this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.IRON_BUCKET_HELMET.toStack());
-
-                }else{
-                    this.setItemSlot(EquipmentSlot.HEAD, ArmorItems.CONE_HELMET.toStack());
-
-                }
-            }
-        }*/
-
-
-
-        return spawnGroupData;
-    }
 }

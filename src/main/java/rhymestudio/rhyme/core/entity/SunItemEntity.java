@@ -114,7 +114,7 @@ public class SunItemEntity extends ItemEntity implements GeoEntity {
         if(this.tickCount<20)return;
         if (entity instanceof ServerPlayer serverplayer) {
             if (entity.takeXpDelay == 0) {
-                int c = ++serverplayer.getData(ModAttachments.PLAYER_STORAGE).sunCount;
+                int c = serverplayer.getData(ModAttachments.PLAYER_STORAGE).sunCount + this.getItem().getCount();
                 PacketDistributor.sendToPlayer(serverplayer, new SunCountPacketS2C(c));
 
             }
