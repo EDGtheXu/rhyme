@@ -20,6 +20,7 @@ import rhymestudio.rhyme.client.render.entity.BasePlantRenderer;
 
 import rhymestudio.rhyme.client.render.entity.SunRenderer;
 import rhymestudio.rhyme.client.render.entity.misc.HelmetEntityRenderer;
+import rhymestudio.rhyme.client.render.entity.misc.ModelPartRenderer;
 import rhymestudio.rhyme.client.render.entity.proj.ProjRenderer;
 import rhymestudio.rhyme.client.render.entity.zombie.NormalZombieRenderer;
 import rhymestudio.rhyme.core.entity.AbstractPlant;
@@ -71,6 +72,8 @@ public class RegisterRenderer {
 
         // 其他
         event.registerEntityRenderer(MiscEntities.HELMET_ENTITY.get(),HelmetEntityRenderer::new);
+        event.registerEntityRenderer(MODEL_PART_ENTITY.get(), ModelPartRenderer::new);
+
 
     }
 

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayers;
+import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -12,6 +13,7 @@ import rhymestudio.rhyme.Rhyme;
 import rhymestudio.rhyme.client.model.layerModels.ZombieArmorLayer;
 import rhymestudio.rhyme.client.model.zombieModels.NormalZombieModel;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
+import rhymestudio.rhyme.core.entity.zombies.NormalZombie;
 
 
 public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZombieModel<T>> extends MobRenderer<T, M> {
@@ -65,8 +67,30 @@ public class NormalZombieRenderer<T extends AbstractMonster, M extends NormalZom
             poseStack.popPose();
         }
         */
+        ModelPart arm = null;
+        ModelPart head = null;
+        for(ModelPart part : model.root().getAllParts().toList()){
+            if(part.hasChild("left_arm")){
+                arm = part.getChild("left_arm");
+            }
+            if(part.hasChild("head")){
+                head = part.getChild("head");
+            }
+        }
 
+        if(arm!= null) {
+            arm.visible = !(entity.getHealth() <= NormalZombie.healthToDropArm);
+        }
+        if(head != null) {
+            head.visible = !(entity.getHealth() <= NormalZombie.healthToDropHead);
+        }
         super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+        if(arm!= null) {
+            arm.visible = true;
+        }
+        if(head != null) {
+            head.visible = true;
+        }
     }
 
 

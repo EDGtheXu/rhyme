@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import rhymestudio.rhyme.core.entity.AbstractMonster;
 import rhymestudio.rhyme.core.entity.misc.HelmetEntity;
+import rhymestudio.rhyme.core.entity.misc.ModelPartEntity;
 import rhymestudio.rhyme.core.registry.entities.MiscEntities;
 import rhymestudio.rhyme.core.registry.entities.Zombies;
 import rhymestudio.rhyme.core.registry.items.ArmorItems;
@@ -17,6 +18,8 @@ import rhymestudio.rhyme.core.registry.items.ArmorItems;
 import javax.annotation.Nullable;
 
 public class NormalZombie extends AbstractMonster {
+    public static int healthToDropArm = 20;
+    public static int healthToDropHead = 10;
     public NormalZombie(EntityType<? extends Monster> type, Level level, Builder builder) {
         super(type, level, builder);
         if(this.getType() == Zombies.CONE_ZOMBIE.get()){
@@ -32,15 +35,45 @@ public class NormalZombie extends AbstractMonster {
 
     public boolean hurt(DamageSource source, float amount){
         ItemStack stack = this.getItemBySlot(EquipmentSlot.HEAD);
-        if(!level().isClientSide && this.getHealth()-amount < 35 && !stack.isEmpty()){
-            HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
-            entity.setPos(this.getEyePosition());
-            entity.setOwner(this);
-            entity.setHelmetStack(stack);
-            level().addFreshEntity(entity);
-            this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+        if(!level().isClientSide ){
+            if (this.getHealth() - amount < 35 && !stack.isEmpty()) {
+                HelmetEntity entity = MiscEntities.HELMET_ENTITY.get().create(level());
+                entity.setPos(this.getEyePosition());
+                entity.setOwner(this);
+                entity.setHelmetStack(stack);
+                level().addFreshEntity(entity);
+                this.setItemSlot(EquipmentSlot.HEAD, ItemStack.EMPTY);
+
+            }else if(this.getHealth() - amount < healthToDropArm && this.getHealth() >=healthToDropArm){
+                ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
+                modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
+
+                modelPartEntity.setOwner(this,"left_arm");
+                level().addFreshEntity(modelPartEntity);
+            }else if(this.getHealth() - amount < healthToDropHead && this.getHealth() >=healthToDropHead){
+                ModelPartEntity modelPartEntity = MiscEntities.MODEL_PART_ENTITY.get().create(level());
+                modelPartEntity.setPos(this.getX(), this.getY()+1.5f, this.getZ());
+
+                modelPartEntity.setOwner(this,"head");
+                level().addFreshEntity(modelPartEntity);
+            }
+
         }
+
         return super.hurt(source, amount);
+    }
+    public void tick(){
+        super.tick();
+        if(this.getHealth() < healthToDropHead && tickCount % 40 == 0){
+            LivingEntity mob = this.getLastHurtByMob();
+            if(mob != null){
+                this.hurt(mob.damageSources().generic(), 1);
+            }else{
+                this.hurt(damageSources().generic(), 1);
+            }
+
+        }
+
     }
 
     @Nullable

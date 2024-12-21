@@ -10,6 +10,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import rhymestudio.rhyme.core.entity.BaseProj;
 import rhymestudio.rhyme.core.entity.SunItemEntity;
 import rhymestudio.rhyme.core.entity.misc.HelmetEntity;
+import rhymestudio.rhyme.core.entity.misc.ModelPartEntity;
 import rhymestudio.rhyme.core.entity.proj.LineProj;
 import rhymestudio.rhyme.core.entity.proj.ThrowableProj;
 import rhymestudio.rhyme.core.registry.ModEffects;
@@ -24,6 +25,7 @@ public class MiscEntities {
 
 
     public static final DeferredHolder<EntityType<?>, EntityType<HelmetEntity>> HELMET_ENTITY = registerMisc("helmet_entity", HelmetEntity::new, 1,1);
+    public static final DeferredHolder<EntityType<?>, EntityType<ModelPartEntity>> MODEL_PART_ENTITY = registerMisc("model_part_entity",ModelPartEntity::new, 0.5F,0.3F);
 
 
     // tip 弹幕
